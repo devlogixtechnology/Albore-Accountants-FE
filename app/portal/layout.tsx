@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import PortalSidebar from "@/components/portal/PortalSidebar";
+import PortalSidebar from "@/components/layout/Sidebar";
 
 export default function PortalLayout({
   children,

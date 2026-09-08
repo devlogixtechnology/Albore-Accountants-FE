@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+.agents
+.env*.local
+backend
+mock-backend
+README.md
+docs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*

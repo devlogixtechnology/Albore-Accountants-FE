@@ -129,3 +129,9 @@ export const siteConfig = {
 ## License
 
 Private repository. All rights reserved © Albore Accountants.
+
+---
+
+## Next.js Architecture Notes
+- Initial App Router structure configured with standalone output.
+- For deployment guidelines, see the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying).

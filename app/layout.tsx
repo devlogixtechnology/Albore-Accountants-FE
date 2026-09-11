@@ -25,11 +25,15 @@ export const fontButton = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.alboreaccountants.com'),
   title: {
-    default: "Alboré",
-    template: "%s | Alboré",
+    default: 'Albore Chartered Accountants | Advisory & Tax Compliance',
+    template: '%s | Albore Chartered Accountants',
   },
-  description: "Alboré client portal and public website.",
+  description: 'Specialized corporate accounting, FBR tax compliance, auditing, and financial advisory services.',
+  alternates: {
+    canonical: './',
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

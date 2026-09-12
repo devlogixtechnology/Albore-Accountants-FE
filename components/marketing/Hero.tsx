@@ -1,112 +1,101 @@
-import Link from "next/link";
+import type { ReactNode } from "react";
+import Image from "next/image";
 import { siteConfig } from "@/config/site";
+import { MarketingButton } from "./MarketingButton";
+import { StatsBar, DEFAULT_STATS, type Stat } from "./StatsBar";
 
-/**
- * Minimalist, focused Hero section for Albore Accountants.
- * Features a background image, single-line description, and clear CTA actions
- * without side cards or clutter.
- */
-export default function Hero() {
+export type HeroProps = {
+  title?: ReactNode;
+  subtitle?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  scrim?: boolean;
+  primaryCta?: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
+  stats?: Stat[] | null;
+};
+
+const DEFAULT_TITLE = (
+  <>
+    Clarity Behind Every Decision. <br className="hidden lg:inline" />
+    Confidence Behind Every Number
+  </>
+);
+
+const DEFAULT_SUBTITLE =
+  "For over a decade, Alboré has partnered with growing businesses and private clients to deliver institutional-grade accounting with a personal touch — built on trust, discretion, and technical excellence.";
+
+export function Hero({
+  title = DEFAULT_TITLE,
+  subtitle = DEFAULT_SUBTITLE,
+  imageSrc = "/images/hero-skyline.jpg",
+  imageAlt = "",
+  scrim = false,
+  primaryCta = {
+    label: siteConfig.cta.partnerLabel,
+    href: siteConfig.cta.partnerHref,
+  },
+  secondaryCta = {
+    label: siteConfig.cta.portalLabel,
+    href: siteConfig.portal.loginHref,
+  },
+  stats = DEFAULT_STATS,
+}: HeroProps) {
   return (
-    <section
-      aria-label="Albore Accountants Hero"
-      style={{
-        position: "relative",
-        borderRadius: "16px",
-        overflow: "hidden",
-        minHeight: "480px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        textAlign: "center",
-        padding: "4.5rem 2rem",
-        color: "#ffffff",
-        background:
-          "linear-gradient(rgba(15, 23, 42, 0.75), rgba(12, 117, 101, 0.65)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat #0f172a",
-        boxShadow: "0 10px 30px -5px rgba(0, 0, 0, 0.15)",
-        border: "1px solid rgba(255, 255, 255, 0.1)",
-      }}
-    >
-      <div style={{ maxWidth: "680px" }}>
-        <p
-          style={{
-            fontSize: "0.85rem",
-            fontWeight: 600,
-            textTransform: "uppercase",
-            letterSpacing: "0.08em",
-            color: "#a7f3d0",
-            marginBottom: "1rem",
-          }}
-        >
-          {siteConfig.name} · Client Portal
-        </p>
+    <section className="relative w-full">
+      <div className="relative flex min-h-[520px] items-center justify-center overflow-hidden sm:min-h-[600px] lg:h-[718px] lg:min-h-0">
+        <Image
+          src={imageSrc}
+          alt={imageAlt}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        {scrim && (
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-[var(--albore-overlay)]"
+          />
+        )}
 
-        <h1
-          style={{
-            fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
-            fontWeight: 800,
-            lineHeight: 1.15,
-            letterSpacing: "-0.02em",
-            margin: "0 0 1.25rem",
-            color: "#ffffff",
-          }}
-        >
-          FBR Tax Filings &amp; Client Document Management
-        </h1>
+        <div className="relative flex w-full justify-center px-5 py-16 sm:px-6 lg:pb-[190px]">
+          <div className="flex max-w-[700px] flex-col items-center text-center lg:max-w-[860px]">
+            <h1 className="text-pretty text-[28px] font-bold leading-[1.18] text-cream sm:text-[36px] lg:text-[48px]">
+              {title}
+            </h1>
 
-        <p
-          style={{
-            fontSize: "1.125rem",
-            lineHeight: 1.6,
-            color: "rgba(255, 255, 255, 0.9)",
-            margin: "0 0 2.25rem",
-          }}
-        >
-          A secure, streamlined portal for clients to submit tax documents and collaborate with certified accountants.
-        </p>
+            <p className="mt-5 max-w-[672px] text-pretty text-[15px] leading-[1.6] text-white/95 sm:mt-6 sm:text-[17px]">
+              {subtitle}
+            </p>
 
-        <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-          <Link
-            href={siteConfig.portal.loginHref}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              padding: "0.85rem 1.75rem",
-              fontSize: "0.95rem",
-              fontWeight: 700,
-              borderRadius: "8px",
-              background: "#0c7565",
-              color: "#ffffff",
-              textDecoration: "none",
-              boxShadow: "0 4px 14px rgba(0, 0, 0, 0.25)",
-              transition: "background-color 0.15s ease",
-            }}
-          >
-            Access Client Portal
-          </Link>
-
-          <Link
-            href="/contact"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              padding: "0.85rem 1.75rem",
-              fontSize: "0.95rem",
-              fontWeight: 600,
-              borderRadius: "8px",
-              background: "rgba(255, 255, 255, 0.12)",
-              color: "#ffffff",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              textDecoration: "none",
-              backdropFilter: "blur(4px)",
-              transition: "background-color 0.15s ease",
-            }}
-          >
-            Contact Us
-          </Link>
+            <div className="mt-8 flex w-full flex-wrap items-center justify-center gap-3 sm:mt-9 sm:w-auto sm:gap-4">
+              <MarketingButton
+                href={primaryCta.href}
+                variant="primary"
+                size="lg"
+                className="w-full sm:w-auto"
+              >
+                {primaryCta.label}
+              </MarketingButton>
+              <MarketingButton
+                href={secondaryCta.href}
+                variant="secondary"
+                size="lg"
+                className="w-full sm:w-auto"
+              >
+                {secondaryCta.label}
+              </MarketingButton>
+            </div>
+          </div>
         </div>
       </div>
+
+      {stats && (
+        <div className="relative px-4 sm:px-6 lg:-mt-[106px]">
+          <StatsBar stats={stats} />
+        </div>
+      )}
     </section>
   );
 }

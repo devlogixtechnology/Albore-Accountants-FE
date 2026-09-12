@@ -10,6 +10,12 @@ export const siteConfig = {
     "Specialized corporate accounting, FBR tax compliance, auditing, and financial advisory services.",
   tagline: "Tax, Accounting & FBR Compliance Made Simple",
 
+  cta: {
+    partnerLabel: "Book a Consultation", 
+    partnerHref: "/contact",
+    portalLabel: "Client Portal",        
+  },
+
   // Relative internal navigation avoids non-www -> www redirect hops
   navLinks: [
     { label: "Services", href: "/services" },

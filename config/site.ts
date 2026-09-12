@@ -1,19 +1,74 @@
 /**
- * Central site configuration for Albore Accountants.
- * Manages brand details, navigation links, and client portal endpoints.
+ * Site configuration and centralized navigation mapping.
+ * Uses relative routes to prevent 308 redirect hops and explicit mailto/tel protocols to bypass Cloudflare scrape protection.
  */
 export const siteConfig = {
-  name: "Albore Accountants",
+  name: "Albore Chartered Accountants",
   shortName: "Albore Accountants",
+  url: "https://www.alboreaccountants.com",
   description:
-    "Professional accounting, FBR tax filing, and dedicated client portal services for businesses and individuals.",
+    "Specialized corporate accounting, FBR tax compliance, auditing, and financial advisory services.",
   tagline: "Tax, Accounting & FBR Compliance Made Simple",
 
-  /** Universal navigation links */
+  // Relative internal navigation avoids non-www -> www redirect hops
   navLinks: [
     { label: "Services", href: "/services" },
-    { label: "About", href: "/about" },
+    { label: "Firm", href: "/about" },
+    { label: "Insights", href: "/insights" },
     { label: "Contact", href: "/contact" },
+  ],
+
+  /** Footer links */
+  footer: {
+    services: [
+      { label: "Book Keeping", href: "/services" },
+      { label: "Audits & Assurance", href: "/services" },
+      { label: "Financial Advisory", href: "/services" },
+      { label: "Tax Services", href: "/services" },
+    ],
+    firm: [
+      { label: "Services", href: "/services" },
+      { label: "Insights", href: "/insights" },
+      { label: "Client Stories", href: "/about" },
+      { label: "Industries", href: "/services" },
+    ],
+  },
+
+  // Explicit protocols prevent broken /cdn-cgi/l/email-protection redirects
+  contact: {
+    addressLines: [
+      "Main Boulevard, Bahria Town,",
+      "Lahore, Punjab, Pakistan",
+    ],
+    phone: "+92 (335) 427 4079",
+    phoneHref: "tel:+923354274079",
+    email: "hello@alboreaccountants.com",
+    emailHref: "mailto:hello@alboreaccountants.com",
+  },
+
+  /** Social media channels */
+  socials: [
+    {
+      name: "LinkedIn",
+      href: "https://linkedin.com",
+      icon: "/images/socials/LinkedInLogo.png",
+      width: 34,
+      height: 34,
+    },
+    {
+      name: "Twitter / X",
+      href: "https://twitter.com",
+      icon: "/images/socials/TwitterLogo.png",
+      width: 34,
+      height: 34,
+    },
+    {
+      name: "Facebook",
+      href: "https://facebook.com",
+      icon: "/images/socials/facebookLogo.png",
+      width: 34,
+      height: 34,
+    },
   ],
 
   /** Client portal routes */

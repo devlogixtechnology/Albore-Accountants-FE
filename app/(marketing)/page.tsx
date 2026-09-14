@@ -7,12 +7,15 @@ import TestimonialsSection from "@/components/marketing/TestimonialsSection";
 import WhoWeServeSection from "@/components/marketing/WhoWeServeSection";
 import InsightsSection from "@/components/marketing/InsightsSection";
 import SectionDivider from "@/components/ui/SectionDivider";
+import { ServicesSection } from "@/components/marketing";
 
 export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Teammate's Hero Component */}
       <Hero />
+
+      <ServicesSection />
 
       <SectionDivider />
 

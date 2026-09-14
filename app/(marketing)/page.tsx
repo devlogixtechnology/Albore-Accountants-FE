@@ -1,4 +1,4 @@
-import Hero from "@/components/marketing/Hero";
+import { Hero } from "@/components/marketing/Hero";
 import ConsultationSection from "@/components/marketing/Contact/ConsultationSection";
 import WhyAlboreSection from "@/components/marketing/WhyChooseUsSection";
 import IndustrySection from "@/components/marketing/IndustrySection";
@@ -11,25 +11,27 @@ import SectionDivider from "@/components/ui/SectionDivider";
 export default function HomePage() {
   return (
     <div className="flex flex-col">
+      {/* Teammate's Hero Component */}
       <Hero />
 
       <SectionDivider />
 
-      {/* Teammate's work from main */}
+      {/* Consultation Section */}
       <ConsultationSection variant="home" />
 
       <SectionDivider />
 
+      {/* Why Choose Us */}
       <WhyAlboreSection />
 
       <SectionDivider />
 
-      {/* Industries */}
+      {/* Industry Section */}
       <IndustrySection />
 
       <SectionDivider />
 
-      {/* Leadership */}
+      {/* Leadership Section */}
       <LeadershipSection />
 
       {/* Testimonials */}
@@ -40,7 +42,7 @@ export default function HomePage() {
 
       <SectionDivider />
 
-      {/* Insights */}
+      {/* Insights Section */}
       <InsightsSection />
     </div>
   );

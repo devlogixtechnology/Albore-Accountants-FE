@@ -9,6 +9,13 @@
   --color-white: #ffffff;
   --color-neutral-950: #1a1a1a;
   --color-neutral-800: #413d3d;
+
+  /* Added for the homepage hero + services section */
+  --color-maroon-800: #422d28;
+  --color-maroon-600: #7d2433;
+  --color-gold-400: #b49969;
+  --color-cream-200: #efe6d2;
+  --albore-overlay: rgba(28, 13, 4, 0.5);
 }
 
 @theme {
@@ -30,6 +37,21 @@
   --font-heading: var(--font-open-sans), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --font-button: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Aliases used by components/marketing/home/* */
+  --color-maroon: var(--color-maroon-700);
+  --color-maroon-deep: var(--color-maroon-900);
+  --color-maroon-hover: var(--color-maroon-600);
+  --color-panel-hover: var(--color-maroon-800);
+  --color-cream: var(--color-cream-100);
+  --color-cream-hover: var(--color-cream-200);
+  --color-gold: var(--color-gold-500);
+  --color-gold-light: var(--color-gold-400);
+  --color-ink: var(--color-neutral-950);
+  --color-body: var(--color-neutral-800);
+
+  --container-content: 1120px;
+  --container-wide: 1360px;
 }
 
 @layer base {
@@ -46,5 +68,52 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     color: var(--color-text-heading);
+  }
+}
+/* Horizontal carousels scroll natively but without a visible scrollbar. */
+.albore-no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.albore-no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Service-card hover: infinite horizontal marquee of the card title. */
+@keyframes albore-marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-25%);
+  }
+}
+
+@keyframes albore-marquee-right {
+  from {
+    transform: translateX(-25%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.albore-marquee {
+  will-change: transform;
+}
+
+.group:hover .albore-marquee,
+.group:focus-within .albore-marquee {
+  animation: albore-marquee-left 6s linear infinite;
+}
+
+.group:hover .albore-marquee-right,
+.group:focus-within .albore-marquee-right {
+  animation-name: albore-marquee-right;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .albore-marquee {
+    animation: none;
   }
 }

@@ -13,21 +13,24 @@ const testimonials: Testimonial[] = [
     quote:
       "Alboré transformed our legacy infrastructure into a sovereign, high-performance platform. Their engineering discipline is unmatched — delivery was on time, on scope, and moderated expertise.",
     author: "Ahmed Khan",
-    role: "CTO, FinTech Innovations Ltd.",
+    role: "CTO",
+    company: "FinTech Innovations Ltd.",
     initials: "AK",
   },
   {
     quote:
       "The integration roadmap Alboré designed for us reduced our operational costs by 28% in under a year. They don't just deliver advisory — they deliver transformative outcomes.",
     author: "Sarah Reynolds",
-    role: "VP Operations, MediCore Systems",
+    role: "VP Operations",
+    company: "MediCore Systems",
     initials: "SR",
   },
   {
     quote:
       "From initial scoping to final deployment, Alboré demonstrated a level of technical mastery and strategic clarity that set them apart from every other firm we evaluated.",
     author: "Omar Malik",
-    role: "Director of Engineering, GovCloud Pakistan",
+    role: "Director of Engineering",
+    company: "GovCloud Pakistan",
     initials: "OM",
   },
 ];

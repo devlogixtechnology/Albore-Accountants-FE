@@ -4,7 +4,7 @@ export type Testimonial = {
   quote: string;
   author: string;
   role: string;
-  company: string;
+  company?: string;
   initials: string;
 };
 
@@ -55,7 +55,7 @@ export default function TestimonialCard({
               {author}
             </h4>
             <p className="font-body text-xs text-text-body/70">
-              {role}, {company}
+              {company ? `${role}, ${company}` : role}
             </p>
           </div>
         </div>

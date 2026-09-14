@@ -5,31 +5,23 @@ interface SectionDividerProps {
 }
 
 /**
- * Reusable ornamental section divider (gold line — diamond gem — gold line).
- * Professional shared component rendering the vector asset (/images/Others/divider.svg).
- * Centered, responsive, and accessible.
- * Designed to be placed cleanly between sections in page.tsx.
+ * Ornamental SVG separator matching Albore section breaks.
  */
-export default function SectionDivider({
-  className = "py-8 sm:py-12",
-}: SectionDividerProps) {
+export default function SectionDivider({ className = "" }: SectionDividerProps) {
   return (
     <div
-      className={`flex items-center justify-center w-full select-none ${className}`}
+      className={`flex justify-center py-6 sm:py-8 md:py-12 ${className}`}
       aria-hidden="true"
     >
-      <div className="relative w-full max-w-[601px] px-4 flex justify-center">
-        <Image
-          src="/images/Others/divider.svg"
-          alt=""
-          width={601}
-          height={41}
-          unoptimized
-          priority={false}
-          className="h-auto w-full max-w-[601px] object-contain pointer-events-none"
-        />
-      </div>
+      <Image
+        src="/images/Others/divider.svg"
+        alt=""
+        width={601}
+        height={41}
+        unoptimized
+        priority={false}
+        className="h-auto w-full max-w-[601px] px-4 sm:px-6"
+      />
     </div>
   );
 }
-

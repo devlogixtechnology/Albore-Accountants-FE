@@ -1,31 +1,16 @@
-import Image from "next/image";
 import Hero from "@/components/marketing/Hero";
 import ConsultationSection from "@/components/marketing/Contact/ConsultationSection";
 import WhyAlboreSection from "@/components/marketing/WhyChooseUsSection";
 import IndustrySection from "@/components/marketing/IndustrySection";
+import LeadershipSection from "@/components/marketing/LeadershipSection";
+import TestimonialsSection from "@/components/marketing/TestimonialsSection";
+import WhoWeServeSection from "@/components/marketing/WhoWeServeSection";
 import InsightsSection from "@/components/marketing/InsightsSection";
-
-function SectionDivider() {
-  return (
-    <div
-      className="flex justify-center py-6 sm:py-8 md:py-12"
-      aria-hidden="true"
-    >
-      <Image
-        src="/images/Others/divider.svg"
-        alt=""
-        width={601}
-        height={41}
-        unoptimized
-        priority={false}
-        className="h-auto max-w-[601px] w-full px-4 sm:px-6"
-      />
-    </div>
-  );
-}
+import SectionDivider from "@/components/ui/SectionDivider";
 
 /**
  * Marketing landing page for Albore Accountants.
+ * Integrates converted SectionDivider component and stacks all marketing sections.
  */
 export default function HomePage() {
   return (
@@ -43,6 +28,16 @@ export default function HomePage() {
       <SectionDivider />
 
       <IndustrySection />
+
+      <SectionDivider />
+
+      <LeadershipSection />
+
+      {/* Testimonials (What our client Says) Section */}
+      <TestimonialsSection />
+
+      {/* Who We Serve Section */}
+      <WhoWeServeSection />
 
       <SectionDivider />
 

@@ -41,12 +41,18 @@ export function StatsBar({
     const el = ref.current;
     if (!el) return;
 
+    let cancelled = false;
+
     if (
       typeof IntersectionObserver === "undefined" ||
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
     ) {
-      setStarted(true);
-      return;
+      queueMicrotask(() => {
+        if (!cancelled) setStarted(true);
+      });
+      return () => {
+        cancelled = true;
+      };
     }
 
     let inView = false;
@@ -55,12 +61,13 @@ export function StatsBar({
       document.documentElement.scrollHeight <= window.innerHeight;
 
     function cleanup() {
+      cancelled = true;
       observer.disconnect();
       window.removeEventListener("scroll", onScroll);
     }
 
     function maybeStart() {
-      if (inView && scrolled) {
+      if (inView && scrolled && !cancelled) {
         setStarted(true);
         cleanup();
       }
@@ -131,9 +138,15 @@ function StatValue({
   useEffect(() => {
     if (!run || sequence.length < 2) return;
 
+    let cancelled = false;
+
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setStep(sequence.length - 1);
-      return;
+      queueMicrotask(() => {
+        if (!cancelled) setStep(sequence.length - 1);
+      });
+      return () => {
+        cancelled = true;
+      };
     }
 
     const interval = durationMs / (sequence.length - 1);
@@ -141,10 +154,14 @@ function StatValue({
     let i = 0;
     const id = setInterval(() => {
       i += 1;
-      setStep(i);
+      if (!cancelled) setStep(i);
       if (i >= sequence.length - 1) clearInterval(id);
     }, interval);
-    return () => clearInterval(id);
+
+    return () => {
+      cancelled = true;
+      clearInterval(id);
+    };
   }, [run, sequence, durationMs]);
 
   const value = sequence[Math.min(step, sequence.length - 1)];

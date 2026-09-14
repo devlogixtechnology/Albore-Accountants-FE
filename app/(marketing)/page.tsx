@@ -8,10 +8,6 @@ import WhoWeServeSection from "@/components/marketing/WhoWeServeSection";
 import InsightsSection from "@/components/marketing/InsightsSection";
 import SectionDivider from "@/components/ui/SectionDivider";
 
-/**
- * Marketing landing page for Albore Accountants.
- * Integrates converted SectionDivider component and stacks all marketing sections.
- */
 export default function HomePage() {
   return (
     <div className="flex flex-col">
@@ -19,6 +15,7 @@ export default function HomePage() {
 
       <SectionDivider />
 
+      {/* Teammate's work from main */}
       <ConsultationSection variant="home" />
 
       <SectionDivider />
@@ -27,20 +24,23 @@ export default function HomePage() {
 
       <SectionDivider />
 
+      {/* Industries */}
       <IndustrySection />
 
       <SectionDivider />
 
+      {/* Leadership */}
       <LeadershipSection />
 
-      {/* Testimonials (What our client Says) Section */}
+      {/* Testimonials */}
       <TestimonialsSection />
 
-      {/* Who We Serve Section */}
+      {/* Who We Serve */}
       <WhoWeServeSection />
 
       <SectionDivider />
 
+      {/* Insights */}
       <InsightsSection />
     </div>
   );

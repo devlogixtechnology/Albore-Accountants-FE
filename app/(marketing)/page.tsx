@@ -1,5 +1,6 @@
 import Hero from "@/components/marketing/Hero";
 import ConsultationSection from "@/components/marketing/Contact/ConsultationSection";
+import WhyAlboreSection from "@/components/marketing/WhyChooseUsSection";
 
 /**
  * Marketing landing page for Albore Accountants.
@@ -11,6 +12,7 @@ export default function HomePage() {
     <div className="flex flex-col">
       <Hero />
       <ConsultationSection variant="home" />
+      <WhyAlboreSection />
     </div>
   );
 }

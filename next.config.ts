@@ -4,7 +4,9 @@ import type { NextConfig } from 'next';
  * Enterprise security headers configuration (HSTS, CSP, XFO, Sniffing protection).
  */
 const nextConfig: NextConfig = {
-  output: 'standalone',
+  // Disables standalone output on Vercel to fix the missing .nft.json file trace error,
+  // while keeping standalone output active when running inside Docker.
+  output: process.env.VERCEL ? undefined : 'standalone',
   reactStrictMode: true,
   async headers() {
     return [

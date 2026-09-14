@@ -1,44 +1,29 @@
-import Image from "next/image";
 import Hero from "@/components/marketing/Hero";
 import IndustrySection from "@/components/marketing/IndustrySection";
 import InsightsSection from "@/components/marketing/InsightsSection";
+import LeadershipSection from "@/components/marketing/LeadershipSection";
+import TestimonialsSection from "@/components/marketing/TestimonialsSection";
+import WhoWeServeSection from "@/components/marketing/WhoWeServeSection";
+import SectionDivider from "@/components/ui/SectionDivider";
 
 /**
- * Marketing landing page for Albore Accountants.
- * Uses /images/Others/divider.svg directly between sections.
+ * Moved from using Divider as simple SVG to converting to a component
  */
+
 export default function HomePage() {
   return (
     <>
       <Hero />
 
-      {/* Ornamental Section Divider */}
-      <div className="flex justify-center py-6 sm:py-8 md:py-12" aria-hidden="true">
-        <Image
-          src="/images/Others/divider.svg"
-          alt=""
-          width={601}
-          height={41}
-          unoptimized
-          priority={false}
-          className="h-auto max-w-[601px] w-full px-4 sm:px-6"
-        />
-      </div>
+      <TestimonialsSection />
+      <WhoWeServeSection />
+      <SectionDivider />
 
       <IndustrySection />
+      <SectionDivider />
 
-      {/* Ornamental Section Divider */}
-      <div className="flex justify-center py-6 sm:py-8 md:py-12" aria-hidden="true">
-        <Image
-          src="/images/Others/divider.svg"
-          alt=""
-          width={601}
-          height={41}
-          unoptimized
-          priority={false}
-          className="h-auto max-w-[601px] w-full px-4 sm:px-6"
-        />
-      </div>
+      <LeadershipSection />
+      <SectionDivider />
 
       <InsightsSection />
     </>

@@ -4,7 +4,6 @@ import type { NextConfig } from 'next';
  * Enterprise security headers configuration (HSTS, CSP, XFO, Sniffing protection).
  */
 const nextConfig: NextConfig = {
-  output: 'standalone',
   reactStrictMode: true,
   async headers() {
     return [

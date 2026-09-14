@@ -3,43 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import IndustryCard, { type Industry } from "../ui/IndustryCard";
-
-/**
- * 6 industry sectors matching the Figma design counter (01/06).
- */
-const industries: Industry[] = [
-  {
-    label: "Retail & Trade",
-    image: "/images/IndustrySection/IndustrySection1.png",
-    href: "/industries/retail-trade",
-  },
-  {
-    label: "Real Estate",
-    image: "/images/IndustrySection/IndustrySection2.png",
-    href: "/industries/real-estate",
-  },
-  {
-    label: "Financial Services",
-    image: "/images/IndustrySection/IndustrySection3.png",
-    href: "/industries/financial-services",
-  },
-  {
-    label: "Energy & Resources",
-    image: "/images/IndustrySection/IndustrySection4.png",
-    href: "/industries/energy-resources",
-  },
-  {
-    label: "Technology & Media",
-    image: "/images/IndustrySection/IndustrySection1.png",
-    href: "/industries/technology-media",
-  },
-  {
-    label: "Manufacturing & Logistics",
-    image: "/images/IndustrySection/IndustrySection2.png",
-    href: "/industries/manufacturing-logistics",
-  },
-];
+import IndustryCard from "../ui/IndustryCard";
+import { industriesData as industries } from "@/data/contactData";
 
 /**
  * "Explore All Industries" Carousel Section
@@ -100,74 +65,92 @@ export default function IndustrySection() {
 
   return (
     <section
-      aria-labelledby="explore-industries-heading"
-      className="w-full px-5 sm:px-8 md:px-10 lg:px-14 xl:px-16 py-6 sm:py-8 lg:py-10"
+      aria-labelledby="industries-heading"
+      className="w-full overflow-hidden py-8 sm:py-10 lg:py-14"
     >
-      {/* Heading & Controls Row (Heading centered, controls on right on md+) */}
-      <div className="relative flex flex-col md:flex-row items-center justify-center min-h-[48px] w-full">
-        {/* Centered Heading */}
-        <h2
-          id="explore-industries-heading"
-          className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-text-heading tracking-tight text-center"
-        >
-          Explore All Industries
-        </h2>
+      {/* Constrained Header Container */}
+      <div className="w-full max-w-[1920px] mx-auto px-5 sm:px-8 md:px-10 lg:px-14 xl:px-16">
+        {/* HEADER & CONTROLS */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-10 md:mb-12 gap-5 sm:gap-6">
+          <div>
+            {/* Eyebrow */}
+            <span className="block font-body text-xs font-bold text-text-accent uppercase tracking-[0.3em] mb-2 sm:mb-3">
+              Verticalized Expertise
+            </span>
 
-        {/* Right-aligned Counter & Navigation Buttons */}
-        <div className="mt-4 md:mt-0 md:absolute md:right-0 flex items-center gap-4 sm:gap-6 self-center md:self-auto">
-          {/* Dynamic Counter */}
-          <span className="font-body text-sm sm:text-base md:text-lg font-medium text-text-body tracking-wider select-none">
-            {paddedIndex}/{paddedCount}
-          </span>
-
-          {/* Carousel Arrows */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
-            {/* Previous Button */}
-            <button
-              type="button"
-              onClick={() => emblaApi?.scrollPrev()}
-              disabled={!canScrollPrev}
-              aria-label="Previous industry"
-              className={`flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full transition-all duration-200 ${
-                canScrollPrev
-                  ? "bg-surface-muted text-text-heading hover:bg-surface-muted/80 hover:scale-105 active:scale-95 cursor-pointer shadow-sm"
-                  : "bg-surface-muted/70 text-text-heading/35 cursor-not-allowed"
-              }`}
+            {/* Heading */}
+            <h2
+              id="industries-heading"
+              className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-text-heading tracking-tight leading-tight"
             >
-              <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-            </button>
+              Excellence Across Sectors
+              <span className="sr-only">
+                {" "}
+                - Industry-Specific Accounting, Tax, and Advisory
+              </span>
+            </h2>
+          </div>
 
-            {/* Next Button */}
-            <button
-              type="button"
-              onClick={() => emblaApi?.scrollNext()}
-              disabled={!canScrollNext}
-              aria-label="Next industry"
-              className={`flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full transition-all duration-200 ${
-                canScrollNext
-                  ? "bg-brand-primary text-text-inverse hover:bg-brand-primary-dark hover:scale-105 active:scale-95 cursor-pointer shadow-md"
-                  : "bg-brand-primary/70 text-text-inverse/40 cursor-not-allowed"
-              }`}
+          {/* Controls: Counter + Arrows + Drag hint */}
+          <div className="flex items-center gap-3 sm:gap-4 self-start md:self-end">
+            {/* Dynamic Counter */}
+            <span className="font-body text-sm sm:text-base font-semibold text-text-body/75 tracking-wider select-none min-w-[50px]">
+              {paddedIndex}/{paddedCount}
+            </span>
+
+            {/* Navigation Buttons */}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => emblaApi?.scrollPrev()}
+                disabled={!canScrollPrev}
+                aria-label="Scroll industries left"
+                className={`flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border transition-all duration-300 ${
+                  canScrollPrev
+                    ? "border-accent/40 text-text-heading hover:border-accent hover:bg-accent hover:text-white cursor-pointer active:scale-95 shadow-xs"
+                    : "border-border/60 text-text-body/30 cursor-not-allowed"
+                }`}
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => emblaApi?.scrollNext()}
+                disabled={!canScrollNext}
+                aria-label="Scroll industries right"
+                className={`flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border transition-all duration-300 ${
+                  canScrollNext
+                    ? "border-brand-primary bg-brand-primary text-text-inverse hover:bg-brand-primary-dark hover:border-brand-primary-dark cursor-pointer active:scale-95 shadow-sm"
+                    : "border-brand-primary/40 bg-brand-primary/30 text-text-inverse/40 cursor-not-allowed"
+                }`}
+              >
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            <p
+              aria-hidden="true"
+              className="hidden sm:inline-block text-[11px] uppercase tracking-widest text-text-body/50 ml-2 select-none"
             >
-              <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
-            </button>
+              Drag to Explore
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Embla Carousel Viewport */}
+      {/* Bleed-to-wall Embla Carousel Track (Aligned to left margin, extends into right wall) */}
       <div
-        className="mt-6 sm:mt-8 md:mt-10 overflow-hidden cursor-grab active:cursor-grabbing select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 rounded-[20px] sm:rounded-[24px]"
+        className="w-full cursor-grab active:cursor-grabbing select-none overflow-hidden pl-5 sm:pl-8 md:pl-10 lg:pl-14 xl:pl-16 pr-0 focus-visible:outline-none"
         ref={emblaRef}
         tabIndex={0}
         onKeyDown={handleKeyDown}
         aria-label="Industries carousel"
       >
-        <div className="flex gap-4 sm:gap-5 md:gap-6 will-change-transform">
+        <div className="flex gap-6 will-change-transform">
           {industries.map((industry, index) => (
             <div
-              key={industry.label}
-              className="min-w-0 shrink-0"
+              key={industry.title}
+              className="flex-shrink-0"
               role="group"
               aria-roledescription="slide"
               aria-label={`${index + 1} of ${industries.length}`}

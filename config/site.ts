@@ -11,16 +11,17 @@ export const siteConfig = {
   tagline: "Tax, Accounting & FBR Compliance Made Simple",
 
   cta: {
-    partnerLabel: "Book a Consultation", 
+    partnerLabel: "Book a Consultation",
     partnerHref: "/contact",
-    portalLabel: "Client Portal",        
+    portalLabel: "Client Portal",
   },
 
   // Relative internal navigation avoids non-www -> www redirect hops
   navLinks: [
     { label: "Services", href: "/services" },
-    { label: "Firm", href: "/about" },
+    { label: "Industries", href: "/industries" },
     { label: "Insights", href: "/insights" },
+    { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
   ],
 

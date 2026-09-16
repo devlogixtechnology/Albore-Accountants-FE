@@ -15,7 +15,6 @@ export default function IndustriesMiddleSections() {
         <>
             {/* Hero */}
             <section className="relative isolate overflow-hidden min-h-[500px] flex items-center">
-                // Hero
                 <Image
                     src={industriesHeroData.imageSrc}
                     alt={industriesHeroData.imageAlt}
@@ -88,7 +87,6 @@ export default function IndustriesMiddleSections() {
             <section className="mx-auto max-w-content px-6 py-20">
                 <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-stretch">
                     <div className="relative flex min-h-[420px] flex-col justify-between overflow-hidden rounded-2xl p-8 sm:p-10">
-                        // Strategic framework
                         <Image
                             src={strategicFrameworkData.imageSrc}
                             alt={strategicFrameworkData.imageAlt}

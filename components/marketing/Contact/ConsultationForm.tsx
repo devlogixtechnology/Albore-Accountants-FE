@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useRef, useState, type FormEvent } from 'react';
 import { consultationServices, formCopyData, formValidationCopy } from '@/data/Contact/contact';
 
 export interface ConsultationFormValues {
@@ -26,7 +26,7 @@ export interface ConsultationFormProps {
 
 // Basic client-side format checks — not exhaustive validation, just catches
 // obviously malformed input before it reaches the backend.
-const { patterns, errors: validationErrors, placeholders } = formValidationCopy;
+const { patterns, errors: validationErrors } = formValidationCopy;
 
 type FieldName = 'fullName' | 'email' | 'company' | 'phone' | 'service' | 'message';
 
@@ -115,15 +115,11 @@ export default function ConsultationForm({
     }
   }
 
-  // Auto-clear date/time error jab dono values mojood ho jayein
-  useEffect(() => {
-    const effectiveDate = formatDateValue(scheduledDate);
-    const effectiveTime = scheduledTime ?? '';
-
-    if (effectiveDate && effectiveTime && dateTimeError) {
-      setDateTimeError(null);
-    }
-  }, [scheduledDate, scheduledTime, dateTimeError]);
+  // Auto-clear date/time error jab dono values mojood ho jayein.
+  // Yeh ab a derived value hai (render ke dauraan compute hota hai) — koi
+  // useEffect + setState combo nahi, isliye cascading re-renders nahi hote.
+  const hasScheduledDateTime = Boolean(formatDateValue(scheduledDate) && (scheduledTime ?? ''));
+  const displayDateTimeError = hasScheduledDateTime ? null : dateTimeError;
 
   function focusFirstInvalidField(errors: FieldErrors) {
     const firstErrorKey = FIELD_ORDER.find((key) => errors[key]);
@@ -363,9 +359,9 @@ export default function ConsultationForm({
         </div>
       )}
 
-      {dateTimeError && (
+      {displayDateTimeError && (
         <p className={errorClass} role="alert">
-          {dateTimeError}
+          {displayDateTimeError}
         </p>
       )}
     </form>

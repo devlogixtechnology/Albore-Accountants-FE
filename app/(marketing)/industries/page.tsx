@@ -1,4 +1,4 @@
-import IndustriesMiddleSections from '@/components/Industries/Industries';
+import IndustriesMiddleSections from '@/components/marketing/Industries/Industries';
 import TestimonialsSection from '@/components/marketing/TestimonialsSection';
 import { ReadyToTalkCta } from '@/components/marketing/ContactCTA';
 

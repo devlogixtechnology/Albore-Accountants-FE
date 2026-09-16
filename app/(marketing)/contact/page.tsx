@@ -1,23 +1,12 @@
-import type { Metadata } from 'next';
-import ConsultationSection from '@/components/marketing/Contact/ConsultationSection';
-import ContactHero from '@/components/marketing/Contact/ContactHero';
+import ConsultationSection from '@/components/marketing/Contact/ContactForm';
 import FaqAccordion from '@/components/marketing/Contact/FaqAccordion';
-import { contactFaqItems } from '@/data/contactData';
-
-export const metadata: Metadata = {
-  title: 'Contact | Albore Chartered Accountants',
-  description:
-    'Initiate dialogue with Albore Chartered Accountants — share your requirements for audit, tax, and corporate advisory.',
-};
+import { contactFaqItems } from '@/data/Contact/contact';
 
 export default function ContactPage() {
   return (
     <div className="flex flex-col">
-      {/* Contact Hero */}
-      <ContactHero />
 
-      {/* Revamped Consultation Section */}
-      <ConsultationSection variant="page" />
+      <ConsultationSection/>
 
       {/* FAQ Section */}
       <section className="bg-gradient-to-r from-brand-primary-dark to-brand-primary py-12 sm:py-16">
@@ -32,6 +21,7 @@ export default function ContactPage() {
           />
         </div>
       </section>
+      <div className="h-6 bg-white sm:h-8" aria-hidden="true" />
     </div>
   );
 }

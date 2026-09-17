@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { TIME_SLOTS } from '@/data/Contact/contact';
 
 const MONTHS = [
   'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -10,10 +11,6 @@ const MONTHS = [
 
 const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
-const TIME_SLOTS = [
-  '10:00 am', '10:30 am', '11:00 am', '11:30 am', '12:00 pm', '12:30 pm',
-  '2:00 pm', '2:30 pm', '3:00 pm',
-];
 
 interface Cell {
   day: number;
@@ -397,13 +394,6 @@ export default function ScheduleCalendar({
         `}
         aria-live="polite"
       >
-        {selectedDate && selectedTime
-          ? `Selected: ${MONTHS[viewMonth]} ${selectedDate}, ${viewYear} at ${selectedTime}`
-          : selectedDate
-            ? 'Date picked — now choose a time.'
-            : selectedTime
-              ? 'Time picked — now choose a date.'
-              : 'Pick a date and a time to continue.'}
       </p>
 
     </div>

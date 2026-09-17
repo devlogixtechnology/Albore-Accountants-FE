@@ -21,7 +21,7 @@ export default function SectionDivider({
 
   return (
     <div
-      className={`flex justify-center py-6 sm:py-8 md:py-12 ${className}`}
+      className={`flex justify-center py-2 sm:py-3 md:py-4 ${className}`}
       aria-hidden="true"
     >
       <Image

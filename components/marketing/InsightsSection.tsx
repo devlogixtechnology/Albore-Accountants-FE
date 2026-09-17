@@ -39,21 +39,28 @@ export default function InsightsSection() {
   return (
     <section
       aria-labelledby="explore-insights-heading"
-      className="w-full px-5 sm:px-8 md:px-10 lg:px-14 xl:px-16 py-6 sm:py-8 lg:py-10"
+      className="w-full py-12 sm:py-16 lg:py-20"
     >
-      {/* Centered Heading */}
-      <h2
-        id="explore-insights-heading"
-        className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-text-heading tracking-tight text-center mb-8 sm:mb-10 md:mb-12"
-      >
-        Explore the Latest Insights
-      </h2>
+      <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
+        {/* Centered Heading */}
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 md:mb-14">
+          <span className="block font-body text-xs font-bold text-text-accent uppercase tracking-[0.3em] mb-2 sm:mb-3">
+            Market Intelligence
+          </span>
+          <h2
+            id="explore-insights-heading"
+            className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-text-heading tracking-tight"
+          >
+            Explore the Latest Insights
+          </h2>
+        </div>
 
-      {/* Responsive Grid: 1 col on mobile, 2 cols on tablet, 4 cols on desktop */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-7 xl:gap-8">
-        {insights.map((insight) => (
-          <InsightCard key={insight.title} {...insight} />
-        ))}
+        {/* Responsive Grid: 1 col on mobile, 2 cols on tablet, 4 cols on desktop */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-7 xl:gap-8">
+          {insights.map((insight) => (
+            <InsightCard key={insight.title} {...insight} />
+          ))}
+        </div>
       </div>
     </section>
   );

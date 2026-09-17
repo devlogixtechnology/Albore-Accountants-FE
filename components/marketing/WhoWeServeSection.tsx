@@ -51,37 +51,38 @@ export default function WhoWeServeSection() {
   return (
     <section
       aria-labelledby="who-we-serve-heading"
-      className="w-full px-5 sm:px-8 md:px-10 lg:px-14 xl:px-16 pt-14 sm:pt-18 md:pt-20 pb-8 sm:pb-12"
+      className="w-full pt-14 sm:pt-18 md:pt-20 pb-8 sm:pb-12"
     >
-      <div className="grid grid-cols-1 items-stretch gap-10 lg:grid-cols-12 lg:gap-14">
-        {/* Left: Heading + Paragraph + Rectangular Button */}
-        <div className="flex flex-col items-start justify-between lg:col-span-5 lg:py-2">
-          <div>
-            <h2
-              id="who-we-serve-heading"
-              className="font-heading text-4xl font-extrabold tracking-tight text-text-heading sm:text-5xl"
-            >
-              Who We Serve
-            </h2>
+      <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
+        <div className="grid grid-cols-1 items-stretch gap-10 lg:grid-cols-12 lg:gap-14">
+          {/* Left: Heading + Paragraph + Rectangular Button */}
+          <div className="flex flex-col items-start justify-between lg:col-span-5 lg:py-2">
+            <div>
+              <h2
+                id="who-we-serve-heading"
+                className="font-heading text-4xl font-extrabold tracking-tight text-text-heading sm:text-5xl"
+              >
+                Who We Serve
+              </h2>
 
-            <p className="mt-6 sm:mt-8 max-w-lg font-body text-base leading-[1.8] text-text-body sm:text-lg">
-              No two clients are the same — and neither are our solutions.
-              Whether you&apos;re scaling fast or managing complexity across
-              borders, we tailor our approach to exactly where your business
-              stands today.
-            </p>
-          </div>
+              <p className="mt-6 sm:mt-8 max-w-lg font-body text-base leading-[1.8] text-text-body sm:text-lg">
+                No two clients are the same — and neither are our solutions.
+                Whether you&apos;re scaling fast or managing complexity across
+                borders, we tailor our approach to exactly where your business
+                stands today.
+              </p>
+            </div>
 
-          {/* Rectangular "Talk to Partner" CTA matching Figma screenshot */}
-          <div className="mt-8 lg:mt-10">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-[4px] bg-brand-primary px-7 py-3 font-button text-sm font-semibold text-text-inverse shadow-sm transition-all duration-200 hover:bg-brand-primary-dark active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary"
-            >
-              Talk to Partner
-            </Link>
+            {/* Sharp "Talk to Partner" CTA */}
+            <div className="mt-8 lg:mt-10">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-none bg-brand-primary px-7 py-3 font-button text-sm font-semibold text-text-inverse shadow-sm transition-all duration-200 hover:bg-brand-primary-dark active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary"
+              >
+                Talk to Partner
+              </Link>
+            </div>
           </div>
-        </div>
 
         {/* Center Vertical Separator Line */}
         <div
@@ -132,6 +133,7 @@ export default function WhoWeServeSection() {
             </div>
           ))}
         </div>
+      </div>
       </div>
     </section>
   );

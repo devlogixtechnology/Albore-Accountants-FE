@@ -50,9 +50,9 @@ export default function TestimonialsSection({
     <section
       id={id}
       aria-labelledby="testimonials-heading"
-      className="w-full bg-brand-primary-dark py-16 sm:py-20 md:py-24 px-5 sm:px-8 md:px-10 lg:px-14 xl:px-16"
+      className="w-full bg-brand-primary-dark py-16 sm:py-20 md:py-24"
     >
-      <div className="w-full">
+      <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
         {/* Header Bar */}
         <div className="relative flex flex-col items-center justify-center text-center">
           {/* Eyebrow */}
@@ -68,11 +68,11 @@ export default function TestimonialsSection({
             What our client Says
           </h2>
 
-          {/* Learn More Pill Action Button */}
+          {/* Learn More Action Button with sharp edges */}
           <div className="mt-6 sm:mt-0 sm:absolute sm:right-0 sm:top-1/2 sm:-translate-y-1/2">
             <Link
               href="/about"
-              className="inline-flex items-center gap-2 rounded-full bg-surface px-6 py-2.5 font-button text-xs sm:text-sm font-semibold text-brand-primary shadow-sm transition-all duration-200 hover:bg-surface-muted hover:gap-3 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-surface"
+              className="inline-flex items-center gap-2 rounded-none bg-surface px-6 py-2.5 font-button text-xs sm:text-sm font-semibold text-brand-primary shadow-sm transition-all duration-200 hover:bg-surface-muted hover:gap-3 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-surface"
             >
               <span>Learn more</span>
               <ArrowRight className="h-4 w-4 text-brand-primary" />

@@ -41,25 +41,27 @@ export default function LeadershipSection() {
   return (
     <section
       aria-labelledby="leadership-heading"
-      className="w-full px-5 sm:px-8 md:px-10 lg:px-14 xl:px-16 py-16 sm:py-20"
+      className="w-full py-16 sm:py-20"
     >
-      <h2
-        id="leadership-heading"
-        className="text-center font-heading text-3xl font-extrabold tracking-tight text-text-heading sm:text-4xl"
-      >
-        Meet the Leadership Team
-      </h2>
-      <p className="mx-auto mt-3 max-w-2xl text-center font-body text-sm leading-relaxed text-text-body sm:text-base">
-        Our leadership team combines deep regulatory expertise with strategic
-        insight to help your business navigate growth, ensure compliance, and
-        maximize value at every stage.
-      </p>
+      <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
+        <h2
+          id="leadership-heading"
+          className="text-center font-heading text-3xl font-extrabold tracking-tight text-text-heading sm:text-4xl"
+        >
+          Meet the Leadership Team
+        </h2>
+        <p className="mx-auto mt-3 max-w-2xl text-center font-body text-sm leading-relaxed text-text-body sm:text-base">
+          Our leadership team combines deep regulatory expertise with strategic
+          insight to help your business navigate growth, ensure compliance, and
+          maximize value at every stage.
+        </p>
 
-      {/* Grid container scaled for wider cards */}
-      <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-8">
-        {teamMembers.map((member, idx) => (
-          <TeamMemberCard key={`${member.name}-${idx}`} {...member} />
-        ))}
+        {/* Grid container scaled for wider cards */}
+        <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-8">
+          {teamMembers.map((member, idx) => (
+            <TeamMemberCard key={`${member.name}-${idx}`} {...member} />
+          ))}
+        </div>
       </div>
     </section>
   );

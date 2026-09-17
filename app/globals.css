@@ -16,12 +16,22 @@
   --color-gold-400: #b49969;
   --color-cream-200: #efe6d2;
   --albore-overlay: rgba(28, 13, 4, 0.5);
+
+  /* Added for Industry Standalone Page */
+  --color-burgundy-900: #3d141d;
+  --color-burgundy-950: #2a080e;
+  --color-maroon-850: #4a1521;
+  --color-cream-50: #fdfbf7;
+  --color-cream-badge: #faf4f0;
+  --color-tan-200: #d8c7b5;
+  --color-border-subtle: #ebe5de;
 }
 
 @theme {
   /* Semantic tokens — reference these in components */
   --color-brand-primary: var(--color-maroon-700);
   --color-brand-primary-dark: var(--color-maroon-900);
+  --color-brand-contrast: var(--color-burgundy-950);
   --color-accent: var(--color-gold-500);
 
   --color-surface: var(--color-white);
@@ -49,6 +59,15 @@
   --color-gold-light: var(--color-gold-400);
   --color-ink: var(--color-neutral-950);
   --color-body: var(--color-neutral-800);
+
+  /* Industry Standalone Page tokens */
+  --color-industry-hero: var(--color-burgundy-900);
+  --color-industry-solutions: var(--color-maroon-850);
+  --color-industry-card: var(--color-cream-50);
+  --color-industry-focus-badge: var(--color-cream-badge);
+  --color-industry-pillar-badge: var(--color-tan-200);
+  --color-industry-border: var(--color-border-subtle);
+  --color-border: var(--color-border-subtle);
 
   --container-content: 1120px;
   --container-wide: 1360px;

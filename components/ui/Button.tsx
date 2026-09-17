@@ -2,8 +2,8 @@ import Link from "next/link";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 interface BaseButtonProps {
-  /** Visual variant: primary (brand solid) or outline (bordered) */
-  variant?: "primary" | "outline" | "secondary";
+  /** Visual variant: primary (brand solid), outline (bordered), secondary, or accent (caramel gold) */
+  variant?: "primary" | "outline" | "secondary" | "accent";
   /** Sizing presets */
   size?: "sm" | "md" | "lg";
   children: ReactNode;
@@ -48,6 +48,8 @@ export default function Button({
       "border border-accent text-accent hover:bg-accent hover:text-surface",
     secondary:
       "bg-surface border border-brand-primary/20 text-text-heading hover:bg-surface-muted",
+    accent:
+      "bg-accent text-brand-contrast hover:bg-gold-light active:scale-[0.99]",
   }[variant];
 
   const combinedClasses = `${baseClasses} ${sizeClasses} ${variantClasses} ${className}`;

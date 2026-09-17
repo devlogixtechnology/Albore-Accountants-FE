@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { services } from "@/data/services";
 import SectionDivider from "@/components/ui/SectionDivider";
+import CtaBanner from "@/components/ui/CtaBanner";
 import {
   ServiceHero,
   ComprehensiveSolutions,
   ServiceWorkflow,
   ServiceCapabilities,
   ServiceWhatWeDo,
-  ServiceCtaBanner,
 } from "@/components/services";
 
 function getServiceBySlug(slug: string) {
@@ -112,7 +112,7 @@ export default async function ServiceDetailPage({
       </div>
 
       {/* 6. Ready to Talk Gold CTA Banner (Full Width on Both Sides) */}
-      <ServiceCtaBanner />
+      <CtaBanner />
     </div>
   );
 }

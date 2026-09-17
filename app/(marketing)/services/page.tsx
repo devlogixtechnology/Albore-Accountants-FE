@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { services } from "@/data/services";
 import SectionDivider from "@/components/ui/SectionDivider";
-import { ServiceCtaBanner } from "@/components/services";
+import CtaBanner from "@/components/ui/CtaBanner";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -105,7 +105,7 @@ export default function ServicesPage() {
       </div>
 
       {/* Ready to Talk Banner */}
-      <ServiceCtaBanner />
+      <CtaBanner />
     </div>
   );
 }

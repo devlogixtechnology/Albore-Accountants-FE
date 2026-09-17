@@ -27,7 +27,7 @@ export const DEFAULT_SERVICES: Service[] = [
     title: "Bookkeeping",
     description:
       "Accurate day-to-day record keeping and month-end closes, so your accounts are always ready for review, lending, or filing.",
-    href: "/services/bookkeeping",
+    href: "/services/book-keeping",
   },
   {
     title: "Payroll Management",

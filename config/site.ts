@@ -28,16 +28,16 @@ export const siteConfig = {
   /** Footer links */
   footer: {
     services: [
-      { label: "Book Keeping", href: "/services" },
-      { label: "Audits & Assurance", href: "/services" },
-      { label: "Financial Advisory", href: "/services" },
-      { label: "Tax Services", href: "/services" },
+      { label: "Book Keeping", href: "/services/book-keeping" },
+      { label: "Audits & Assurance", href: "/services/assurance-audits" },
+      { label: "Financial Advisory", href: "/services/financial-advisory" },
+      { label: "Tax Services", href: "/services/tax-services" },
     ],
     firm: [
       { label: "Services", href: "/services" },
       { label: "Insights", href: "/insights" },
       { label: "Client Stories", href: "/about" },
-      { label: "Industries", href: "/services" },
+      { label: "Industries", href: "/industries" },
     ],
   },
 

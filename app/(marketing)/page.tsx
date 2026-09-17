@@ -17,12 +17,8 @@ export default function HomePage() {
 
       <ServicesSection />
 
-      <SectionDivider />
-
       {/* Consultation Section */}
       <ConsultationSection variant="home" />
-
-      <SectionDivider />
 
       {/* Why Choose Us */}
       <WhyAlboreSection />

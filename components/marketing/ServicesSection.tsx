@@ -101,60 +101,57 @@ export function ServicesSection({
 
   return (
     <section
-      className="w-full bg-white pb-14 pt-14 sm:pb-16 lg:pb-20 lg:pt-[128px]"
+      className="w-full bg-white pt-8 pb-10 sm:pt-10 sm:pb-12 lg:pt-14 lg:pb-14"
       aria-labelledby="services-heading"
     >
       <SectionDivider />
 
-      <div className="mt-6 w-full px-4 sm:px-6">
-        <div className="mx-auto w-full max-w-(--container-content)">
-          <div className="relative flex items-center justify-center">
-            <h2
-              id="services-heading"
-              className="text-center text-[26px] font-bold text-ink sm:text-[32px] lg:text-[40px]"
-            >
-              {heading}
-            </h2>
-          </div>
-
-          <div className="mt-4 flex items-center justify-center gap-5 sm:justify-end">
-            <p
-              className="text-[17px] text-body tabular-nums sm:text-[20px]"
-              aria-live="polite"
-            >
-              {pad(index + 1)}/{pad(services.length)}
-            </p>
-            <div className="flex items-center gap-4">
-              <CarouselButton
-                direction="prev"
-                disabled={atStart}
-                onClick={() => scrollByCards(-1)}
-              />
-              <CarouselButton
-                direction="next"
-                disabled={atEnd}
-                onClick={() => scrollByCards(1)}
-              />
-            </div>
-          </div>
-
-          <ul
-            ref={trackRef}
-            className="albore-no-scrollbar mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2"
+      <div className="mt-6 w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
+        <div className="relative flex items-center justify-center">
+          <h2
+            id="services-heading"
+            className="text-center text-[26px] font-bold text-ink sm:text-[32px] lg:text-[40px]"
           >
-            {services.map((service) => (
-              <li
-                key={service.title}
-                className="w-[85%] shrink-0 snap-start sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-13.34px)]"
-              >
-                <ServiceCard {...service} />
-              </li>
-            ))}
-          </ul>
+            {heading}
+          </h2>
         </div>
-      </div>
 
-      <SectionDivider className="mt-10" />
+        <div className="mt-3 sm:mt-4 flex items-center justify-between sm:justify-end gap-3 sm:gap-5">
+          <p
+            className="text-sm sm:text-[17px] lg:text-[20px] text-body tabular-nums font-semibold"
+            aria-live="polite"
+          >
+            {pad(index + 1)}/{pad(services.length)}
+          </p>
+          <div className="flex items-center gap-2.5 sm:gap-4">
+            <CarouselButton
+              direction="prev"
+              disabled={atStart}
+              onClick={() => scrollByCards(-1)}
+            />
+            <CarouselButton
+              direction="next"
+              disabled={atEnd}
+              onClick={() => scrollByCards(1)}
+            />
+          </div>
+        </div>
+
+        {/* Dynamic Track displaying 5 cards on desktop */}
+        <ul
+          ref={trackRef}
+          className="albore-no-scrollbar mt-6 sm:mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2"
+        >
+          {services.map((service) => (
+            <li
+              key={service.title}
+              className="w-[85%] shrink-0 snap-start sm:w-[calc(50%-10px)] md:w-[calc(33.333%-13.34px)] lg:w-[calc(20%-16px)]"
+            >
+              <ServiceCard {...service} />
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }
@@ -175,19 +172,17 @@ function CarouselButton({
       onClick={onClick}
       disabled={disabled}
       aria-label={isNext ? "Next services" : "Previous services"}
-      className={`flex h-[52px] w-[52px] items-center justify-center rounded-full transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${
+      className={`flex h-9 w-9 sm:h-11 sm:w-11 lg:h-[50px] lg:w-[50px] items-center justify-center rounded-full transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${
         disabled
           ? "cursor-not-allowed bg-cream text-gold ring-1 ring-gold ring-inset"
           : "bg-maroon text-white hover:bg-maroon-hover"
       }`}
     >
       <svg
-        width="20"
-        height="14"
         viewBox="0 0 20 14"
         fill="none"
         aria-hidden="true"
-        className={isNext ? "" : "rotate-180"}
+        className={`h-3 w-4 sm:h-3.5 sm:w-5 ${isNext ? "" : "rotate-180"}`}
       >
         <path
           d="M1 7h17M12 1l6 6-6 6"

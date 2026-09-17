@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import { siteConfig } from "@/config/site";
-import { MarketingButton } from "./MarketingButton";
+import Button from "@/components/ui/Button";
 import { StatsBar, DEFAULT_STATS, type Stat } from "./StatsBar";
 
 export type HeroProps = {
@@ -61,7 +61,7 @@ export function Hero({
 
         <div className="relative flex w-full justify-center px-5 py-16 sm:px-6 lg:pb-[190px]">
           <div className="flex max-w-[700px] flex-col items-center text-center lg:max-w-[860px]">
-            <h1 className="text-pretty text-[28px] font-bold leading-[1.18] text-cream sm:text-[36px] lg:text-[48px]">
+            <h1 className="text-pretty text-[28px] font-bold leading-[1.18] text-white sm:text-[36px] lg:text-[48px]">
               {title}
             </h1>
 
@@ -70,29 +70,29 @@ export function Hero({
             </p>
 
             <div className="mt-8 flex w-full flex-wrap items-center justify-center gap-3 sm:mt-9 sm:w-auto sm:gap-4">
-              <MarketingButton
+              <Button
                 href={primaryCta.href}
                 variant="primary"
                 size="lg"
-                className="w-full sm:w-auto"
+                className="w-full sm:w-auto rounded-none font-bold shadow-md hover:shadow-lg"
               >
                 {primaryCta.label}
-              </MarketingButton>
-              <MarketingButton
+              </Button>
+              <Button
                 href={secondaryCta.href}
-                variant="secondary"
+                variant="outline"
                 size="lg"
-                className="w-full sm:w-auto"
+                className="w-full sm:w-auto rounded-none font-bold border-accent text-accent hover:bg-accent hover:text-white bg-black/20 backdrop-blur-xs"
               >
                 {secondaryCta.label}
-              </MarketingButton>
+              </Button>
             </div>
           </div>
         </div>
       </div>
 
       {stats && (
-        <div className="relative px-4 sm:px-6 lg:-mt-[106px]">
+        <div className="relative z-20 w-full max-w-9xl mx-auto px-4 sm:px-8 lg:px-14 xl:px-16 -mt-8 sm:-mt-12 md:-mt-16 lg:-mt-[106px]">
           <StatsBar stats={stats} />
         </div>
       )}

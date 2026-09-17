@@ -94,26 +94,24 @@ export function StatsBar({
   return (
     <div
       ref={ref}
-      className={`mx-auto w-full max-w-[1028px] bg-maroon-deep px-4 py-7 sm:px-8 sm:py-8 ${className}`}
+      className={`mx-auto w-full max-w-[1028px] bg-maroon-deep px-2 py-3.5 sm:px-6 sm:py-6 md:px-8 md:py-8 ${className}`}
     >
-      <dl className="grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-4 sm:gap-y-0">
+      <dl className="grid grid-cols-4 gap-x-1 sm:gap-x-4">
         {stats.map((stat, i) => (
           <div
             key={stat.label}
-            className="relative flex flex-col items-center gap-1.5 px-1 text-center sm:gap-2 sm:px-2"
+            className="relative flex flex-col items-center justify-center gap-0.5 px-1 text-center sm:gap-2 sm:px-2"
           >
             {i > 0 && (
               <span
                 aria-hidden="true"
-                className={`absolute left-0 top-1/2 h-11 w-px -translate-y-1/2 bg-gold ${
-                  i === 2 ? "hidden sm:block" : ""
-                }`}
+                className="absolute left-0 top-1/2 h-6 sm:h-9 md:h-11 w-px -translate-y-1/2 bg-gold/50 sm:bg-gold"
               />
             )}
-            <dt className="order-2 text-[11px] font-bold uppercase leading-tight tracking-[0.04em] text-white sm:text-[13px] lg:text-[15px]">
+            <dt className="order-2 text-[8px] sm:text-[11px] md:text-[13px] lg:text-[15px] font-bold uppercase leading-tight tracking-[0.02em] text-white/90 sm:tracking-[0.04em]">
               {stat.label}
             </dt>
-            <dd className="order-1 text-[34px] font-bold leading-none text-white tabular-nums sm:text-[42px] lg:text-[52px]">
+            <dd className="order-1 text-[20px] sm:text-[32px] md:text-[42px] lg:text-[52px] font-bold leading-tight text-white tabular-nums">
               <StatValue stat={stat} run={started} durationMs={durationMs} />
             </dd>
           </div>

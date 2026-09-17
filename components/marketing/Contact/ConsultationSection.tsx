@@ -88,7 +88,7 @@ export default function ConsultationSection({
       </h2>
 
       {/* Full-width Split Interface (Edge-to-Edge from left wall to right wall) */}
-      <div className="w-full flex flex-col lg:flex-row border-y border-border/20">
+      <div className="w-full flex flex-col lg:flex-row border-t border-border/20">
         {/* LEFT COLUMN: Deep Maroon Sovereign Panel */}
         <div className="w-full lg:w-2/5 xl:w-[38%] bg-brand-primary-dark text-white p-8 sm:p-12 md:p-14 lg:p-16 xl:p-20 2xl:pl-28 flex flex-col justify-between relative border-b lg:border-b-0 lg:border-r border-white/5">
           {/* Subtle gold grid overlay */}
@@ -376,7 +376,7 @@ export default function ConsultationSection({
                   <button
                     type="submit"
                     disabled={formState === "submitting"}
-                    className="group w-full md:w-auto px-10 py-5 rounded-[2px] flex items-center justify-center gap-4 transition-all duration-300 shadow-lg disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer bg-brand-primary-dark text-white hover:bg-accent font-button text-sm font-bold uppercase tracking-wider"
+                    className="group w-full md:w-auto px-10 py-5 rounded-none flex items-center justify-center gap-4 transition-all duration-300 shadow-lg disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer bg-brand-primary-dark text-white hover:bg-accent font-button text-sm font-bold uppercase tracking-wider active:scale-95"
                   >
                     {formState === "submitting" ? formCopyData.actions.submitting : formCopyData.actions.submit}
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

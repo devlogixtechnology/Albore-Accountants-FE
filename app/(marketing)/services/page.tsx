@@ -1,111 +1,137 @@
-import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
-import { services } from "@/data/services";
+import Link from "next/link";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ReadyToTalkCta } from "@/components/marketing/ContactCTA";
 import SectionDivider from "@/components/ui/SectionDivider";
-import { ServiceCtaBanner } from "@/components/services";
-import { ArrowRight } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Our Services | Albore Chartered Accountants",
-  description:
-    "Explore our complete suite of institutional-grade accounting, independent audit, strategic tax planning, and corporate financial advisory practices.",
+const serviceCards = [
+  ["Bookkeeping", "Strategic roadmap aligning financial records with your operational framework.", "/images/ServicesPage/BookKeeping/BookKeeping.png"],
+  ["Audit & Assurance", "Independent, thorough audit and assurance that gives stakeholders confidence.", "/images/ServicesPage/audit-assurance/Audit.png"],
+  ["Financial Advisory", "In-depth corporate advisory built around informed, strategic decisions.", "/images/ServicesPage/financial-advisary/Advisary.png"],
+  ["Tax Services", "Strategic roadmap for tax planning, compliance, and efficient structures.", "/images/ServicesPage/tax-service/tax-paper.png"],
+] as const;
+
+const workflow = [
+  ["Discovery", "Understand Your Needs and Goals", "We start with the client’s current and future needs, then identify exactly how your records and financial decisions should work together.", "/images/ServicesPage/Service_Discovery.png"],
+  ["Analysis", "Identify Opportunities and Risks", "We carefully analyze your financial situation, existing processes, and growth plans to surface opportunities and risks before they become problems.", "/images/ServicesPage/Service_Analysis.png"],
+  ["Strategy", "Follow the Best path", "Based on our findings, we develop a tailored financial strategy for your business. Our approach focuses on reducing risk, improving efficiency, and creating sustainable growth.", "/images/ServicesPage/Service_Strategy.png"],
+  ["Implementation", "Execute and Stay With You", "We put the strategy into practical action and remain engaged with your team to monitor progress, resolve issues, and keep your financial systems effective.", "/images/ServicesPage/Service_Implementation.png"],
+] as const;
+
+export const metadata = {
+  title: "Services | Albore Chartered Accountants",
+  description: "Strategic accounting, audit, tax, and financial advisory services from Alboré.",
 };
 
 export default function ServicesPage() {
   return (
-    <div className="w-full flex flex-col items-center font-body">
-      {/* Hero Header */}
-      <section className="relative w-full bg-[#3a0d15] text-white py-16 sm:py-20 lg:py-24 shadow-2xl overflow-hidden">
-        {/* Geometric Background Accent */}
-        <svg
-          className="absolute inset-0 w-full h-full pointer-events-none opacity-10"
-          viewBox="0 0 1200 500"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <path d="M-100 200 L1300 100" stroke="#b08d57" strokeWidth="1.5" />
-          <path d="M200 500 L1000 -100" stroke="#b08d57" strokeWidth="1" />
-        </svg>
-
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="font-heading text-sm sm:text-base font-semibold tracking-widest text-[#b08d57] uppercase mb-3">
-            Core Practice Areas
-          </p>
-          <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
-            Institutional Rigor. Personal Clarity.
-          </h1>
-          <p className="font-body text-white/90 text-sm sm:text-base md:text-lg leading-relaxed mt-4 max-w-2xl mx-auto">
-            From statutory assurance to multi-entity bookkeeping and strategic tax planning, our senior partners ensure every number reflects reality.
+    <div className="services-page w-full overflow-hidden bg-white text-[#161616]">
+      <section className="relative flex min-h-[310px] items-center overflow-hidden md:min-h-[370px]">
+        <Image src="/images/ServicesPage/Service1.png" alt="" fill priority className="object-cover" />
+        <div className="absolute inset-0 bg-black/65" />
+        <div className="relative z-10 mx-auto w-full max-w-[1160px] px-7 py-16 md:px-10 lg:px-12">
+          <p className="font-heading text-sm font-bold text-white md:text-base">What We Offer</p>
+          <h1 className="mt-3 font-heading text-3xl font-bold text-white md:text-4xl lg:text-[42px]">Alboré Services</h1>
+          <p className="mt-10 max-w-[450px] font-body text-[12px] leading-5 text-white md:text-[14px]">
+            Strategic solutions to help you minimize risk and tax exposure — from day-to-day bookkeeping to complex advisory.
           </p>
         </div>
       </section>
 
-      {/* Services Divider */}
-      <SectionDivider variant="services" className="py-8 sm:py-12" />
-
-      {/* 6 Core Practices Grid */}
-      <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service) => (
-            <article
-              key={service.slug}
-              className="group flex flex-col bg-[#fdfbf7] border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-            >
-              {/* Service Card Thumbnail */}
-              <div className="relative w-full h-52 overflow-hidden bg-[#2a080e]">
-                <Image
-                  src={service.heroImage}
-                  alt={service.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
-                <span className="absolute bottom-3 left-4 font-heading text-xs font-semibold uppercase tracking-wider text-[#b08d57]">
-                  {service.heroTagline || "Practice Area"}
-                </span>
-              </div>
-
-              {/* Service Content */}
-              <div className="p-6 sm:p-7 flex flex-col flex-1">
-                <h2 className="font-heading text-xl font-bold text-slate-900 leading-snug">
-                  {service.title}
-                </h2>
-                <p className="font-body text-slate-600 text-sm leading-relaxed mt-3 flex-1">
-                  {service.summary || service.teaser}
-                </p>
-
-                <div className="mt-6 pt-4 border-t border-slate-200/60 flex items-center justify-between">
-                  <Link
-                    href={`/services/${service.slug}`}
-                    className="inline-flex items-center gap-2 font-heading font-bold text-sm text-[#6B1E2B] group-hover:text-[#b08d57] transition-colors"
-                  >
-                    <span>Explore Practice</span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center justify-center bg-[#6B1E2B] text-white px-4 py-2 rounded-none hover:bg-[#521520] font-bold text-xs transition-colors"
-                  >
-                    Consult
-                  </Link>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* Pre-CTA Divider */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-        <SectionDivider variant="services" className="py-2" />
+      <div className="mx-auto max-w-[1000px] px-7 py-8 text-center md:px-10">
+        <p className="mx-auto max-w-[690px] font-body text-[11px] leading-4 text-gray-700">
+          We structure strategic, compliant, and scalable financial solutions that help businesses optimize tax efficiency, streamline operations, and drive sustainable growth.
+        </p>
       </div>
 
-      {/* Ready to Talk Banner */}
-      <ServiceCtaBanner />
+      <section className="mx-auto max-w-[1080px] px-7 pb-8 md:px-10">
+        <h2 className="max-w-[500px] font-heading text-2xl font-bold leading-[1.12] md:text-[27px]">Strategic Accounting &amp; Advisory<br />for Growing Enterprises</h2>
+        <p className="mt-4 max-w-[900px] font-body text-[10px] leading-4 text-gray-700">At Alboré Accountants, we understand the financial and compliance pressures facing modern businesses. Regulatory shifts, complex tax frameworks, and cash-flow constraints can all limit your strategic potential.</p>
+        <p className="mt-2 max-w-[900px] font-body text-[10px] leading-4 text-gray-700">Our tailored accounting and advisory solutions are designed to help you operate more efficiently, protect your margins, and maintain complete financial clarity.</p>
+
+        <div className="mt-7 grid items-stretch gap-5 md:grid-cols-[390px_1fr]">
+          <div className="relative min-h-[300px] overflow-hidden rounded-[38px] md:min-h-[330px]">
+            <Image src="/images/ServicesPage/Service_Panel.png" alt="Strategic accounting" fill className="object-cover" />
+          </div>
+          <div className="border-l border-gray-300 pl-5">
+            <h3 className="font-heading text-sm font-bold md:text-base">Detailed Feature Breakdown &amp; Bullet Points</h3>
+            <ul className="mt-5 space-y-3">
+              {[
+                "Comprehensive Bookkeeping & Financial Reporting",
+                "Strategic Tax Planning & Risk Mitigation",
+                "Audit Preparation & Compliance Assurance",
+                "Financial CFO & Treasury Advisory",
+                "Payroll Processing & Operational Management",
+                "Cross-Border Financial Structuring",
+              ].map((item) => (
+                <li key={item} className="rounded bg-[#f2f2f2] px-3 py-2 font-body text-[9px] text-gray-700">{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="relative mt-8 h-[235px] overflow-hidden md:h-[270px]">
+          <Image src="/images/ServicesPage/Service_Features.png" alt="Financial growth" fill className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
+          <div className="absolute inset-x-5 bottom-4 grid grid-cols-2 gap-2 sm:grid-cols-4 md:inset-x-7 md:bottom-5">
+            {serviceCards.map(([title, text]) => (
+              <article key={title} className="rounded-[6px] bg-[#f6efdf] p-3 shadow-sm">
+                <span className="font-body text-[6px] font-bold uppercase tracking-wider text-[#9b7a42]">{title}</span>
+                <h3 className="mt-1 font-heading text-[10px] font-bold leading-3">{title}</h3>
+                <p className="mt-1 line-clamp-3 font-body text-[7px] leading-3 text-gray-600">{text}</p>
+                <Link href="/contact" className="mt-2 inline-flex rounded-full bg-[#6b1e2b] px-2 py-1 font-body text-[5px] font-bold text-white">TALK TO PARTNER</Link>
+              </article>
+            ))}
+          </div>
+          <div className="absolute right-4 top-4 flex items-center gap-2 text-white">
+            <span className="text-[8px]">01/05</span><button aria-label="Previous service" className="rounded-full bg-white/90 p-1 text-[#6b1e2b]"><ArrowLeft className="h-3 w-3" /></button><button aria-label="Next service" className="rounded-full bg-[#6b1e2b] p-1 text-white"><ArrowRight className="h-3 w-3" /></button>
+          </div>
+        </div>
+      </section>
+
+      <SectionDivider className="py-4" />
+      <section className="mx-auto max-w-[1000px] px-7 pb-12 md:px-10">
+        <div className="text-center">
+          <h2 className="font-heading text-2xl font-bold md:text-[27px]">How It Works?</h2>
+        </div>
+        <div className="relative mt-10 grid gap-10 md:grid-cols-2 md:gap-x-28">
+          <div className="absolute left-1/2 top-0 hidden h-full -translate-x-1/2 border-l border-[#6b1e2b] md:block" />
+          {workflow.map(([title, subtitle, text, image], index) => {
+            const left = index % 2 === 0;
+            return (
+              <article key={title} className={`relative flex gap-4 ${left ? "md:flex-row" : "md:flex-row-reverse"} items-start`}>
+                <div className={`w-full ${left ? "md:pr-4 md:text-left" : "md:pl-4 md:text-right"}`}>
+                  <h3 className="font-heading text-[12px] font-bold md:text-sm">{title}</h3>
+                  <h4 className="font-body text-[9px] font-bold text-[#b08d57] md:text-[10px]">{subtitle}</h4>
+                  <p className="mt-1 font-body text-[8px] leading-3.5 text-gray-600">{text}</p>
+                  <div className="relative mt-4 h-[78px] overflow-hidden rounded-[12px] md:h-[92px]">
+                    <Image src={image} alt="" fill className="object-cover" />
+                  </div>
+                </div>
+                <div className="absolute left-1/2 top-0 z-10 hidden h-9 w-9 -translate-x-1/2 -translate-y-1/4 items-center justify-center rounded-full border border-[#c19a57] bg-[#6b1e2b] font-heading text-white md:flex">{index + 1}</div>
+              </article>
+            );
+          })}
+        </div>
+
+        <div className="mt-14 border-l-4 border-[#b08d57] pl-4">
+          <h2 className="font-heading text-xl font-bold md:text-2xl">Reimagining the Albore Experience</h2>
+          <p className="mt-2 max-w-[680px] font-body text-[9px] leading-4 text-gray-700 md:text-[10px]">Real-world strategies that help businesses improve tax efficiency, strengthen financial performance, and plan for sustainable growth. A complete overhaul of the digital experience, aligning visual design with strategic business goals to drive conversion and enhance brand value.</p>
+        </div>
+      </section>
+
+      <section className="relative min-h-[310px] overflow-hidden md:min-h-[380px]">
+        <Image src="/images/ServicesPage/Service2.png" alt="Manufacturing business case study" fill className="object-cover" />
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10 mx-auto flex min-h-[310px] max-w-[1100px] items-center px-8 md:min-h-[380px]">
+          <div className="max-w-[390px] text-white">
+            <h2 className="font-heading text-xl font-bold leading-6 md:text-2xl">Manufacturing Business<br />“Tax Efficiency. Business<br />Growth. Financial<br />Efficiency”</h2>
+            <Link href="/about" className="mt-10 inline-flex rounded-full bg-[#6b1e2b] px-5 py-2 font-body text-[8px] font-semibold text-white">View Case Study</Link>
+          </div>
+        </div>
+      </section>
+
+      <ReadyToTalkCta />
     </div>
   );
 }

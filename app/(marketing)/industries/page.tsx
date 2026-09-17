@@ -1,6 +1,6 @@
 import IndustriesMiddleSections from '@/components/marketing/Industries/Industries';
 import TestimonialsSection from '@/components/marketing/TestimonialsSection';
-import { ReadyToTalkCta } from '@/components/marketing/ContactCTA';
+import CtaBanner from '@/components/ui/CtaBanner';
 
 function page() {
   return (
@@ -9,7 +9,7 @@ function page() {
       <div className="h-6 bg-white sm:h-8" aria-hidden="true" />
       <TestimonialsSection />
       <div className="h-6 bg-white sm:h-8" aria-hidden="true" />
-      <ReadyToTalkCta />
+      <CtaBanner />
       <div className="h-6 bg-white sm:h-8" aria-hidden="true" />
     </div>
   )

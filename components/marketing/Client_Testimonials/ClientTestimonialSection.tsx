@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import SectionDivider from '@/components/ui/SectionDivider';
 import { StatsBar } from '@/components/marketing/StatsBar';
-import { ReadyToTalkCta } from '../ContactCTA';
+import CtaBanner from '@/components/ui/CtaBanner';
 import {
     testimonialsHeroData,
     testimonialsSectionData,
@@ -204,7 +204,7 @@ export default function ClientTestimonialsPage() {
             <SectionDivider />
 
             {/* CTA */}
-            <ReadyToTalkCta />
+            <CtaBanner />
             <div className="h-6 bg-white sm:h-8" aria-hidden="true" />
         </>
     );

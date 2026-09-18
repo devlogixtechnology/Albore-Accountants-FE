@@ -40,8 +40,8 @@ export default function IndustryHero({ data }: IndustryHeroProps) {
         className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
       >
         <Image
-          src={data.heroImage || "/industrypage/IndsutryStandaloneHeroBg.png"}
-          alt=""
+          src={data.heroImage || "/images/Industriespage/industry-standalone-hero-bg.png"}
+          alt={`${data.title || "Industry"} specialized financial advisory services`}
           fill
           priority
           sizes="100vw"

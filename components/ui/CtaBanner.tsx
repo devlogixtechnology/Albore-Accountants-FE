@@ -38,14 +38,14 @@ export default function CtaBanner({
           className="flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8 group"
         >
           {/* Left: Phone Icon & Messaging */}
-          <div className="flex items-start sm:items-center gap-4 sm:gap-6 flex-1">
+          <div className="flex items-center gap-4 sm:gap-6 lg:gap-7 flex-1">
             <motion.div
-              whileHover={{ scale: 1.15, rotate: -8 }}
+              whileHover={{ scale: 1.08, rotate: -4 }}
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-brand-primary-dark/10 flex items-center justify-center shrink-0"
+              className="shrink-0 flex items-center justify-center"
             >
               <PhoneCall
-                className="w-7 h-7 sm:w-8 sm:h-8 text-brand-primary-dark shrink-0 stroke-[1.75]"
+                className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-[68px] lg:h-[68px] text-brand-primary-dark shrink-0 stroke-[2]"
                 aria-hidden="true"
               />
             </motion.div>

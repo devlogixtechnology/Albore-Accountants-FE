@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { SectionDivider } from "./SectionDivider";
+import SectionDivider from "@/components/ui/SectionDivider";
 import { ServiceCard, type Service } from "./ServiceCard";
 
 export const DEFAULT_SERVICES: Service[] = [

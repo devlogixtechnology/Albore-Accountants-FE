@@ -6,5 +6,3 @@ export {
   type ServicesSectionProps,
 } from "./ServicesSection";
 export { ServiceCard, type Service } from "./ServiceCard";
-export { SectionDivider } from "./SectionDivider";
-export { MarketingButton, type MarketingButtonProps } from "./MarketingButton";

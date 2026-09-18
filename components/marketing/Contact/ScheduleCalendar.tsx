@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { TIME_SLOTS } from '@/data/Contact/contact';
+import { TIME_SLOTS } from '@/data/contact';
 
 const MONTHS = [
   'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',

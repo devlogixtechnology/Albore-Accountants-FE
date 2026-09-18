@@ -9,7 +9,7 @@ import {
     founderDeskData,
     promiseSectionData,
     promises
-} from '@/data/ClientTestimonial/clientTestimonial';
+} from '@/data/testimonials';
 
 
 function StarRating({ rating }: { rating: number }) {

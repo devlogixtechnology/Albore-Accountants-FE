@@ -25,6 +25,8 @@ function getServiceBySlug(slug: string) {
   );
 }
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   const primarySlugs = services.map((service) => ({ slug: service.slug }));
   const aliasSlugs = [
@@ -42,12 +44,41 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const service = getServiceBySlug(slug);
-  return service
-    ? {
-        title: `${service.title} | Albore Chartered Accountants`,
-        description: service.summary || service.heroDescription,
-      }
-    : {};
+  if (!service) return {};
+
+  const title = `${service.title} | Albore Chartered Accountants`;
+  const description = service.summary || service.heroDescription;
+  const canonicalUrl = `/services/${service.slug}`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      type: "article",
+      images: service.heroImage
+        ? [
+            {
+              url: service.heroImage,
+              width: 1200,
+              height: 630,
+              alt: service.title,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: service.heroImage ? [service.heroImage] : undefined,
+    },
+  };
 }
 
 export default async function ServiceDetailPage({
@@ -60,8 +91,39 @@ export default async function ServiceDetailPage({
 
   if (!service) notFound();
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://www.alboreaccountants.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Services",
+        item: "https://www.alboreaccountants.com/services",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: service.title,
+        item: `https://www.alboreaccountants.com/services/${service.slug}`,
+      },
+    ],
+  };
+
   return (
     <div className="w-full flex flex-col items-center font-body">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
       {/* 1. Hero Section (Full Width on Both Sides) */}
       <ServiceHero service={service} />
 

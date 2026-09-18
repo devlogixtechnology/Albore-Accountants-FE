@@ -1,6 +1,7 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { ScrollFillLine } from './IndutriesScroll';
+import { ScrollFillLine } from './IndustriesScroll';
 
 import {
     industriesHeroData,
@@ -30,12 +31,12 @@ export default function IndustriesMiddleSections() {
                     </h1>
                     <p className="mt-4 max-w-xl text-text-inverse/85">{industriesHeroData.description}</p>
 
-                    <a
+                    <Link
                         href={industriesHeroData.cta.href}
                         className="mt-8 inline-flex h-11 items-center justify-center rounded-lg bg-accent px-6 text-sm font-semibold text-text-inverse transition-colors hover:bg-gold-light"
                     >
                         {industriesHeroData.cta.label}
-                    </a>
+                    </Link>
                 </div>
             </section>
 
@@ -69,13 +70,12 @@ export default function IndustriesMiddleSections() {
                                     {item.description}
                                 </p>
                                 <div className="mt-5 flex justify-end">
-
-                                    <a
+                                    <Link
                                         href={item.readMoreHref}
                                         className="inline-flex h-9 items-center justify-center rounded-lg bg-brand-primary-dark px-5 text-xs font-semibold text-text-inverse transition-colors hover:bg-brand-primary"
                                     >
                                         Read More
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         );
@@ -123,12 +123,12 @@ export default function IndustriesMiddleSections() {
                         <p className="mt-6 text-sm leading-relaxed text-text-body">
                             {strategicFrameworkData.summary}
                         </p>
-                        <a
+                        <Link
                             href={strategicFrameworkData.cta.href}
                             className="mt-6 inline-flex h-11 w-fit items-center justify-center rounded-lg bg-accent px-6 text-sm font-semibold text-text-inverse transition-colors hover:bg-gold-light"
                         >
                             {strategicFrameworkData.cta.label}
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </section>
@@ -142,14 +142,14 @@ export default function IndustriesMiddleSections() {
 
                     <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
                         {growthLinksSectionData.links.map((link) => (
-                            <a
+                            <Link
                                 key={link.label}
                                 href={link.href}
                                 className="flex items-center justify-center gap-2 rounded-sm border border-brand-primary-dark/20 bg-surface px-8 py-4 text-sm font-semibold text-text-heading transition-colors hover:border-brand-primary-dark"
                             >
                                 {link.label}
                                 <ArrowRight className="h-4 w-4" />
-                            </a>
+                            </Link>
                         ))}
                     </div>
                 </div>

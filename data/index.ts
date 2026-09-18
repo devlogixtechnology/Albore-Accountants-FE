@@ -1,5 +1,7 @@
 /**
  * Centralized data exports.
  */
-export * from "./contactData";
-
+export * from "./about";
+export * from "./contact";
+export * from "./insights";
+export * from "./testimonials";

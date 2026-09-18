@@ -75,7 +75,7 @@ export const industryDetailsMap: Record<string, IndustryDetailData> = {
     subtitle: "Smart finance for a fast-moving industry.",
     heroDescription:
       "We help retailers, wholesalers, and e-commerce businesses gain control of their numbers, improve operational efficiency, and build a strong foundation for sustainable growth.",
-    heroImage: "/industrypage/IndsutryStandaloneHeroBg.png",
+    heroImage: "/images/Industriespage/industry-standalone-hero-bg.png",
     heroCta: {
       label: "Get Started",
       href: "#solutions",
@@ -201,7 +201,7 @@ export const industryDetailsMap: Record<string, IndustryDetailData> = {
     subtitle: "Precision accounting for modern production.",
     heroDescription:
       "Guiding manufacturing plants and industrial operators through cost allocation, capital asset depreciation, supply chain workflows, and project yield optimization.",
-    heroImage: "/industrypage/IndsutryStandaloneHeroBg.png",
+    heroImage: "/images/Industriespage/industry-standalone-hero-bg.png",
     heroCta: {
       label: "Get Started",
       href: "#solutions",
@@ -311,7 +311,7 @@ export const industryDetailsMap: Record<string, IndustryDetailData> = {
     subtitle: "Strategic finance for property portfolios and development.",
     heroDescription:
       "Providing specialized project accounting, capital asset depreciation, lease management, and tax restructuring to optimize yield across property portfolios and developments.",
-    heroImage: "/industrypage/IndsutryStandaloneHeroBg.png",
+    heroImage: "/images/Industriespage/industry-standalone-hero-bg.png",
     heroCta: {
       label: "Get Started",
       href: "#solutions",
@@ -421,7 +421,7 @@ export const industryDetailsMap: Record<string, IndustryDetailData> = {
     subtitle: "Resilient accounting and compliance for modern finance.",
     heroDescription:
       "Connecting insight and experience to build stronger, more resilient financial operations across banking, insurance, investment management, and private equity.",
-    heroImage: "/industrypage/IndsutryStandaloneHeroBg.png",
+    heroImage: "/images/Industriespage/industry-standalone-hero-bg.png",
     heroCta: {
       label: "Get Started",
       href: "#solutions",
@@ -531,7 +531,7 @@ export const industryDetailsMap: Record<string, IndustryDetailData> = {
     subtitle: "Navigate transition, compliance, and capital expenditure.",
     heroDescription:
       "Partnering with companies across chemicals, utilities, renewables, and mining to illuminate opportunities, manage compliance costs, and streamline operations.",
-    heroImage: "/industrypage/IndsutryStandaloneHeroBg.png",
+    heroImage: "/images/Industriespage/industry-standalone-hero-bg.png",
     heroCta: {
       label: "Get Started",
       href: "#solutions",
@@ -641,7 +641,7 @@ export const industryDetailsMap: Record<string, IndustryDetailData> = {
     subtitle: "Financial agility for high-growth tech innovators.",
     heroDescription:
       "Guiding software, SaaS, digital media, and technology enterprises through R&D tax incentives, revenue recognition, capital funding, and international expansion.",
-    heroImage: "/industrypage/IndsutryStandaloneHeroBg.png",
+    heroImage: "/images/Industriespage/industry-standalone-hero-bg.png",
     heroCta: {
       label: "Get Started",
       href: "#solutions",
@@ -816,7 +816,7 @@ export function getIndustryDetails(rawSlug: string): IndustryDetailData | null {
       title: matchedItem.title,
       subtitle: `Expert financial solutions for the ${matchedItem.title} sector.`,
       heroDescription: matchedItem.description,
-      heroImage: "/industrypage/IndsutryStandaloneHeroBg.png",
+      heroImage: "/images/Industriespage/industry-standalone-hero-bg.png",
       heroCta: {
         label: "Get Started",
         href: "#solutions",
@@ -938,7 +938,7 @@ export function getIndustryDetails(rawSlug: string): IndustryDetailData | null {
       title: contactItem.title,
       subtitle: `Specialized advisory & financial accounting for ${contactItem.title}.`,
       heroDescription: contactItem.solution,
-      heroImage: "/industrypage/IndsutryStandaloneHeroBg.png",
+      heroImage: "/images/Industriespage/industry-standalone-hero-bg.png",
       heroCta: {
         label: "Get Started",
         href: "#solutions",

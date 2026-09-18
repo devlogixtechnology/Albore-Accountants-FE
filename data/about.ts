@@ -39,7 +39,7 @@ export const strengths = [
   ["Paperless Workflows", "Secure cloud-based document management, access your accounts anywhere, anytime.", "/images/AboutPage/About_icons/paperless.png"],
   ["Growth-Oriented", "We don't just report history. We help you build a better financial future.", "/images/AboutPage/About_icons/growth.png"],
   ["International Standards", "All accounting and reporting work is performed in strict accordance with IFRS and GAAP standards.", "/images/AboutPage/About_icons/iso.png"],
-  ["Secure Client Portal", "Dedicated client managers provide ongoing support with a guaranteed response within 4 working hours.", "/images/AboutPage/About_icons/secure_client_portal.png"],
+  ["Secure Client Portal", "Bank-grade 256-bit encrypted document vault and 24/7 access to statutory filings, reports, and tax returns.", "/images/AboutPage/About_icons/secure_client_portal.png"],
 ] as const;
 
 export const storyImages = [
@@ -47,3 +47,4 @@ export const storyImages = [
   "/images/AboutPage/About_OurStory2.png",
   "/images/AboutPage/About_OurStory3.png",
 ] as const;
+

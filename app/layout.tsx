@@ -34,6 +34,61 @@ export const metadata: Metadata = {
   alternates: {
     canonical: './',
   },
+  openGraph: {
+    title: 'Albore Chartered Accountants | Advisory & Tax Compliance',
+    description:
+      'Specialized corporate accounting, FBR tax compliance, auditing, and financial advisory services.',
+    url: 'https://www.alboreaccountants.com',
+    siteName: 'Albore Chartered Accountants',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Albore Chartered Accountants | Advisory & Tax Compliance',
+    description:
+      'Specialized corporate accounting, FBR tax compliance, auditing, and financial advisory services.',
+  },
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'AccountingService',
+  name: 'Albore Chartered Accountants',
+  alternateName: 'Albore Accountants',
+  url: 'https://www.alboreaccountants.com',
+  logo: 'https://www.alboreaccountants.com/images/branding/alboreLogo.png',
+  image: 'https://www.alboreaccountants.com/images/branding/alboreLogo.png',
+  description:
+    'Specialized corporate accounting, FBR tax compliance, auditing, and financial advisory services.',
+  telephone: '+923354274079',
+  email: 'hello@alboreaccountants.com',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Main Boulevard, Bahria Town',
+    addressLocality: 'Lahore',
+    addressRegion: 'Punjab',
+    addressCountry: 'PK',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: '31.3685',
+    longitude: '74.1802',
+  },
+  priceRange: '$$',
+  sameAs: [
+    'https://linkedin.com',
+    'https://twitter.com',
+    'https://facebook.com',
+  ],
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '18:00',
+    },
+  ],
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -43,7 +98,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       data-scroll-behavior="smooth"
       className={`${fontHeading.variable} ${fontBody.variable} ${fontButton.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

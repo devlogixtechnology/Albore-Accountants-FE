@@ -8,7 +8,7 @@ export const financialAdvisory: Service = {
     "Hands-on financial advisory covering forecasting, valuations, and strategic decision support.",
 
   heroTagline: "Strategic advice for scalable growth",
-  heroImage: "/images/ServicesPage/financial-advisary/Advisary.png",
+  heroImage: "/images/ServicesPage/financial-advisory/Advisary.png",
   heroDescription:
     "Clear, practical financial guidance that helps executive leadership navigate complexity, optimize capital, and make confident business decisions.",
 
@@ -78,7 +78,7 @@ export const financialAdvisory: Service = {
   ],
   capabilitiesBottomText:
     "We evaluate your capital structure and identify growth bottlenecks. Then we implement robust financial strategies to optimize cash flow, mitigate risk, and maximize shareholder returns.",
-  capabilitiesImage: "/images/ServicesPage/financial-advisary/advisary-insights.png",
+  capabilitiesImage: "/images/ServicesPage/financial-advisory/advisary-insights.png",
 
   whatWeDoHeading: "What we do",
   whatWeDoSubtitle: "Actionable advisory, measurable outcomes",

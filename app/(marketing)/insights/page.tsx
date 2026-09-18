@@ -1,9 +1,10 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import CtaBanner from "@/components/ui/CtaBanner";
 import SectionDivider from "@/components/ui/SectionDivider";
-import { AVATARS, latest, blogs, topics } from "@/data/Insights/insightsData";
+import { AVATARS, latest, blogs, topics } from "@/data/insights";
 
 function initials(name: string) {
   return name
@@ -32,16 +33,27 @@ function Avatar({ author }: { author: string }) {
   );
 }
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Insights | Albore Chartered Accountants",
-  description: "Perspectives, updates, and practical guidance from Alboré accounting, tax, and advisory specialists.",
+  description:
+    "Perspectives, updates, and practical guidance from Alboré accounting, tax, and advisory specialists.",
+  alternates: {
+    canonical: "/insights",
+  },
+  openGraph: {
+    title: "Insights | Albore Chartered Accountants",
+    description:
+      "Perspectives, updates, and practical guidance from Alboré accounting, tax, and advisory specialists.",
+    url: "/insights",
+    type: "website",
+  },
 };
 
 export default function InsightsPage() {
   return (
     <div className="insights-page w-full overflow-hidden bg-white text-[#151515]">
       <section className="relative min-h-[310px] md:min-h-[360px] overflow-hidden">
-        <Image src="/images/InsightSection/Insights1.png" alt="" fill priority className="object-cover" />
+        <Image src="/images/InsightSection/ImagePlaceholder.png" alt="" fill priority className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#8c0c17]/90 via-[#5c1724]/75 to-[#142c4d]/35" />
         <div className="relative z-10 mx-auto flex min-h-[310px] max-w-[1160px] items-center px-7 py-14 md:min-h-[360px] md:px-10 lg:px-12">
           <div className="max-w-[580px]">

@@ -1,9 +1,26 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 
 import SectionDivider from "@/components/ui/SectionDivider";
 import CtaBanner from "@/components/ui/CtaBanner";
 import { StatsBar } from "@/components/marketing/StatsBar";
-import { values, principles, strengths, storyImages } from "@/data/About/aboutData";
+import { values, principles, strengths, storyImages } from "@/data/about";
+
+export const metadata: Metadata = {
+  title: "About Us | Albore Chartered Accountants",
+  description:
+    "Discover Albore Chartered Accountants — dedicated financial advisors, certified auditors, and tax specialists with over a decade of excellence.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About Us | Albore Chartered Accountants",
+    description:
+      "Discover Albore Chartered Accountants — dedicated financial advisors, certified auditors, and tax specialists with over a decade of excellence.",
+    url: "/about",
+    type: "website",
+  },
+};
 
 export default function AboutPage() {
   return (

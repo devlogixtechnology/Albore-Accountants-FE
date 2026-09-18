@@ -15,7 +15,7 @@ import {
   IndustryWhyPartner,
 } from "@/components/industryStandalone";
 
-export const dynamicParams = true;
+export const dynamicParams = false;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -51,17 +51,35 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const title =
     industry.metaTitle || `${industry.title} | Albore Chartered Accountants`;
   const description = industry.metaDescription || industry.heroDescription;
+  const canonicalUrl = `/industries/${industry.slug}`;
 
   return {
     title,
     description,
     alternates: {
-      canonical: `/industries/${industry.slug}`,
+      canonical: canonicalUrl,
     },
     openGraph: {
       title,
       description,
-      url: `/industries/${industry.slug}`,
+      url: canonicalUrl,
+      type: "article",
+      images: industry.heroImage
+        ? [
+            {
+              url: industry.heroImage,
+              width: 1200,
+              height: 630,
+              alt: industry.title,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: industry.heroImage ? [industry.heroImage] : undefined,
     },
   };
 }
@@ -74,8 +92,39 @@ export default async function IndustryStandalonePage({ params }: PageProps) {
     notFound();
   }
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://www.alboreaccountants.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Industries",
+        item: "https://www.alboreaccountants.com/industries",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: industry.title,
+        item: `https://www.alboreaccountants.com/industries/${industry.slug}`,
+      },
+    ],
+  };
+
   return (
     <div className="w-full flex flex-col items-center font-body">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
       {/* 1. Hero Section */}
       <IndustryHero data={industry} />
 

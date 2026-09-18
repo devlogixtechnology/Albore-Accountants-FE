@@ -52,7 +52,7 @@ export const servicesSectionData: ServicesSectionData = {
       description:
         "Strategic financial forecasting, cash flow modeling, valuation analysis, and M&A advisory that empower executive leadership to scale with clarity.",
       href: "/services/financial-advisory",
-      imageSrc: "/images/ServicesPage/financial-advisary/Advisary.png",
+      imageSrc: "/images/ServicesPage/financial-advisory/Advisary.png",
       imageAlt: "Financial Advisory",
       hoverText: "FINANCIAL ADVISORY",
       moreLabel: "More",

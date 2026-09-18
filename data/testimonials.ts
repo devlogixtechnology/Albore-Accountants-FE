@@ -162,3 +162,4 @@ export const testimonialsCtaData: TestimonialsCtaData = {
     primaryAction: { label: 'Talk to Partner', href: '/contact' },
     secondaryAction: { label: 'Alboré Vault', href: '/vault' },
 };
+

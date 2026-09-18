@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
   // while keeping standalone output active when running inside Docker.
   output: process.env.VERCEL ? undefined : 'standalone',
   reactStrictMode: true,
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    qualities: [75, 100],
+  },
   async headers() {
     return [
       {

@@ -10,6 +10,16 @@ export const metadata: Metadata = {
   title: "Our Services | Albore Chartered Accountants",
   description:
     "Explore our complete suite of institutional-grade accounting, independent audit, strategic tax planning, and corporate financial advisory practices.",
+  alternates: {
+    canonical: "/services",
+  },
+  openGraph: {
+    title: "Our Services | Albore Chartered Accountants",
+    description:
+      "Explore our complete suite of institutional-grade accounting, independent audit, strategic tax planning, and corporate financial advisory practices.",
+    url: "/services",
+    type: "website",
+  },
 };
 
 export default function ServicesPage() {

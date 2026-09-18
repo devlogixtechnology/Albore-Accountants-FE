@@ -1,12 +1,26 @@
-import React from 'react'
-import ClientTestimonialsPage from '@/components/marketing/Client_Testimonials/ClientTestimonialSection';
+import type { Metadata } from "next";
+import ClientTestimonialSection from "@/components/marketing/Client_Testimonials/ClientTestimonialSection";
 
-function page() {
+export const metadata: Metadata = {
+  title: "Client Testimonials | Albore Chartered Accountants",
+  description:
+    "Discover how Albore Chartered Accountants empowers industry leaders and high-growth businesses with trusted advisory and financial clarity.",
+  alternates: {
+    canonical: "/client-testimonials",
+  },
+  openGraph: {
+    title: "Client Testimonials | Albore Chartered Accountants",
+    description:
+      "Discover how Albore Chartered Accountants empowers industry leaders and high-growth businesses with trusted advisory and financial clarity.",
+    url: "/client-testimonials",
+    type: "website",
+  },
+};
+
+export default function ClientTestimonialsPage() {
   return (
     <div>
-    <ClientTestimonialsPage />
+      <ClientTestimonialSection />
     </div>
-  )
+  );
 }
-
-export default page

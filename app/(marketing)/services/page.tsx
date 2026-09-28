@@ -1,137 +1,314 @@
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+
 import { ReadyToTalkCta } from "@/components/marketing/ContactCTA";
-import SectionDivider from "@/components/ui/SectionDivider";
-
-const serviceCards = [
-  ["Bookkeeping", "Strategic roadmap aligning financial records with your operational framework.", "/images/ServicesPage/BookKeeping/BookKeeping.png"],
-  ["Audit & Assurance", "Independent, thorough audit and assurance that gives stakeholders confidence.", "/images/ServicesPage/audit-assurance/Audit.png"],
-  ["Financial Advisory", "In-depth corporate advisory built around informed, strategic decisions.", "/images/ServicesPage/financial-advisary/Advisary.png"],
-  ["Tax Services", "Strategic roadmap for tax planning, compliance, and efficient structures.", "/images/ServicesPage/tax-service/tax-paper.png"],
-] as const;
-
-const workflow = [
-  ["Discovery", "Understand Your Needs and Goals", "We start with the client’s current and future needs, then identify exactly how your records and financial decisions should work together.", "/images/ServicesPage/Service_Discovery.png"],
-  ["Analysis", "Identify Opportunities and Risks", "We carefully analyze your financial situation, existing processes, and growth plans to surface opportunities and risks before they become problems.", "/images/ServicesPage/Service_Analysis.png"],
-  ["Strategy", "Follow the Best path", "Based on our findings, we develop a tailored financial strategy for your business. Our approach focuses on reducing risk, improving efficiency, and creating sustainable growth.", "/images/ServicesPage/Service_Strategy.png"],
-  ["Implementation", "Execute and Stay With You", "We put the strategy into practical action and remain engaged with your team to monitor progress, resolve issues, and keep your financial systems effective.", "/images/ServicesPage/Service_Implementation.png"],
-] as const;
+import { CaseStudyShowcase, ExploreMoreLink } from "@/components/services";
 
 export const metadata = {
   title: "Services | Albore Chartered Accountants",
-  description: "Strategic accounting, audit, tax, and financial advisory services from Alboré.",
+  description:
+    "Strategic accounting, audit, tax, and financial advisory services from Alboré.",
 };
+
+const serviceCards = [
+  {
+    title: "Book Keeping",
+    slug: "book-keeping",
+    text: "Clean, current books maintained all year, not just before filing season, so you always know where the business stands.",
+    bullets: [
+      "Daily transaction recording",
+      "Bank and account reconciliation",
+      "Monthly financial statement preparation",
+    ],
+  },
+  {
+    title: "Audits & Assurance",
+    slug: "assurance-audits",
+    text: "Independent, thorough reviews that hold up under scrutiny and give stakeholders confidence in your numbers.",
+    bullets: [
+      "Statutory and external audits",
+      "Internal controls testing",
+      "Compliance & Regulatory reporting",
+      "Statutory audit delivered to international standards.",
+    ],
+  },
+  {
+    title: "Financial Advisory",
+    slug: "financial-advisory",
+    text: "Strategic guidance that turns your financial data into decisions, from budgeting to long-term planning.",
+    bullets: [
+      "Financial forecasting and modelling",
+      "Budget planning and variance analysis",
+      "Business advisory and growth strategy",
+    ],
+  },
+  {
+    title: "Tax Services",
+    slug: "tax-services",
+    text: "Proactive tax planning that reduces surprises, paired with accurate, on-time filing across every obligation.",
+    bullets: [
+      "Corporate and individual tax filing",
+      "Year-round tax planning and advisory",
+      "Regulatory and deadline tracking",
+    ],
+  },
+] as const;
+
+const features = [
+  "Comprehensive Bookkeeping & Financial Reporting",
+  "Audit Preparation & Compliance Assurance",
+  "Fractional CFO & Treasury Advisory",
+  "Cross-Border Financial Structuring",
+] as const;
+
+/**
+ * `center` is the vertical centre of the numbered circle inside the timeline
+ * (px, measured from the design at 1440 wide). Text/image offsets are relative to it.
+ */
+const steps = [
+  {
+    title: "Discovery",
+    subtitle: "Understand Your Needs and Goals",
+    text: "We take the time to understand your business, financial position, and long-term goals. By listening closely to your needs, we build a clear foundation for the right financial approach.",
+    image: "/images/ServicesPage/Service_Discovery.png",
+    center: 41,
+  },
+  {
+    title: "Analysis",
+    subtitle: "Identify Opportunities and Risks",
+    text: "We carefully analyze your financial situation, existing processes, and potential risks. This helps us uncover opportunities and areas where smarter financial decisions can make a meaningful difference.",
+    image: "/images/ServicesPage/Service_Analysis.png",
+    center: 304,
+  },
+  {
+    title: "Strategy",
+    subtitle: "Follow the Best path",
+    text: "Based on our findings, we develop a tailored tax and financial strategy for your business. Our approach focuses on reducing risk, improving efficiency, and creating sustainable opportunities for growth.",
+    image: "/images/ServicesPage/Service_Strategy.png",
+    center: 570,
+  },
+  {
+    title: "Implementation",
+    subtitle: "Execute and Stay With You",
+    text: "We turn the strategy into practical action and guide you through every step of implementation. Our support continues as your business evolves, ensuring your financial strategy stays effective and aligned with your goals.",
+    image: "/images/ServicesPage/Service_Implementation.png",
+    center: 832,
+  },
+] as const;
 
 export default function ServicesPage() {
   return (
-    <div className="services-page w-full overflow-hidden bg-white text-[#161616]">
-      <section className="relative flex min-h-[310px] items-center overflow-hidden md:min-h-[370px]">
-        <Image src="/images/ServicesPage/Service1.png" alt="" fill priority className="object-cover" />
-        <div className="absolute inset-0 bg-black/65" />
-        <div className="relative z-10 mx-auto w-full max-w-[1160px] px-7 py-16 md:px-10 lg:px-12">
-          <p className="font-heading text-sm font-bold text-white md:text-base">What We Offer</p>
-          <h1 className="mt-3 font-heading text-3xl font-bold text-white md:text-4xl lg:text-[42px]">Alboré Services</h1>
-          <p className="mt-10 max-w-[450px] font-body text-[12px] leading-5 text-white md:text-[14px]">
-            Strategic solutions to help you minimize risk and tax exposure — from day-to-day bookkeeping to complex advisory.
+    <div className="services-page w-full overflow-hidden bg-white">
+      {/* Hero — 1440 x 657 */}
+      <section className="relative flex min-h-[420px] items-center md:min-h-[657px]">
+        <Image
+          src="/images/ServicesPage/Services.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div aria-hidden="true" className="absolute inset-0 bg-black/55" />
+        <div className="relative z-10 w-full px-6 md:pl-[132px] md:pr-10">
+          <h1 className="font-heading text-[40px] font-bold uppercase leading-none text-white md:text-[52px]">
+            Services
+          </h1>
+          <p className="mt-9 max-w-[620px] font-heading text-[24px] font-medium leading-[1.4] text-white md:text-[32px]">
+            Strategic solutions to help you minimize risk and tax exposure from day-to-day
+            bookkeeping to complex advisory.
           </p>
         </div>
       </section>
 
-      <div className="mx-auto max-w-[1000px] px-7 py-8 text-center md:px-10">
-        <p className="mx-auto max-w-[690px] font-body text-[11px] leading-4 text-gray-700">
-          We structure strategic, compliant, and scalable financial solutions that help businesses optimize tax efficiency, streamline operations, and drive sustainable growth.
-        </p>
-      </div>
-
-      <section className="mx-auto max-w-[1080px] px-7 pb-8 md:px-10">
-        <h2 className="max-w-[500px] font-heading text-2xl font-bold leading-[1.12] md:text-[27px]">Strategic Accounting &amp; Advisory<br />for Growing Enterprises</h2>
-        <p className="mt-4 max-w-[900px] font-body text-[10px] leading-4 text-gray-700">At Alboré Accountants, we understand the financial and compliance pressures facing modern businesses. Regulatory shifts, complex tax frameworks, and cash-flow constraints can all limit your strategic potential.</p>
-        <p className="mt-2 max-w-[900px] font-body text-[10px] leading-4 text-gray-700">Our tailored accounting and advisory solutions are designed to help you operate more efficiently, protect your margins, and maintain complete financial clarity.</p>
-
-        <div className="mt-7 grid items-stretch gap-5 md:grid-cols-[390px_1fr]">
-          <div className="relative min-h-[300px] overflow-hidden rounded-[38px] md:min-h-[330px]">
-            <Image src="/images/ServicesPage/Service_Panel.png" alt="Strategic accounting" fill className="object-cover" />
-          </div>
-          <div className="border-l border-gray-300 pl-5">
-            <h3 className="font-heading text-sm font-bold md:text-base">Detailed Feature Breakdown &amp; Bullet Points</h3>
-            <ul className="mt-5 space-y-3">
-              {[
-                "Comprehensive Bookkeeping & Financial Reporting",
-                "Strategic Tax Planning & Risk Mitigation",
-                "Audit Preparation & Compliance Assurance",
-                "Financial CFO & Treasury Advisory",
-                "Payroll Processing & Operational Management",
-                "Cross-Border Financial Structuring",
-              ].map((item) => (
-                <li key={item} className="rounded bg-[#f2f2f2] px-3 py-2 font-body text-[9px] text-gray-700">{item}</li>
-              ))}
-            </ul>
-          </div>
+      {/* All services */}
+      <section className="mx-auto max-w-[1306px] px-6 pb-[72px] pt-[72px] xl:px-0">
+        <div className="xl:pl-3">
+          <p className="font-heading text-[15px] font-bold uppercase tracking-[0.06em] text-brand-primary">
+            What we offer
+          </p>
+          <h2 className="font-heading text-[32px] font-bold leading-tight text-black md:text-[40px]">
+            All services, one accounting partner
+          </h2>
+          <p className="mt-2 max-w-[700px] font-heading text-[17px] font-medium leading-[1.4] text-black">
+            Pick a single service or bring us in end to end — each engagement is built around how
+            your business actually runs.
+          </p>
         </div>
 
-        <div className="relative mt-8 h-[235px] overflow-hidden md:h-[270px]">
-          <Image src="/images/ServicesPage/Service_Features.png" alt="Financial growth" fill className="object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
-          <div className="absolute inset-x-5 bottom-4 grid grid-cols-2 gap-2 sm:grid-cols-4 md:inset-x-7 md:bottom-5">
-            {serviceCards.map(([title, text]) => (
-              <article key={title} className="rounded-[6px] bg-[#f6efdf] p-3 shadow-sm">
-                <span className="font-body text-[6px] font-bold uppercase tracking-wider text-[#9b7a42]">{title}</span>
-                <h3 className="mt-1 font-heading text-[10px] font-bold leading-3">{title}</h3>
-                <p className="mt-1 line-clamp-3 font-body text-[7px] leading-3 text-gray-600">{text}</p>
-                <Link href="/contact" className="mt-2 inline-flex rounded-full bg-[#6b1e2b] px-2 py-1 font-body text-[5px] font-bold text-white">TALK TO PARTNER</Link>
-              </article>
-            ))}
+        <div className="mt-[62px] grid gap-[17px] sm:grid-cols-2 lg:grid-cols-4">
+          {serviceCards.map((card) => (
+            <article
+              key={card.title}
+              className="flex flex-col rounded-[12px] bg-white px-[30px] pb-[30px] pt-[36px] shadow-[0_4px_16px_rgba(0,0,0,0.18)]"
+            >
+              <h3 className="font-heading text-[22px] font-semibold uppercase leading-tight text-black xl:text-[22px]">
+                {card.title}
+              </h3>
+              <div className="mt-4 border-t border-black/30 pb-8 pt-5">
+                <p className="font-heading text-[15px] font-medium leading-[1.5] text-black">
+                  {card.text}
+                </p>
+                <ul className="mt-2 list-disc space-y-1 pl-5 font-heading text-[14.5px] leading-[1.45] text-black">
+                  {card.bullets.map((b) => (
+                    <li key={b}>{b}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-auto border-t border-black/30 pt-7">
+                <ExploreMoreLink href={`/services/${card.slug}`} />
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* Detailed feature breakdown */}
+      <section className="bg-brand-primary-dark">
+        <div className="mx-auto max-w-[1306px] px-6 pb-[70px] pt-[64px] md:pb-[110px] xl:px-0">
+          <div className="xl:pl-[2px]">
+            <p className="font-heading text-[14px] font-bold uppercase tracking-[0.06em] text-[#b49969]">
+              Features we provide
+            </p>
+            <h2 className="font-heading text-[32px] font-bold leading-tight text-white md:text-[40px]">
+              Detailed Feature Breakdown
+            </h2>
+            <p className="mt-2 max-w-[720px] font-heading text-[17px] font-medium leading-[1.4] text-white">
+              Our tailored accounting and advisory solutions are designed to help you operate more
+              efficiently, protect your margins, and maintain complete financial clarity
+            </p>
           </div>
-          <div className="absolute right-4 top-4 flex items-center gap-2 text-white">
-            <span className="text-[8px]">01/05</span><button aria-label="Previous service" className="rounded-full bg-white/90 p-1 text-[#6b1e2b]"><ArrowLeft className="h-3 w-3" /></button><button aria-label="Next service" className="rounded-full bg-[#6b1e2b] p-1 text-white"><ArrowRight className="h-3 w-3" /></button>
+          <div className="mt-8 grid gap-x-[220px] gap-y-[34px] md:grid-cols-2 xl:pl-[2px]">
+            {features.map((f) => (
+              <div
+                key={f}
+                className="flex min-h-[86px] items-center justify-center rounded-[6px] bg-white px-6 text-center font-heading text-[17px] font-semibold text-black"
+              >
+                {f}
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <SectionDivider className="py-4" />
-      <section className="mx-auto max-w-[1000px] px-7 pb-12 md:px-10">
-        <div className="text-center">
-          <h2 className="font-heading text-2xl font-bold md:text-[27px]">How It Works?</h2>
+      {/* How it works */}
+      <section className="mx-auto max-w-[1306px] px-6 pb-[95px] pt-[56px] xl:px-0">
+        <div className="max-w-[457px] border-t-2 border-brand-primary-dark bg-white px-[30px] pb-6 pt-5 shadow-[0_4px_16px_rgba(0,0,0,0.2)] xl:ml-[17px]">
+          <p className="font-heading text-[13px] font-bold uppercase tracking-[0.06em] text-brand-primary">
+            Services process
+          </p>
+          <h2 className="font-heading text-[32px] font-bold leading-tight text-black md:text-[40px]">
+            How It Works
+          </h2>
+          <p className="mt-3 font-heading text-[16px] font-medium text-black">
+            From first conversation to ongoing support
+          </p>
         </div>
-        <div className="relative mt-10 grid gap-10 md:grid-cols-2 md:gap-x-28">
-          <div className="absolute left-1/2 top-0 hidden h-full -translate-x-1/2 border-l border-[#6b1e2b] md:block" />
-          {workflow.map(([title, subtitle, text, image], index) => {
-            const left = index % 2 === 0;
+
+        {/* Desktop timeline — absolutely positioned to match the design */}
+        <div className="relative mx-auto mt-[62px] hidden h-[1000px] w-[1306px] xl:block">
+          <Image
+            src="/images/ServicesPage/Service_1234.png"
+            alt=""
+            aria-hidden="true"
+            width={103}
+            height={896}
+            className="absolute left-[588px] top-[-8px] h-[896px] w-[103px] max-w-none"
+          />
+          {steps.map((step, i) => {
+            const textLeft = i % 2 === 0;
             return (
-              <article key={title} className={`relative flex gap-4 ${left ? "md:flex-row" : "md:flex-row-reverse"} items-start`}>
-                <div className={`w-full ${left ? "md:pr-4 md:text-left" : "md:pl-4 md:text-right"}`}>
-                  <h3 className="font-heading text-[12px] font-bold md:text-sm">{title}</h3>
-                  <h4 className="font-body text-[9px] font-bold text-[#b08d57] md:text-[10px]">{subtitle}</h4>
-                  <p className="mt-1 font-body text-[8px] leading-3.5 text-gray-600">{text}</p>
-                  <div className="relative mt-4 h-[78px] overflow-hidden rounded-[12px] md:h-[92px]">
-                    <Image src={image} alt="" fill className="object-cover" />
-                  </div>
+              <div key={step.title}>
+                {/* connector line between text and circle */}
+                <span
+                  aria-hidden="true"
+                  className="absolute h-px bg-black/30"
+                  style={{
+                    top: step.center,
+                    ...(textLeft
+                      ? { left: 459, width: 154 }
+                      : { left: 665, width: 173 }),
+                  }}
+                />
+                <div
+                  className="absolute w-[420px]"
+                  style={{
+                    top: step.center - 18,
+                    ...(textLeft ? { left: 38 } : { left: 843 }),
+                  }}
+                >
+                  <h3 className="font-heading text-[28px] font-bold leading-tight text-brand-primary-dark">
+                    {step.title}
+                  </h3>
+                  <h4 className="font-heading text-[21px] font-bold leading-tight text-black">
+                    {step.subtitle}
+                  </h4>
+                  <p className="mt-2 max-w-[400px] font-heading text-[16px] leading-[1.45] text-black">
+                    {step.text}
+                  </p>
                 </div>
-                <div className="absolute left-1/2 top-0 z-10 hidden h-9 w-9 -translate-x-1/2 -translate-y-1/4 items-center justify-center rounded-full border border-[#c19a57] bg-[#6b1e2b] font-heading text-white md:flex">{index + 1}</div>
-              </article>
+                <Image
+                  src={step.image}
+                  alt=""
+                  width={403}
+                  height={217}
+                  className="absolute h-auto w-[403px] drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]"
+                  style={{
+                    top: step.center - 54,
+                    ...(textLeft ? { left: 832 } : { left: 36 }),
+                  }}
+                />
+              </div>
             );
           })}
         </div>
 
-        <div className="mt-14 border-l-4 border-[#b08d57] pl-4">
-          <h2 className="font-heading text-xl font-bold md:text-2xl">Reimagining the Albore Experience</h2>
-          <p className="mt-2 max-w-[680px] font-body text-[9px] leading-4 text-gray-700 md:text-[10px]">Real-world strategies that help businesses improve tax efficiency, strengthen financial performance, and plan for sustainable growth. A complete overhaul of the digital experience, aligning visual design with strategic business goals to drive conversion and enhance brand value.</p>
+        {/* Mobile / tablet: simple stacked steps */}
+        <div className="mt-10 space-y-10 xl:hidden">
+          {steps.map((step, i) => (
+            <article key={step.title} className="flex flex-col gap-4">
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[#c19a57] bg-brand-primary-dark font-heading text-lg text-white">
+                  {i + 1}
+                </span>
+                <h3 className="font-heading text-[24px] font-bold text-brand-primary-dark">
+                  {step.title}
+                </h3>
+              </div>
+              <h4 className="font-heading text-[20px] font-bold text-black">{step.subtitle}</h4>
+              <p className="font-heading text-[16px] leading-[1.5] text-black">{step.text}</p>
+              <Image
+                src={step.image}
+                alt=""
+                width={403}
+                height={217}
+                className="h-auto w-full max-w-[403px]"
+              />
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className="relative min-h-[310px] overflow-hidden md:min-h-[380px]">
-        <Image src="/images/ServicesPage/Service2.png" alt="Manufacturing business case study" fill className="object-cover" />
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 mx-auto flex min-h-[310px] max-w-[1100px] items-center px-8 md:min-h-[380px]">
-          <div className="max-w-[390px] text-white">
-            <h2 className="font-heading text-xl font-bold leading-6 md:text-2xl">Manufacturing Business<br />“Tax Efficiency. Business<br />Growth. Financial<br />Efficiency”</h2>
-            <Link href="/about" className="mt-10 inline-flex rounded-full bg-[#6b1e2b] px-5 py-2 font-body text-[8px] font-semibold text-white">View Case Study</Link>
-          </div>
+      {/* Reimagining band */}
+      <section className="bg-brand-primary-dark">
+        <div className="mx-auto max-w-[1306px] px-6 py-10 md:py-[52px] xl:px-0 xl:pl-[22px]">
+          <h2 className="font-heading text-[30px] font-bold leading-tight text-white md:text-[40px]">
+            Reimagining the Albore Experience
+          </h2>
+          <p className="mt-3 max-w-[760px] font-heading text-[17px] font-medium leading-[1.4] text-white">
+            Real-world strategies that helped businesses improve tax efficiency, strengthen
+            financial performance, and plan for sustainable growth. A complete overhaul of the
+            digital experience, aligning visual design with strategic business goals to drive
+            conversion and enhance brand value.
+          </p>
         </div>
       </section>
 
-      <ReadyToTalkCta />
+      {/* Case study (animated) */}
+      <section className="px-4 pb-10 pt-9 md:px-8">
+        <CaseStudyShowcase />
+      </section>
+
+      <ReadyToTalkCta singleAction />
     </div>
   );
 }

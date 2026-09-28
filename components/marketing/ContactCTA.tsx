@@ -1,7 +1,7 @@
 import { PhoneCall } from 'lucide-react';
 import { testimonialsCtaData } from '@/data/ClientTestimonial/clientTestimonial';
 
-export function ReadyToTalkCta() {
+export function ReadyToTalkCta({ singleAction = false }: { singleAction?: boolean }) {
     const { heading, description, primaryAction, secondaryAction } = testimonialsCtaData;
 
     return (
@@ -26,12 +26,14 @@ export function ReadyToTalkCta() {
                     >
                         {primaryAction.label}
                     </a>
+                    {!singleAction && (
                     <a
                         href={secondaryAction.href}
                         className="inline-flex h-11 items-center justify-center rounded-sm border border-brand-primary-dark bg-surface px-6 text-sm font-semibold text-brand-primary-dark transition-colors hover:bg-cream-hover"
                     >
                         {secondaryAction.label}
                     </a>
+                    )}
                 </div>
             </div>
         </section>

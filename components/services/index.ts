@@ -4,3 +4,5 @@ export { default as ServiceWorkflow } from "./ServiceWorkflow";
 export { default as ServiceCapabilities } from "./ServiceCapabilities";
 export { default as ServiceWhatWeDo } from "./ServiceWhatWeDo";
 export { default as ServiceCtaBanner } from "./ServiceCtaBanner";
+export { default as ExploreMoreLink } from "./ExploreMoreLink";
+export { default as CaseStudyShowcase } from "./CaseStudyShowcase";

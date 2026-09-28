@@ -4,13 +4,15 @@ import {
   Mail,
   MapPin,
   Phone,
+  Send,
   ArrowRight,
   CheckCircle2,
   ChevronDown,
   ShieldCheck,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect, useRef, type FormEvent } from "react";
-import ScheduleCalendar from "./ScheduleCalendar";
 import {
   contactHubData,
   countryCodes,
@@ -18,6 +20,7 @@ import {
   consultationServices,
   formCopyData,
   contactPageIntroData,
+  contactHeroData,
   formValidationCopy,
 } from "@/data/contact";
 
@@ -31,7 +34,7 @@ export default function ConsultationSection({
   className = "",
 }: ConsultationSectionProps) {
   // =========================================================
-  // HOME VARIANT STATE & LOGIC
+  // HOME VARIANT STATE & LOGIC (unchanged)
   // =========================================================
   const [homeFormState, setHomeFormState] = useState<"idle" | "submitting" | "success">("idle");
   const [homeFormData, setHomeFormData] = useState({
@@ -82,7 +85,7 @@ export default function ConsultationSection({
   };
 
   // =========================================================
-  // PAGE VARIANT STATE & LOGIC (Full Consultation Booking)
+  // PAGE VARIANT STATE & LOGIC (Contact Us page — no calendar)
   // =========================================================
   const [pageValues, setPageValues] = useState({
     fullName: "",
@@ -92,21 +95,12 @@ export default function ConsultationSection({
     service: "",
     message: "",
   });
-  const [scheduled, setScheduled] = useState<{ date: Date | null; time: string | null }>({
-    date: null,
-    time: null,
-  });
-  const [calendarResetKey, setCalendarResetKey] = useState(0);
   const [pageFieldErrors, setPageFieldErrors] = useState<Record<string, string>>({});
-  const [dateTimeError, setDateTimeError] = useState<string | null>(null);
   const [pageStatus, setPageStatus] = useState<"idle" | "submitting" | "submitted">("idle");
 
-  const pageFieldRefs = useRef<Record<string, HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null>>({});
-
-  const scheduledSummary =
-    scheduled.date && scheduled.time
-      ? `${scheduled.date.toLocaleDateString(undefined, { month: "short", day: "numeric" })} at ${scheduled.time}`
-      : null;
+  const pageFieldRefs = useRef<
+    Record<string, HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null>
+  >({});
 
   const updatePageValue = (key: string, val: string) => {
     setPageValues((prev) => ({ ...prev, [key]: val }));
@@ -135,31 +129,31 @@ export default function ConsultationSection({
       errors.email = formValidationCopy.errors.emailInvalid;
     }
 
-    if (!pageValues.company.trim()) {
-      errors.company = formValidationCopy.errors.companyRequired;
-    }
-
     if (!pageValues.phone.trim()) {
       errors.phone = formValidationCopy.errors.phoneRequired;
     } else if (!formValidationCopy.patterns.phone.test(pageValues.phone)) {
       errors.phone = formValidationCopy.errors.phoneInvalid;
     }
 
+    if (!pageValues.company.trim()) {
+      errors.company = formValidationCopy.errors.companyRequired;
+    }
+
     if (!pageValues.service) {
       errors.service = formValidationCopy.errors.serviceRequired;
     }
 
-    const hasDateAndTime = Boolean(scheduled.date && scheduled.time);
-    setDateTimeError(hasDateAndTime ? null : formValidationCopy.errors.dateTimeRequired);
-    setPageFieldErrors(errors);
-
-    const firstInvalidKey = Object.keys(errors)[0];
-    if (firstInvalidKey && pageFieldRefs.current[firstInvalidKey]) {
-      pageFieldRefs.current[firstInvalidKey]?.focus();
-      return;
+    if (!pageValues.message.trim()) {
+      errors.message = formValidationCopy.errors.messageRequired;
     }
 
-    if (!hasDateAndTime || Object.keys(errors).length > 0) {
+    setPageFieldErrors(errors);
+
+    // Focus the first invalid field in visual (form) order
+    const order = ["fullName", "email", "phone", "company", "service", "message"];
+    const firstInvalidKey = order.find((key) => errors[key]);
+    if (firstInvalidKey) {
+      pageFieldRefs.current[firstInvalidKey]?.focus();
       return;
     }
 
@@ -178,10 +172,7 @@ export default function ConsultationSection({
       service: "",
       message: "",
     });
-    setScheduled({ date: null, time: null });
-    setCalendarResetKey((k) => k + 1);
     setPageFieldErrors({});
-    setDateTimeError(null);
     setPageStatus("idle");
   };
 
@@ -189,253 +180,288 @@ export default function ConsultationSection({
   // RENDER: PAGE VARIANT
   // =========================================================
   if (variant === "page") {
-    const pageInputClass =
-      "w-full rounded-none border-0 border-b border-text-body/25 bg-transparent px-0 py-2.5 text-sm text-text-heading placeholder:text-text-body/40 outline-none transition-colors focus:border-brand-primary";
-    const pageLabelClass = "mb-1 block text-sm font-normal text-text-body/60";
-    const fieldErrorClass = "mt-1 text-xs font-medium text-red-600";
+    const inputBase =
+      "w-full rounded-lg border-0 bg-white px-4 py-3 text-sm text-text-heading shadow-md placeholder:text-text-body/40 outline-none transition-shadow focus:ring-2 focus:ring-brand-primary/40";
+    const inputClass = (key: string) =>
+      `${inputBase} ${pageFieldErrors[key] ? "ring-1 ring-red-500" : ""}`;
+    const labelClass = "mb-1.5 block text-sm font-normal text-text-heading";
+    const errorClass = "mt-1.5 text-xs font-medium text-red-600";
+
+    const contactItems = [
+      { Icon: Phone, text: contactHubData.phone.value, href: contactHubData.phone.href },
+      { Icon: Send, text: contactHubData.email.value, href: contactHubData.email.href },
+      { Icon: MapPin, text: contactHubData.hq.value },
+      { Icon: ShieldCheck, text: contactHubData.certifications },
+    ];
+
+    const { subheading: heroSubheading, image: heroImage } = contactHeroData;
+    const heroHeading = contactPageIntroData.heading;
 
     return (
-      <section
-        className={`flex flex-col gap-10 px-6 py-12 sm:px-10 lg:px-16 ${className}`}
-        aria-labelledby="book-consultation-heading"
-      >
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-10">
-          <div className="grid gap-10 lg:grid-cols-2">
-            {/* Left Intro & Direct Contact Channels */}
-            <div>
-              <h1
-                id="book-consultation-heading"
-                className="font-heading text-3xl font-bold text-text-heading sm:text-4xl"
-              >
-                {contactPageIntroData.titlePrefix}
+      <div className={className}>
+        {/* ---------- Hero banner ---------- */}
+
+        <section className="relative isolate overflow-hidden min-h-[500px] flex items-center">
+          <Image
+            src={heroImage.src}
+            alt={heroImage.alt}
+            fill
+            priority
+            sizes={heroImage.sizes}
+            className="object-cover"
+          />
+
+          {/* Darker on mobile because the text sits over the photo */}
+          <div className="absolute inset-0 bg-black/50 md:bg-black/40" aria-hidden="true" />
+
+          <div className="relative w-full px-6 py-16 sm:px-10 lg:px-[5vw]">
+            <div className="md:ml-[46%]">
+              <h1 className="font-heading text-4xl font-bold text-brand-primary sm:text-5xl">
+                {heroHeading}
               </h1>
-              <p className="mt-4 max-w-md text-text-body">
-                {contactPageIntroData.description}
+              <p className="mt-4 max-w-xl text-text-inverse/85">
+                {heroSubheading}
               </p>
-
-              <ul className="mt-8 flex flex-col gap-4">
-                <li className="flex items-center gap-3 text-sm text-text-body">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-primary-dark">
-                    <Phone className="h-4 w-4 text-white" />
-                  </span>
-                  <a href={contactHubData.phone.href} className="hover:text-brand-primary">
-                    {contactHubData.phone.value}
-                  </a>
-                </li>
-
-                <li className="flex items-center gap-3 text-sm text-text-body">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-primary-dark">
-                    <Mail className="h-4 w-4 text-white" />
-                  </span>
-                  <a href={contactHubData.email.href} className="hover:text-brand-primary">
-                    {contactHubData.email.value}
-                  </a>
-                </li>
-
-                <li className="flex items-center gap-3 text-sm text-text-body">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-primary-dark">
-                    <MapPin className="h-4 w-4 text-white" />
-                  </span>
-                  {contactHubData.hq.value}
-                </li>
-
-                <li className="flex items-center gap-3 text-sm text-text-body">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-primary-dark">
-                    <ShieldCheck className="h-4 w-4 text-white" />
-                  </span>
-                  {contactHubData.certifications}
-                </li>
-              </ul>
-            </div>
-
-            {/* Right Form */}
-            <div>
-              {pageStatus === "submitted" ? (
-                <div className="flex flex-col items-start gap-3 rounded-2xl bg-surface-muted p-6 sm:p-8">
-                  <div className="w-12 h-12 bg-accent/15 rounded-full flex items-center justify-center mb-2">
-                    <CheckCircle2 className="w-6 h-6 text-accent" />
-                  </div>
-                  <h3 className="font-heading text-xl font-bold text-text-heading">
-                    {formCopyData.successState.title}
-                  </h3>
-                  <p className="text-text-body">
-                    {formCopyData.successState.message}
-                    {scheduledSummary ? ` ${formValidationCopy.prefixes.selectedSlot}: ${scheduledSummary}.` : ""}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={handlePageReset}
-                    className="mt-3 inline-flex h-10 items-center justify-center rounded-lg border border-brand-primary px-5 text-sm font-semibold text-brand-primary transition-colors hover:bg-brand-primary hover:text-white"
-                  >
-                    {formCopyData.actions.reset}
-                  </button>
-                </div>
-              ) : (
-                <form id="consultation-page-form" onSubmit={handlePageSubmit} noValidate className="flex flex-col gap-5">
-                  <div className="flex flex-col gap-5">
-                    <div>
-                      <label htmlFor="page-fullName" className={pageLabelClass}>
-                        {formCopyData.fields.fullName} *
-                      </label>
-                      <input
-                        id="page-fullName"
-                        ref={(el) => { pageFieldRefs.current.fullName = el; }}
-                        className={`${pageInputClass} ${pageFieldErrors.fullName ? "border-red-500" : ""}`}
-                        value={pageValues.fullName}
-                        onChange={(e) => updatePageValue("fullName", e.target.value)}
-                      />
-                      {pageFieldErrors.fullName && (
-                        <p className={fieldErrorClass} role="alert">
-                          {pageFieldErrors.fullName}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label htmlFor="page-email" className={pageLabelClass}>
-                        {formCopyData.fields.email} *
-                      </label>
-                      <input
-                        id="page-email"
-                        type="email"
-                        ref={(el) => { pageFieldRefs.current.email = el; }}
-                        className={`${pageInputClass} ${pageFieldErrors.email ? "border-red-500" : ""}`}
-                        value={pageValues.email}
-                        onChange={(e) => updatePageValue("email", e.target.value)}
-                      />
-                      {pageFieldErrors.email && (
-                        <p className={fieldErrorClass} role="alert">
-                          {pageFieldErrors.email}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label htmlFor="page-company" className={pageLabelClass}>
-                        {formCopyData.fields.company} *
-                      </label>
-                      <input
-                        id="page-company"
-                        ref={(el) => { pageFieldRefs.current.company = el; }}
-                        className={`${pageInputClass} ${pageFieldErrors.company ? "border-red-500" : ""}`}
-                        value={pageValues.company}
-                        onChange={(e) => updatePageValue("company", e.target.value)}
-                      />
-                      {pageFieldErrors.company && (
-                        <p className={fieldErrorClass} role="alert">
-                          {pageFieldErrors.company}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label htmlFor="page-phone" className={pageLabelClass}>
-                        {formCopyData.fields.phone} *
-                      </label>
-                      <input
-                        id="page-phone"
-                        type="tel"
-                        ref={(el) => { pageFieldRefs.current.phone = el; }}
-                        className={`${pageInputClass} ${pageFieldErrors.phone ? "border-red-500" : ""}`}
-                        value={pageValues.phone}
-                        onChange={(e) => updatePageValue("phone", e.target.value)}
-                      />
-                      {pageFieldErrors.phone && (
-                        <p className={fieldErrorClass} role="alert">
-                          {pageFieldErrors.phone}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label htmlFor="page-service" className={pageLabelClass}>
-                        {formCopyData.fields.service} *
-                      </label>
-                      <select
-                        id="page-service"
-                        ref={(el) => { pageFieldRefs.current.service = el; }}
-                        className={`${pageInputClass} ${pageFieldErrors.service ? "border-red-500" : ""} ${pageValues.service ? "" : "text-text-body/50"}`}
-                        value={pageValues.service}
-                        onChange={(e) => updatePageValue("service", e.target.value)}
-                      >
-                        <option value="" disabled>
-                          Select a service
-                        </option>
-                        {consultationServices.map(({ value, label }) => (
-                          <option key={value} value={value}>
-                            {label}
-                          </option>
-                        ))}
-                      </select>
-                      {pageFieldErrors.service && (
-                        <p className={fieldErrorClass} role="alert">
-                          {pageFieldErrors.service}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label htmlFor="page-message" className={pageLabelClass}>
-                        {formCopyData.fields.message}
-                      </label>
-                      <textarea
-                        id="page-message"
-                        rows={4}
-                        ref={(el) => { pageFieldRefs.current.message = el; }}
-                        className={`${pageInputClass} resize-none`}
-                        value={pageValues.message}
-                        onChange={(e) => updatePageValue("message", e.target.value)}
-                      />
-                    </div>
-                  </div>
-                </form>
-              )}
             </div>
           </div>
+        </section>
 
-          {/* Interactive Scheduling Calendar */}
-          {pageStatus !== "submitted" && (
-            <div className="flex flex-col gap-6 pt-4 border-t border-border/20">
-              <ScheduleCalendar
-                key={calendarResetKey}
-                layout="row"
-                onChange={(date, time) => {
-                  setScheduled({ date, time });
-                  setDateTimeError(null);
-                }}
-              />
+        {/* ---------- Contact details ---------- */}
+        <section
+          className="mx-auto w-full max-w-[1440px] px-6 py-20 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 min-[2560px]:max-w-[2000px] min-[3840px]:max-w-[2600px]"
+          aria-labelledby="contact-details-heading"
+        >
+          <div className="text-left">
+            <span className="block text-xs font-bold uppercase tracking-[0.2em] text-brand-primary-dark">
+              {contactPageIntroData.badge}
+            </span>
 
-              {scheduledSummary && (
-                <p className="text-center text-sm font-semibold text-accent">
-                  {formValidationCopy.prefixes.selectedSlot}: {scheduledSummary}
-                </p>
-              )}
+            <h2
+              id="contact-details-heading"
+              className="mt-3 font-heading text-3xl font-bold text-text-heading sm:text-4xl"
+            >
+              {contactPageIntroData.heading}
+            </h2>
 
-              {dateTimeError && (
-                <p className="text-center text-sm font-medium text-red-600" role="alert">
-                  {dateTimeError}
-                </p>
-              )}
+            <p className="mt-4 max-w-2xl text-text-body">
+              {contactPageIntroData.intro}
+            </p>
 
-              <div className="flex justify-center pt-2">
+            <p className="mt-4 max-w-2xl text-text-body">
+              {contactPageIntroData.followUp}
+            </p>
+
+            <ul className="mt-8 flex flex-col gap-4">
+              {contactItems.map(({ Icon, text, href }) => (
+                <li key={text} className="flex items-center gap-3 text-base text-text-body">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-primary-dark">
+                    <Icon className="h-4 w-4 text-white" aria-hidden="true" />
+                  </span>
+                  {href ? (
+                    <a href={href} className="hover:text-brand-primary">
+                      {text}
+                    </a>
+                  ) : (
+                    <span>{text}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* ---------- Booking card ---------- */}
+        <section className="mx-auto w-full max-w-[1440px] px-6 py-20 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 min-[2560px]:max-w-[2000px] min-[3840px]:max-w-[2600px]">
+          <div className="mx-auto w-full max-w-5xl rounded-lg bg-white p-8 shadow-[0_4px_24px_rgba(0,0,0,0.14)] sm:p-12">
+            <h2 className="text-center font-heading text-3xl font-bold text-text-heading sm:text-4xl">
+              {formCopyData.pageHeading}
+            </h2>
+
+            {pageStatus === "submitted" ? (
+              <div className="mx-auto mt-8 flex max-w-xl flex-col items-center gap-3 py-6 text-center">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent/15">
+                  <CheckCircle2 className="h-7 w-7 text-accent" />
+                </div>
+                <h3 className="font-heading text-xl font-bold text-text-heading">
+                  {formCopyData.successState.title}
+                </h3>
+                <p className="text-text-body">{formCopyData.successState.message}</p>
                 <button
-                  type="submit"
-                  form="consultation-page-form"
-                  disabled={pageStatus === "submitting"}
-                  className="inline-flex h-12 items-center justify-center rounded-lg bg-accent px-10 text-sm font-semibold uppercase tracking-wider text-text-inverse transition-colors hover:bg-gold-light disabled:opacity-60 cursor-pointer"
+                  type="button"
+                  onClick={handlePageReset}
+                  className="mt-3 inline-flex h-10 items-center justify-center rounded-md border border-brand-primary px-5 text-sm font-semibold text-brand-primary transition-colors hover:bg-brand-primary hover:text-white cursor-pointer"
                 >
-                  {pageStatus === "submitting" ? formCopyData.actions.submitting : formCopyData.actions.submit}
+                  {formCopyData.actions.reset}
                 </button>
               </div>
-            </div>
-          )}
-        </div>
-      </section>
+            ) : (
+              <form
+                onSubmit={handlePageSubmit}
+                noValidate
+                 className="mx-auto mt-8 flex max-w-3xl flex-col gap-5"
+              >
+                <div>
+                  <label htmlFor="page-fullName" className={labelClass}>
+                    {formCopyData.pageFields.fullName}*
+                  </label>
+                  <input
+                    id="page-fullName"
+                    autoComplete="name"
+                    placeholder={formCopyData.pageFields.fullName + "*"}
+                    ref={(el) => { pageFieldRefs.current.fullName = el; }}
+                    className={inputClass("fullName")}
+                    value={pageValues.fullName}
+                    onChange={(e) => updatePageValue("fullName", e.target.value)}
+                    aria-invalid={Boolean(pageFieldErrors.fullName)}
+                  />
+                  {pageFieldErrors.fullName && (
+                    <p className={errorClass} role="alert">{pageFieldErrors.fullName}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="page-email" className={labelClass}>
+                    {formCopyData.pageFields.email}*
+                  </label>
+                  <input
+                    id="page-email"
+                    type="email"
+                    autoComplete="email"
+                    placeholder={formCopyData.pageFields.email + "*"}
+                    ref={(el) => { pageFieldRefs.current.email = el; }}
+                    className={inputClass("email")}
+                    value={pageValues.email}
+                    onChange={(e) => updatePageValue("email", e.target.value)}
+                    aria-invalid={Boolean(pageFieldErrors.email)}
+                  />
+                  {pageFieldErrors.email && (
+                    <p className={errorClass} role="alert">{pageFieldErrors.email}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="page-phone" className={labelClass}>
+                    {formCopyData.pageFields.phone}*
+                  </label>
+                  <input
+                    id="page-phone"
+                    type="tel"
+                    autoComplete="tel"
+                    placeholder={formCopyData.pageFields.phonePlaceholder}
+                    ref={(el) => { pageFieldRefs.current.phone = el; }}
+                    className={inputClass("phone")}
+                    value={pageValues.phone}
+                    onChange={(e) => updatePageValue("phone", e.target.value)}
+                    aria-invalid={Boolean(pageFieldErrors.phone)}
+                  />
+                  {pageFieldErrors.phone && (
+                    <p className={errorClass} role="alert">{pageFieldErrors.phone}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="page-company" className={labelClass}>
+                    {formCopyData.pageFields.company}*
+                  </label>
+                  <input
+                    id="page-company"
+                    autoComplete="organization"
+                    placeholder={formCopyData.pageFields.company + "*"}
+                    ref={(el) => { pageFieldRefs.current.company = el; }}
+                    className={inputClass("company")}
+                    value={pageValues.company}
+                    onChange={(e) => updatePageValue("company", e.target.value)}
+                    aria-invalid={Boolean(pageFieldErrors.company)}
+                  />
+                  {pageFieldErrors.company && (
+                    <p className={errorClass} role="alert">{pageFieldErrors.company}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="page-service" className={labelClass}>
+                    {formCopyData.pageFields.service}*
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="page-service"
+                      ref={(el) => { pageFieldRefs.current.service = el; }}
+                      className={`${inputClass("service")} appearance-none cursor-pointer pr-10 ${pageValues.service ? "" : "text-text-body/40"}`}
+                      value={pageValues.service}
+                      onChange={(e) => updatePageValue("service", e.target.value)}
+                      aria-invalid={Boolean(pageFieldErrors.service)}
+                    >
+                      <option value="" disabled>
+                        {formCopyData.pageFields.service}*
+                      </option>
+                      {consultationServices.map(({ value, label }) => (
+                        <option key={value} value={value}>
+                          {label}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown
+                      className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-text-body/50"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  {pageFieldErrors.service && (
+                    <p className={errorClass} role="alert">{pageFieldErrors.service}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="page-message" className={labelClass}>
+                    {formCopyData.pageFields.message}*
+                  </label>
+                  <textarea
+                    id="page-message"
+                    rows={5}
+                    placeholder={formCopyData.pageFields.message}
+                    ref={(el) => { pageFieldRefs.current.message = el; }}
+                    className={`${inputClass("message")} resize-y`}
+                    value={pageValues.message}
+                    onChange={(e) => updatePageValue("message", e.target.value)}
+                    aria-invalid={Boolean(pageFieldErrors.message)}
+                  />
+                  {pageFieldErrors.message && (
+                    <p className={errorClass} role="alert">{pageFieldErrors.message}</p>
+                  )}
+                </div>
+
+                <div className="flex justify-end pt-1">
+                  <button
+                    type="submit"
+                    disabled={pageStatus === "submitting"}
+                    className="inline-flex h-11 items-center justify-center rounded-md bg-brand-primary-dark px-8 text-sm font-semibold text-white transition-colors hover:bg-brand-primary disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
+                  >
+                    {pageStatus === "submitting"
+                      ? formCopyData.actions.submitting
+                      : formCopyData.actions.pageSubmit}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </section>
+
+        {/* ---------- Back to home ---------- */}
+        <section className="mx-auto w-full max-w-[1440px] px-6 py-20 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 min-[2560px]:max-w-[2000px] min-[3840px]:max-w-[2600px]">
+          <div className="flex justify-center">
+            <Link
+              href="/"
+              className="inline-flex h-12 items-center justify-center rounded-md bg-accent px-12 text-sm font-semibold text-white transition-colors hover:bg-gold-light"
+            >
+              {formCopyData.actions.backHome}
+            </Link>
+          </div>
+        </section>
+      </div>
     );
   }
 
   // =========================================================
-  // RENDER: HOME VARIANT (Edge-to-Edge Split Sovereign Layout)
+  // RENDER: HOME VARIANT (unchanged)
   // =========================================================
   return (
     <section
@@ -470,7 +496,6 @@ export default function ConsultationSection({
             </h3>
 
             <div className="space-y-8">
-              {/* Electronic Mail */}
               <a
                 href={contactHubData.email.href}
                 className="flex items-start gap-4 group cursor-pointer"
@@ -479,42 +504,29 @@ export default function ConsultationSection({
                   <Mail className="w-4 h-4 text-slate-300 group-hover:text-white" />
                 </div>
                 <div>
-                  <h5 className="text-sm font-bold text-white mb-1">
-                    {contactHubData.email.label}
-                  </h5>
+                  <h5 className="text-sm font-bold text-white mb-1">{contactHubData.email.label}</h5>
                   <p className="text-slate-400 text-sm group-hover:text-accent transition-colors">
                     {contactHubData.email.value}
                   </p>
                 </div>
               </a>
 
-              {/* Global HQ */}
               <div className="flex items-start gap-4 group">
                 <div className="w-10 h-10 shrink-0 rounded-full bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-accent group-hover:bg-accent transition-all duration-300">
                   <MapPin className="w-4 h-4 text-slate-300 group-hover:text-white" />
                 </div>
                 <div>
-                  <h5 className="text-sm font-bold text-white mb-1">
-                    {contactHubData.hq.label}
-                  </h5>
-                  <p className="text-slate-400 text-sm leading-relaxed">
-                    {contactHubData.hq.value}
-                  </p>
+                  <h5 className="text-sm font-bold text-white mb-1">{contactHubData.hq.label}</h5>
+                  <p className="text-slate-400 text-sm leading-relaxed">{contactHubData.hq.value}</p>
                 </div>
               </div>
 
-              {/* Secure Line */}
-              <a
-                href={contactHubData.phone.href}
-                className="flex items-start gap-4 group"
-              >
+              <a href={contactHubData.phone.href} className="flex items-start gap-4 group">
                 <div className="w-10 h-10 shrink-0 rounded-full bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-accent group-hover:bg-accent transition-all duration-300">
                   <Phone className="w-4 h-4 text-slate-300 group-hover:text-white" />
                 </div>
                 <div>
-                  <h5 className="text-sm font-bold text-white mb-1">
-                    {contactHubData.phone.label}
-                  </h5>
+                  <h5 className="text-sm font-bold text-white mb-1">{contactHubData.phone.label}</h5>
                   <p className="text-slate-400 text-sm group-hover:text-accent transition-colors">
                     {contactHubData.phone.value}
                   </p>
@@ -554,7 +566,6 @@ export default function ConsultationSection({
               </div>
 
               <form onSubmit={handleHomeSubmit} className="space-y-6">
-                {/* Name & Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="relative group">
                     <input
@@ -587,7 +598,6 @@ export default function ConsultationSection({
                   </div>
                 </div>
 
-                {/* PHONE & REGION */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="flex items-end gap-2">
                     <div className="relative w-28 shrink-0">
@@ -638,11 +648,10 @@ export default function ConsultationSection({
                       ))}
                     </select>
                     <label
-                      className={`absolute left-0 text-sm pointer-events-none transition-all ${
-                        homeFormData.region
-                          ? "-top-4 text-xs text-accent"
-                          : "top-3 text-slate-400 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent"
-                      }`}
+                      className={`absolute left-0 text-sm pointer-events-none transition-all ${homeFormData.region
+                        ? "-top-4 text-xs text-accent"
+                        : "top-3 text-slate-400 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent"
+                        }`}
                     >
                       {formCopyData.fields.region}
                     </label>
@@ -650,7 +659,6 @@ export default function ConsultationSection({
                   </div>
                 </div>
 
-                {/* Company Details */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="relative group">
                     <input
@@ -682,7 +690,6 @@ export default function ConsultationSection({
                   </div>
                 </div>
 
-                {/* Services */}
                 <div className="relative group">
                   <select
                     name="service"
@@ -699,18 +706,16 @@ export default function ConsultationSection({
                     ))}
                   </select>
                   <label
-                    className={`absolute left-0 text-sm pointer-events-none transition-all ${
-                      homeFormData.service
-                        ? "-top-4 text-xs text-accent"
-                        : "top-3 text-slate-400 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent"
-                    }`}
+                    className={`absolute left-0 text-sm pointer-events-none transition-all ${homeFormData.service
+                      ? "-top-4 text-xs text-accent"
+                      : "top-3 text-slate-400 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent"
+                      }`}
                   >
                     {formCopyData.fields.service}
                   </label>
                   <ChevronDown className="absolute right-0 top-4 w-3 h-3 text-slate-400 pointer-events-none" />
                 </div>
 
-                {/* Briefing */}
                 <div className="relative group">
                   <textarea
                     name="briefing"
@@ -726,7 +731,6 @@ export default function ConsultationSection({
                   </label>
                 </div>
 
-                {/* Submit Action Button */}
                 <div className="pt-4">
                   <button
                     type="submit"

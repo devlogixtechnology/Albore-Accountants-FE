@@ -1,197 +1,334 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import SectionDivider from "@/components/ui/SectionDivider";
-import { ServiceCard, type Service } from "./ServiceCard";
+import { useState, useCallback, useEffect, useMemo } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import { ServiceCard } from "./ServiceCard";
+import {
+  DEFAULT_SERVICES,
+  servicesSectionHeader,
+  type HomeService,
+} from "@/data/home/servicesSectionData";
+import { MotionReveal } from "@/components/ui/motion";
 
-export const DEFAULT_SERVICES: Service[] = [
-  {
-    title: "Assurance & Audits",
-    description:
-      "Precise daily transaction tracking, ledger reconciliation, and real-time financial reporting to keep your business fully organized.",
-    href: "/services/assurance-audits",
-  },
-  {
-    title: "Financial Advisory",
-    description:
-      "Guidance on estimating post-career needs and building steady income streams.",
-    href: "/services/financial-advisory",
-  },
-  {
-    title: "Tax Services",
-    description:
-      "Comprehensive tax planning and cross-border advisory services ensuring full compliance, minimizing liabilities, and supporting financial stability.",
-    href: "/services/tax-services",
-  },
-  {
-    title: "Bookkeeping",
-    description:
-      "Accurate day-to-day record keeping and month-end closes, so your accounts are always ready for review, lending, or filing.",
-    href: "/services/book-keeping",
-  },
-  {
-    title: "Payroll Management",
-    description:
-      "End-to-end payroll processing, statutory deductions, and filings handled on schedule and in line with current regulation.",
-    href: "/services/payroll-management",
-  },
-  {
-    title: "Corporate Compliance",
-    description:
-      "Company secretarial support, statutory registers, and regulatory filings kept current across every jurisdiction you operate in.",
-    href: "/services/corporate-compliance",
-  },
-];
-
-const pad = (n: number) => String(n).padStart(2, "0");
+export { DEFAULT_SERVICES };
 
 export type ServicesSectionProps = {
-  heading?: string;
-  services?: Service[];
+  eyebrow?: string;
+  headingPart1?: string;
+  headingPart2?: string;
+  description?: string;
+  services?: HomeService[];
 };
 
+/**
+ * Editorial Interactive Practice Capabilities Amphitheater Carousel Slider.
+ * Grounded 100% in Figma prototype (media_1790762201686.png):
+ * - Specialized Practice Capabilities two-tone headline
+ * - Clean flat 2D amphitheater formation with symmetrical arch curves (no distorted 3D perspective)
+ * - Center card (Audit & Assurance) active by default, elevated with deep maroon header & shadow bloom
+ * - Neighboring cards step down smoothly with coordinated dusty rose and faded rose headers
+ * - Smooth horizontal carousel slider with continuous momentum & swipe precision (Embla engine)
+ * - Circular floating maroon navigation buttons (< and >) on both flanks
+ * - Pennant V-point cards with responsive drop-shadow
+ * - Seamless touch swipe, mouse drag, and keyboard navigation
+ * - Responsive from 360px phones up to 4K displays
+ */
 export function ServicesSection({
-  heading = "Our Services",
+  eyebrow = servicesSectionHeader.eyebrow,
+  headingPart1 = servicesSectionHeader.headingPart1,
+  headingPart2 = servicesSectionHeader.headingPart2,
+  description = servicesSectionHeader.description,
   services = DEFAULT_SERVICES,
 }: ServicesSectionProps) {
-  const trackRef = useRef<HTMLUListElement>(null);
-  const [index, setIndex] = useState(0);
-  const [atStart, setAtStart] = useState(true);
-  const [atEnd, setAtEnd] = useState(false);
+  // Repeat the 5 services 3 times (15 slides) for seamless infinite buffer in both directions
+  const repeatedServices = useMemo(() => {
+    return [
+      ...services.map((s, i) => ({ ...s, originalIndex: i, uid: `set0-${i}` })),
+      ...services.map((s, i) => ({ ...s, originalIndex: i, uid: `set1-${i}` })),
+      ...services.map((s, i) => ({ ...s, originalIndex: i, uid: `set2-${i}` })),
+    ];
+  }, [services]);
 
-  const step = useCallback(() => {
-    const track = trackRef.current;
-    if (!track) return 0;
-    const first = track.firstElementChild as HTMLElement | null;
-    if (!first) return 0;
-    const gap = parseFloat(getComputedStyle(track).columnGap || "0") || 0;
-    return first.getBoundingClientRect().width + gap;
-  }, []);
+  // Initial index 7 centers "Audit & Assurance" (index 2 of the middle set)
+  const initialIndex = 7;
+  const [selectedIndex, setSelectedIndex] = useState(initialIndex);
+  const [windowWidth, setWindowWidth] = useState(1280);
 
-  const sync = useCallback(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const s = step();
-    setIndex(s ? Math.round(track.scrollLeft / s) : 0);
-    setAtStart(track.scrollLeft <= 1);
-    setAtEnd(track.scrollLeft >= track.scrollWidth - track.clientWidth - 1);
-  }, [step]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    startIndex: initialIndex,
+    align: "center",
+    skipSnaps: false,
+    duration: 26,
+  });
+
+  const totalSlides = repeatedServices.length;
 
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    sync();
-    track.addEventListener("scroll", sync, { passive: true });
-    window.addEventListener("resize", sync);
-    return () => {
-      track.removeEventListener("scroll", sync);
-      window.removeEventListener("resize", sync);
-    };
-  }, [sync]);
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-  const scrollByCards = (dir: 1 | -1) => {
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    trackRef.current?.scrollBy({
-      left: dir * step(),
-      behavior: reduceMotion ? "auto" : "smooth",
-    });
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  // Seamless invisible recentering when drifting near outer bounds of the 3 sets
+  const onSettle = useCallback(() => {
+    if (!emblaApi) return;
+    const current = emblaApi.selectedScrollSnap();
+    if (current < 3) {
+      emblaApi.scrollTo(current + 5, true);
+    } else if (current > 11) {
+      emblaApi.scrollTo(current - 5, true);
+    }
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+    emblaApi.on("settle", onSettle);
+
+    const frameId = requestAnimationFrame(onSelect);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      emblaApi.off("select", onSelect);
+      emblaApi.off("reInit", onSelect);
+      emblaApi.off("settle", onSettle);
+    };
+  }, [emblaApi, onSelect, onSettle]);
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") scrollPrev();
+      if (e.key === "ArrowRight") scrollNext();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [scrollNext, scrollPrev]);
+
+  // Calculate circular signed distance from selectedIndex
+  const getSignedDiff = (index: number) => {
+    let diff = index - selectedIndex;
+    if (diff > totalSlides / 2) diff -= totalSlides;
+    if (diff < -totalSlides / 2) diff += totalSlides;
+    return diff;
   };
+
+  const handleCardClick = (index: number) => {
+    if (index !== selectedIndex && emblaApi) {
+      emblaApi.scrollTo(index);
+    }
+  };
+
+  const isMobile = windowWidth < 640;
+  const isTablet = windowWidth >= 640 && windowWidth < 1024;
+  const activeOriginalIndex = selectedIndex % services.length;
 
   return (
     <section
-      className="w-full bg-white pt-8 pb-10 sm:pt-10 sm:pb-12 lg:pt-14 lg:pb-14"
       aria-labelledby="services-heading"
+      className="w-full bg-white pt-12 pb-12 sm:pt-16 sm:pb-16 lg:pt-20 lg:pb-20 overflow-hidden select-none"
     >
-      <SectionDivider />
+      <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
+        {/* 1. Header with Eyebrow, Two-Tone Headline, and Description matching Figma */}
+        <MotionReveal>
+          <div className="max-w-3xl text-left">
+            <p className="font-heading text-xs sm:text-[13px] font-bold uppercase tracking-[0.14em] text-maroon-hover">
+              {eyebrow}
+            </p>
 
-      <div className="mt-6 w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
-        <div className="relative flex items-center justify-center">
-          <h2
-            id="services-heading"
-            className="text-center text-[26px] font-bold text-ink sm:text-[32px] lg:text-[40px]"
-          >
-            {heading}
-          </h2>
-        </div>
+            <h2
+              id="services-heading"
+              className="mt-3 font-heading text-3xl sm:text-4xl md:text-5xl lg:text-[48px] font-extrabold tracking-tight leading-[1.12]"
+            >
+              <span className="block text-slate-900">{headingPart1}</span>
+              <span className="block text-accent">{headingPart2}</span>
+            </h2>
 
-        <div className="mt-3 sm:mt-4 flex items-center justify-between sm:justify-end gap-3 sm:gap-5">
-          <p
-            className="text-sm sm:text-[17px] lg:text-[20px] text-body tabular-nums font-semibold"
-            aria-live="polite"
+            <p className="mt-3.5 sm:mt-4 font-body text-sm sm:text-base text-neutral-600 max-w-2xl leading-relaxed font-normal">
+              {description}
+            </p>
+          </div>
+        </MotionReveal>
+
+        {/* 2. Interactive Amphitheater Carousel Arena with Floating Flank Buttons */}
+        <div className="relative mt-12 sm:mt-16 lg:mt-20">
+          {/* Floating Left Carousel Navigation Button */}
+          <button
+            type="button"
+            onClick={scrollPrev}
+            aria-label="Previous service capability"
+            className="absolute -left-3 sm:-left-4 lg:-left-5 xl:-left-6 top-1/2 -translate-y-1/2 z-40 flex h-11 w-11 sm:h-12 sm:w-12 lg:h-13 lg:w-13 items-center justify-center rounded-full bg-brand-primary-dark hover:bg-brand-primary text-white shadow-xl transition-all duration-200 active:scale-90 hover:scale-105 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary-dark"
           >
-            {pad(index + 1)}/{pad(services.length)}
-          </p>
-          <div className="flex items-center gap-2.5 sm:gap-4">
-            <CarouselButton
-              direction="prev"
-              disabled={atStart}
-              onClick={() => scrollByCards(-1)}
-            />
-            <CarouselButton
-              direction="next"
-              disabled={atEnd}
-              onClick={() => scrollByCards(1)}
-            />
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-5 w-5 sm:h-6 sm:w-6 -translate-x-0.5"
+              aria-hidden="true"
+            >
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+
+          {/* Floating Right Carousel Navigation Button */}
+          <button
+            type="button"
+            onClick={scrollNext}
+            aria-label="Next service capability"
+            className="absolute -right-3 sm:-right-4 lg:-right-5 xl:-right-6 top-1/2 -translate-y-1/2 z-40 flex h-11 w-11 sm:h-12 sm:w-12 lg:h-13 lg:w-13 items-center justify-center rounded-full bg-brand-primary-dark hover:bg-brand-primary text-white shadow-xl transition-all duration-200 active:scale-90 hover:scale-105 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary-dark"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-5 w-5 sm:h-6 sm:w-6 translate-x-0.5"
+              aria-hidden="true"
+            >
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+
+          {/* Embla Viewport with vertical clearance for elevated hero bloom */}
+          <div
+            ref={emblaRef}
+            className="overflow-hidden py-10 sm:py-14 lg:py-18 cursor-grab active:cursor-grabbing"
+          >
+            {/* Slider Track */}
+            <div className="flex touch-pan-y items-center -ml-2.5 sm:-ml-3 lg:-ml-3.5 xl:-ml-4">
+              {repeatedServices.map((service, index) => {
+                const diff = getSignedDiff(index);
+                const dist = Math.abs(diff);
+                const isCenter = dist === 0;
+                const isAdjacent = dist === 1;
+                const isOuter = dist === 2;
+
+                // Symmetrical amphitheater arch curve based on distance from center
+                const zIndex = isCenter ? 30 : isAdjacent ? 20 : isOuter ? 10 : 0;
+
+                const scale = isCenter
+                  ? isMobile
+                    ? 1.02
+                    : 1.05
+                  : isAdjacent
+                  ? isMobile
+                    ? 0.98
+                    : 0.97
+                  : isOuter
+                  ? 0.92
+                  : 0.88;
+
+                const yOffset = isCenter
+                  ? isMobile
+                    ? -8
+                    : isTablet
+                    ? -14
+                    : -22
+                  : isAdjacent
+                  ? 0
+                  : isOuter
+                  ? isMobile
+                    ? 8
+                    : 18
+                  : 28;
+
+                const opacity = isCenter
+                  ? 1
+                  : isAdjacent
+                  ? isMobile
+                    ? 0.75
+                    : 0.88
+                  : isOuter
+                  ? isMobile
+                    ? 0.4
+                    : 0.58
+                  : 0; // Offscreen cards fade completely
+
+                return (
+                  <div
+                    key={service.uid}
+                    style={{ zIndex }}
+                    className="flex-[0_0_82%] xs:flex-[0_0_75%] sm:flex-[0_0_46%] md:flex-[0_0_33.33%] lg:flex-[0_0_20%] min-w-0 pl-2.5 sm:pl-3 lg:pl-3.5 xl:pl-4 relative"
+                  >
+                    <div
+                      style={{
+                        transform: `translateY(${yOffset}px) scale(${scale})`,
+                        opacity,
+                        transformOrigin: "center center",
+                        transition:
+                          "transform 420ms cubic-bezier(0.25, 1, 0.5, 1), opacity 380ms ease",
+                      }}
+                      className="relative w-full"
+                    >
+                      <ServiceCard
+                        service={service}
+                        isActive={isCenter}
+                        distanceFromActive={dist}
+                        onClick={() => handleCardClick(index)}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
 
-        {/* Dynamic Track displaying 5 cards on desktop */}
-        <ul
-          ref={trackRef}
-          className="albore-no-scrollbar mt-6 sm:mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2"
-        >
-          {services.map((service) => (
-            <li
-              key={service.title}
-              className="w-[85%] shrink-0 snap-start sm:w-[calc(50%-10px)] md:w-[calc(33.333%-13.34px)] lg:w-[calc(20%-16px)]"
-            >
-              <ServiceCard {...service} />
-            </li>
-          ))}
-        </ul>
+        {/* 3. Slider Pagination Pill Indicators */}
+        <div className="mt-4 sm:mt-6 flex items-center justify-center gap-2">
+          {services.map((item, idx) => {
+            const isSelected = idx === activeOriginalIndex;
+            return (
+              <button
+                key={item.title}
+                type="button"
+                onClick={() => {
+                  const targetIndex = repeatedServices.findIndex(
+                    (s, sIdx) =>
+                      s.originalIndex === idx &&
+                      Math.abs(sIdx - selectedIndex) <= 2
+                  );
+                  if (targetIndex !== -1) {
+                    emblaApi?.scrollTo(targetIndex);
+                  } else {
+                    emblaApi?.scrollTo(idx + 5);
+                  }
+                }}
+                aria-label={`Slide to ${item.title}`}
+                className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                  isSelected
+                    ? "w-8 bg-brand-primary-dark"
+                    : "w-2.5 bg-neutral-300 hover:bg-neutral-400"
+                }`}
+              />
+            );
+          })}
+        </div>
       </div>
     </section>
   );
 }
 
-function CarouselButton({
-  direction,
-  disabled,
-  onClick,
-}: {
-  direction: "prev" | "next";
-  disabled: boolean;
-  onClick: () => void;
-}) {
-  const isNext = direction === "next";
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      aria-label={isNext ? "Next services" : "Previous services"}
-      className={`flex h-9 w-9 sm:h-11 sm:w-11 lg:h-[50px] lg:w-[50px] items-center justify-center rounded-full transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${
-        disabled
-          ? "cursor-not-allowed bg-cream text-gold ring-1 ring-gold ring-inset"
-          : "bg-maroon text-white hover:bg-maroon-hover"
-      }`}
-    >
-      <svg
-        viewBox="0 0 20 14"
-        fill="none"
-        aria-hidden="true"
-        className={`h-3 w-4 sm:h-3.5 sm:w-5 ${isNext ? "" : "rotate-180"}`}
-      >
-        <path
-          d="M1 7h17M12 1l6 6-6 6"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </button>
-  );
-}
+export default ServicesSection;
+

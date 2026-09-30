@@ -1,67 +1,53 @@
-import TeamMemberCard, {
-  type TeamMember,
-} from "@/components/ui/TeamMemberCard";
+import TeamMemberCard from "@/components/ui/TeamMemberCard";
+import {
+  defaultTeamMembers as teamMembers,
+  leadershipSectionData,
+} from "@/data/home/leadershipSectionData";
+import {
+  MotionReveal,
+  MotionStaggerGroup,
+  MotionStaggerItem,
+} from "@/components/ui/motion";
 
-const teamMembers: TeamMember[] = [
-  {
-    name: "Ameen Riaz",
-    title: "Managing Partner",
-    initials: "AR",
-    imageUrl: "/images/teamMembers/teamPicture.png",
-    bio: "Specializing in corporate tax structuring, FBR regulatory defense, and long-term financial advisory for scaling enterprises.",
-    href: "/about",
-  },
-  {
-    name: "Tariq Mahmood",
-    title: "Head of Audit & Assurance",
-    initials: "TM",
-    imageUrl: "/images/teamMembers/teamPicture.png",
-    bio: "Over 12 years of experience leading statutory audits, internal control reviews, and corporate governance for mid-market clients.",
-    href: "/about",
-  },
-  {
-    name: "Zainab Fatima",
-    title: "Tax & Compliance Lead",
-    initials: "ZF",
-    imageUrl: "/images/teamMembers/teamPicture.png",
-    bio: "Expert in sales tax, direct taxation, and cross-border transfer pricing compliance across Pakistan and regional markets.",
-    href: "/about",
-  },
-  {
-    name: "Bilal Ahmed",
-    title: "Director of Advisory",
-    initials: "BA",
-    imageUrl: "/images/teamMembers/teamPicture.png",
-    bio: "Advising enterprise leadership on mergers, financial due diligence, and capital management to drive sustainable growth.",
-    href: "/about",
-  },
-];
+export { teamMembers };
 
 export default function LeadershipSection() {
   return (
     <section
       aria-labelledby="leadership-heading"
-      className="w-full py-16 sm:py-20"
+      className="w-full pt-12 pb-6 sm:pt-16 sm:pb-8 lg:pt-20 lg:pb-10"
     >
       <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
-        <h2
-          id="leadership-heading"
-          className="text-center font-heading text-3xl font-extrabold tracking-tight text-text-heading sm:text-4xl"
-        >
-          Meet the Leadership Team
-        </h2>
-        <p className="mx-auto mt-3 max-w-2xl text-center font-body text-sm leading-relaxed text-text-body sm:text-base">
-          Our leadership team combines deep regulatory expertise with strategic
-          insight to help your business navigate growth, ensure compliance, and
-          maximize value at every stage.
-        </p>
+        {/* Left-Aligned Executive Header with grand scale */}
+        <MotionReveal>
+          <div className="max-w-3xl">
+            <p className="font-heading text-xs sm:text-[13.5px] font-bold uppercase tracking-[0.16em] text-maroon-hover">
+              {leadershipSectionData.eyebrow}
+            </p>
+            <h2
+              id="leadership-heading"
+              className="mt-3 font-heading text-3xl sm:text-4xl md:text-5xl lg:text-[46px] xl:text-[48px] font-bold tracking-tight text-ink leading-[1.12]"
+            >
+              {leadershipSectionData.headingPart1}{" "}
+              <span className="text-accent">{leadershipSectionData.headingPart2}</span>
+            </h2>
+            <p className="mt-4 font-body text-base sm:text-[17px] leading-relaxed text-body/80">
+              {leadershipSectionData.description}
+            </p>
+          </div>
+        </MotionReveal>
 
-        {/* Grid container scaled for wider cards */}
-        <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-8">
+        {/* 4-column Leadership Cards Grid */}
+        <MotionStaggerGroup
+          className="mt-8 sm:mt-10 lg:mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 xl:gap-6"
+          staggerDelay={0.09}
+        >
           {teamMembers.map((member, idx) => (
-            <TeamMemberCard key={`${member.name}-${idx}`} {...member} />
+            <MotionStaggerItem key={`${member.name}-${idx}`} className="h-full">
+              <TeamMemberCard {...member} />
+            </MotionStaggerItem>
           ))}
-        </div>
+        </MotionStaggerGroup>
       </div>
     </section>
   );

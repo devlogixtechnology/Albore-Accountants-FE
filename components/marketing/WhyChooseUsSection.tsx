@@ -1,79 +1,136 @@
-import { Award, Timer, FileText, Globe, ShieldCheck, Users } from 'lucide-react';
+import type { ElementType } from "react";
+import { Earth, Lock, BadgeCheck, Gauge, Scale } from "lucide-react";
+import {
+  defaultDifferentiators,
+  whyChooseUsSectionData,
+  type WhyChooseUsItem,
+} from "@/data/home/whyChooseUsSectionData";
+import {
+  MotionReveal,
+  MotionStaggerGroup,
+  MotionStaggerItem,
+} from "@/components/ui/motion";
 
+export { defaultDifferentiators };
+export type { WhyChooseUsItem };
 
 export interface WhyChooseUsSectionProps {
   className?: string;
 }
 
-interface Feature {
-  icon: typeof Award;
-  title: string;
-  description: string;
+/**
+ * Pixel-faithful Multilateral Cross-Border Matrix node network icon
+ * matching the Figma prototype's 5-node hub-and-spoke topology.
+ */
+function MultilateralMatrixIcon({
+  className = "h-5 w-5 sm:h-5.5 sm:w-5.5",
+}: {
+  className?: string;
+}) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="2.2" />
+      <circle cx="12" cy="4" r="1.8" />
+      <circle cx="19.5" cy="8.5" r="1.8" />
+      <circle cx="18" cy="18" r="1.8" />
+      <circle cx="6" cy="18" r="1.8" />
+      <circle cx="4.5" cy="8.5" r="1.8" />
+      <line x1="12" y1="9.8" x2="12" y2="5.8" />
+      <line x1="13.8" y1="10.8" x2="17.8" y2="9.2" />
+      <line x1="13.5" y1="13.5" x2="16.5" y2="16.5" />
+      <line x1="10.5" y1="13.5" x2="7.5" y2="16.5" />
+      <line x1="10.2" y1="10.8" x2="6.2" y2="9.2" />
+    </svg>
+  );
 }
 
-const FEATURES: Feature[] = [
-  {
-    icon: Award,
-    title: 'Internationally Experienced',
-    description:
-      'Our experienced team provides trusted accounting support for businesses operating locally and internationally.',
-  },
-  {
-    icon: Timer,
-    title: 'Responsive Support',
-    description:
-      'Receive timely, reliable guidance from a dedicated team that understands your business needs.',
-  },
-  {
-    icon: FileText,
-    title: 'Digital & Paperless',
-    description:
-      'Access your accounting records and important financial documents securely, anytime and from anywhere.',
-  },
-  {
-    icon: Globe,
-    title: 'Growth-Oriented',
-    description:
-      'We provide practical financial insights that help you make confident decisions and grow.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Reliable Compliance',
-    description:
-      'Keep your accounts accurate and meet essential tax, accounting, and reporting requirements with confidence.',
-  },
-  {
-    icon: Users,
-    title: 'Secure & Confidential',
-    description:
-      'Your information is handled securely, professionally, and with the highest level of confidentiality.',
-  },
-];
+const ICON_MAP: Record<string, ElementType> = {
+  earth: Earth,
+  lock: Lock,
+  badgeCheck: BadgeCheck,
+  gauge: Gauge,
+  scale: Scale,
+  matrix: MultilateralMatrixIcon,
+};
 
-export default function WhyChooseUsSection({ className = '' }: WhyChooseUsSectionProps) {
+export default function WhyChooseUsSection({
+  className = "",
+}: WhyChooseUsSectionProps) {
   return (
     <section
-      className={`w-full bg-surface px-6 sm:px-10 lg:px-14 xl:px-16 py-10 sm:py-12 lg:py-14 ${className}`}
-      aria-labelledby="why-choose-heading"
+      aria-labelledby="fiduciary-distinction-heading"
+      className={`w-full bg-surface pt-6 pb-6 sm:pt-8 sm:pb-8 lg:pt-10 lg:pb-10 ${className}`}
     >
-      <div className="w-full max-w-9xl mx-auto">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 id="why-choose-heading" className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-bold text-text-heading tracking-tight leading-tight">
-            Why Enterprises Choose Albor&eacute;
-          </h2>
-          <p className="mt-4 font-body text-base sm:text-lg md:text-xl text-text-body leading-relaxed max-w-3xl mx-auto">
-            Building partnerships through precision, discretion, and results that truly matter.
-          </p>
+      {/* 1. Executive Header on white canvas */}
+      <MotionReveal>
+        <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
+          <div className="max-w-3xl">
+            <p className="font-heading text-xs sm:text-[13px] font-bold uppercase tracking-[0.16em] text-maroon-hover">
+              {whyChooseUsSectionData.eyebrow}
+            </p>
+            <h2
+              id="fiduciary-distinction-heading"
+              className="mt-2.5 font-heading text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] font-bold tracking-tight text-ink leading-[1.14]"
+            >
+              {whyChooseUsSectionData.headingPart1}{" "}
+              <span className="text-accent">
+                {whyChooseUsSectionData.headingPart2}
+              </span>{" "}
+              {whyChooseUsSectionData.headingPart3}
+            </h2>
+            <p className="mt-3.5 font-body text-sm sm:text-base text-body/80 leading-relaxed max-w-3xl">
+              {whyChooseUsSectionData.description}
+            </p>
+          </div>
         </div>
+      </MotionReveal>
 
-        <div className="mt-14 sm:mt-18 grid grid-cols-1 gap-x-12 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-14 sm:gap-y-14 lg:gap-x-16 lg:gap-y-16">
-          {FEATURES.map(({ icon: Icon, title, description }) => (
-            <div key={title} className="flex flex-col items-start">
-              <Icon className="h-12 w-12 sm:h-14 sm:w-14 text-accent" strokeWidth={1.25} aria-hidden="true" />
-              <h3 className="mt-5 font-heading text-lg sm:text-xl md:text-2xl font-bold text-text-heading">{title}</h3>
-              <p className="mt-3 font-body text-sm sm:text-base leading-relaxed text-text-body">{description}</p>
-            </div>
-          ))}
+      {/* 2. Deep Maroon Banner with 6 White Cards Grid */}
+      <div className="w-full bg-brand-primary-dark mt-10 sm:mt-12 py-12 sm:py-14 lg:py-16">
+        <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
+          <MotionStaggerGroup
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7"
+            staggerDelay={0.08}
+          >
+            {whyChooseUsSectionData.differentiators.map(
+              ({ id, iconName, title, description }) => {
+                const Icon = ICON_MAP[iconName] || Earth;
+                return (
+                  <MotionStaggerItem key={id || title}>
+                    <div className="group flex flex-col justify-start rounded-[16px] sm:rounded-[18px] bg-surface p-6 sm:p-7 lg:p-8 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-border/40 h-full">
+                      {/* Outlined Icon Box in Brand Maroon */}
+                      <div className="mb-4 sm:mb-5 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-[10px] border border-border/80 bg-surface text-maroon shadow-2xs transition-colors duration-200 group-hover:border-maroon/30 group-hover:bg-cream-100/60">
+                        <Icon
+                          className="h-5 w-5 sm:h-5.5 sm:w-5.5"
+                          strokeWidth={1.75}
+                          aria-hidden="true"
+                        />
+                      </div>
+
+                      {/* Feature Title */}
+                      <h3 className="font-heading text-base sm:text-lg lg:text-[19px] font-bold text-ink tracking-tight leading-snug">
+                        {title}
+                      </h3>
+
+                      {/* Feature Description */}
+                      <p className="mt-2.5 font-body text-xs sm:text-[13.5px] lg:text-[14px] leading-relaxed text-neutral-600">
+                        {description}
+                      </p>
+                    </div>
+                  </MotionStaggerItem>
+                );
+              }
+            )}
+          </MotionStaggerGroup>
         </div>
       </div>
     </section>

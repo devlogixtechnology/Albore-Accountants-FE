@@ -4,22 +4,24 @@ import {
   Mail,
   MapPin,
   Phone,
-  ArrowRight,
+  PhoneCall,
   CheckCircle2,
   ChevronDown,
   ShieldCheck,
+  Lock,
+  Clock,
 } from "lucide-react";
-import { useState, useEffect, useRef, type FormEvent } from "react";
+import { useState, useRef, type FormEvent } from "react";
 import ScheduleCalendar from "./ScheduleCalendar";
 import {
   contactHubData,
-  countryCodes,
-  consultationRegions,
   consultationServices,
   formCopyData,
   contactPageIntroData,
   formValidationCopy,
 } from "@/data/contact";
+import consultationSectionData from "@/data/home/consultationSectionData";
+import { MotionReveal } from "@/components/ui/motion";
 
 export interface ConsultationSectionProps {
   variant?: "page" | "home";
@@ -35,37 +37,15 @@ export default function ConsultationSection({
   // =========================================================
   const [homeFormState, setHomeFormState] = useState<"idle" | "submitting" | "success">("idle");
   const [homeFormData, setHomeFormData] = useState({
-    fullName: "",
-    email: "",
-    countryCode: "+92",
+    executiveName: "",
+    entityName: "",
+    workEmail: "",
     phone: "",
-    companyName: "",
-    website: "",
-    region: "",
-    service: "",
-    briefing: "",
+    practiceArea: "Statutory Audit & IFRS Assurance Mandate",
+    scope: "",
+    preferredDate: "",
+    meetingMode: "Executive Office (Bahria Town HQ, Lahore)",
   });
-
-  useEffect(() => {
-    if (variant !== "home") return;
-    const detectUserRegion = async () => {
-      try {
-        const response = await fetch("https://ipapi.co/json/");
-        if (!response.ok) return;
-        const data = await response.json();
-        const detectedCountry = countryCodes.find((c) => c.code === data.country_code);
-        if (detectedCountry) {
-          setHomeFormData((prev) => ({
-            ...prev,
-            countryCode: detectedCountry.dial,
-          }));
-        }
-      } catch {
-        // Silently fall back to default dial code (+92)
-      }
-    };
-    detectUserRegion();
-  }, [variant]);
 
   const handleHomeChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -435,311 +415,346 @@ export default function ConsultationSection({
   }
 
   // =========================================================
-  // RENDER: HOME VARIANT (Edge-to-Edge Split Sovereign Layout)
+  // RENDER: HOME VARIANT (Institutional Confidential Intake Layout)
+  // Exact 100% fidelity match with Figma (media_1790771028468.png)
   // =========================================================
+  const homeInputClass =
+    "w-full bg-white text-text-heading text-xs sm:text-[13.5px] rounded-[4px] px-3.5 py-2.5 sm:py-3 placeholder:text-text-body/50 focus:outline-none focus:ring-2 focus:ring-accent shadow-xs transition-all border-0";
+  const homeSelectClass =
+    "w-full bg-white text-text-heading text-xs sm:text-[13.5px] rounded-[4px] px-3.5 py-2.5 sm:py-3 focus:outline-none focus:ring-2 focus:ring-accent shadow-xs transition-all border-0 cursor-pointer appearance-none pr-10";
+  const homeLabelClass =
+    "block text-[10px] sm:text-[10.5px] font-bold uppercase tracking-[0.1em] text-white/95 mb-1.5 font-heading";
+
   return (
     <section
-      aria-labelledby="interface-heading"
-      className={`relative z-20 w-full font-body ${className}`}
+      aria-labelledby="institutional-intake-heading"
+      className={`w-full font-body ${className}`}
     >
-      <h2 id="interface-heading" className="sr-only">
-        Contact Form for Corporate Tax, Audit, and Advisory Consultations
-      </h2>
-
-      <div className="w-full flex flex-col lg:flex-row border-t border-border/20">
-        {/* LEFT COLUMN: Deep Maroon Sovereign Panel */}
-        <div className="w-full lg:w-2/5 xl:w-[38%] bg-brand-primary-dark text-white p-8 sm:p-12 md:p-14 lg:p-16 xl:p-20 2xl:pl-28 flex flex-col justify-between relative border-b lg:border-b-0 lg:border-r border-white/5">
-          <div
-            className="absolute inset-0 opacity-[0.05]"
-            aria-hidden="true"
-            style={{
-              backgroundImage:
-                "linear-gradient(#b08d57 1px, transparent 1px), linear-gradient(90deg, #b08d57 1px, transparent 1px)",
-              backgroundSize: "40px 40px",
-            }}
-          />
-
-          <div className="relative z-10">
-            <span className="block text-xs font-bold text-accent uppercase tracking-[0.3em] mb-6">
-              {contactHubData.badge}
+      {/* 1. Top Header Block (Clean White Background) */}
+      <MotionReveal>
+        <div className="w-full bg-white pt-12 pb-8 sm:pt-16 sm:pb-10 lg:pt-20 lg:pb-12">
+          <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 text-left">
+            <span className="text-xs sm:text-[13px] font-bold uppercase tracking-[0.14em] text-maroon-hover mb-3 block font-heading">
+              {consultationSectionData.eyebrow}
             </span>
-
-            <h3 className="text-3xl sm:text-4xl font-bold leading-tight mb-8 text-white font-heading">
-              {contactHubData.titleLine1} <br />
-              <span className="text-accent">{contactHubData.titleAccent}</span>
-            </h3>
-
-            <div className="space-y-8">
-              {/* Electronic Mail */}
-              <a
-                href={contactHubData.email.href}
-                className="flex items-start gap-4 group cursor-pointer"
-              >
-                <div className="w-10 h-10 shrink-0 rounded-full bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-accent group-hover:bg-accent transition-all duration-300">
-                  <Mail className="w-4 h-4 text-slate-300 group-hover:text-white" />
-                </div>
-                <div>
-                  <h5 className="text-sm font-bold text-white mb-1">
-                    {contactHubData.email.label}
-                  </h5>
-                  <p className="text-slate-400 text-sm group-hover:text-accent transition-colors">
-                    {contactHubData.email.value}
-                  </p>
-                </div>
-              </a>
-
-              {/* Global HQ */}
-              <div className="flex items-start gap-4 group">
-                <div className="w-10 h-10 shrink-0 rounded-full bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-accent group-hover:bg-accent transition-all duration-300">
-                  <MapPin className="w-4 h-4 text-slate-300 group-hover:text-white" />
-                </div>
-                <div>
-                  <h5 className="text-sm font-bold text-white mb-1">
-                    {contactHubData.hq.label}
-                  </h5>
-                  <p className="text-slate-400 text-sm leading-relaxed">
-                    {contactHubData.hq.value}
-                  </p>
-                </div>
-              </div>
-
-              {/* Secure Line */}
-              <a
-                href={contactHubData.phone.href}
-                className="flex items-start gap-4 group"
-              >
-                <div className="w-10 h-10 shrink-0 rounded-full bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-accent group-hover:bg-accent transition-all duration-300">
-                  <Phone className="w-4 h-4 text-slate-300 group-hover:text-white" />
-                </div>
-                <div>
-                  <h5 className="text-sm font-bold text-white mb-1">
-                    {contactHubData.phone.label}
-                  </h5>
-                  <p className="text-slate-400 text-sm group-hover:text-accent transition-colors">
-                    {contactHubData.phone.value}
-                  </p>
-                </div>
-              </a>
-            </div>
+            <h2
+              id="institutional-intake-heading"
+              className="mt-1 text-pretty font-heading text-3xl sm:text-4xl lg:text-[46px] xl:text-[50px] font-bold leading-[1.12] tracking-tight"
+            >
+              <span className="block text-text-heading">{consultationSectionData.headingPart1}</span>
+              <span className="block text-accent">{consultationSectionData.headingPart2}</span>
+            </h2>
           </div>
         </div>
+      </MotionReveal>
 
-        {/* RIGHT COLUMN: Modern White Form */}
-        <div className="w-full lg:w-3/5 xl:w-[62%] bg-white p-8 sm:p-12 md:p-14 lg:p-16 xl:p-20 2xl:pr-28 flex flex-col justify-center">
-          {homeFormState === "success" ? (
-            <div className="text-center py-16 animate-in fade-in duration-500 max-w-xl mx-auto">
-              <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <CheckCircle2 className="w-8 h-8 text-accent" />
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 font-heading">
-                {formCopyData.successState.title}
-              </h3>
-              <p className="mt-3 text-slate-600 text-sm md:text-base max-w-md mx-auto">
-                {formCopyData.successState.message}
+      {/* 2. Main Intake Block (Deep Solid Maroon Background matching Figma) */}
+      <div className="w-full bg-brand-primary-dark py-14 sm:py-16 lg:py-20 xl:py-24 text-white">
+        <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
+          <div className="flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-10 xl:gap-14 w-full">
+            {/* Left Column: Lead Paragraph + 3 White Trust Cards + Executive Desk Badge */}
+            <MotionReveal delay={0.1} className="w-full lg:w-[45%] xl:w-[44%] 2xl:w-[43%] flex flex-col shrink-0">
+              <p className="text-white/95 text-sm sm:text-base lg:text-[16px] leading-[1.7] font-normal mb-8 sm:mb-9 w-full">
+                {consultationSectionData.subheading}
               </p>
-              <button
-                type="button"
-                onClick={() => setHomeFormState("idle")}
-                className="mt-8 text-sm text-accent font-bold uppercase tracking-widest border-b border-accent pb-1 cursor-pointer hover:text-brand-primary transition-colors"
-              >
-                {formCopyData.actions.reset}
-              </button>
-            </div>
-          ) : (
-            <div className="w-full max-w-3xl mx-auto lg:mx-0">
-              <div className="mb-8 pb-6 border-b border-slate-100">
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 border-l-4 border-accent pl-4 font-heading">
-                  {formCopyData.sectionHeading}
-                </h3>
+
+              {/* 3 Crisp White Trust Cards - Full Width of Left Column */}
+              <div className="space-y-3.5 sm:space-y-4 w-full">
+                {consultationSectionData.trustCards.map((card) => {
+                  const Icon =
+                    card.iconName === "ShieldCheck"
+                      ? CheckCircle2
+                      : card.iconName === "Lock"
+                      ? Lock
+                      : Clock;
+                  return (
+                    <div
+                      key={card.title}
+                      className="w-full bg-white rounded-[6px] px-5 py-4 sm:px-6 sm:py-4.5 shadow-sm flex items-start gap-4 sm:gap-4.5 text-left transition-all duration-200 hover:shadow-md"
+                    >
+                      <Icon className="w-5 h-5 text-brand-primary-dark shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-[14px] sm:text-[15px] font-bold text-text-heading leading-snug">
+                          {card.title}
+                        </h4>
+                        <p className="text-[12px] sm:text-[12.5px] text-text-body mt-1 leading-[1.5] font-normal">
+                          {card.description}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
 
-              <form onSubmit={handleHomeSubmit} className="space-y-6">
-                {/* Name & Email */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="relative group">
-                    <input
-                      name="fullName"
-                      type="text"
-                      required
-                      placeholder=" "
-                      value={homeFormData.fullName}
-                      onChange={handleHomeChange}
-                      className="peer w-full bg-transparent border-b border-slate-300 py-3 text-slate-900 focus:border-accent focus:outline-none transition-colors"
-                    />
-                    <label className="absolute left-0 top-3 text-slate-400 text-sm peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs transition-all pointer-events-none">
-                      {formCopyData.fields.fullName}
-                    </label>
-                  </div>
-
-                  <div className="relative group">
-                    <input
-                      name="email"
-                      type="email"
-                      required
-                      placeholder=" "
-                      value={homeFormData.email}
-                      onChange={handleHomeChange}
-                      className="peer w-full bg-transparent border-b border-slate-300 py-3 text-slate-900 focus:border-accent focus:outline-none transition-colors"
-                    />
-                    <label className="absolute left-0 top-3 text-slate-400 text-sm peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs transition-all pointer-events-none">
-                      {formCopyData.fields.email}
-                    </label>
-                  </div>
-                </div>
-
-                {/* PHONE & REGION */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex items-end gap-2">
-                    <div className="relative w-28 shrink-0">
-                      <select
-                        name="countryCode"
-                        value={homeFormData.countryCode}
-                        onChange={handleHomeChange}
-                        className="w-full bg-transparent border-b border-slate-300 py-3 text-slate-900 focus:border-accent focus:outline-none text-xs md:text-sm appearance-none cursor-pointer truncate pr-4"
-                      >
-                        {countryCodes.map((c) => (
-                          <option key={c.code} value={c.dial}>
-                            {c.code} ({c.dial})
-                          </option>
-                        ))}
-                      </select>
-                      <ChevronDown className="absolute right-0 top-4 w-3 h-3 text-slate-400 pointer-events-none" />
-                    </div>
-
-                    <div className="relative group flex-1">
-                      <input
-                        name="phone"
-                        type="tel"
-                        required
-                        placeholder=" "
-                        value={homeFormData.phone}
-                        onChange={handleHomeChange}
-                        className="peer w-full bg-transparent border-b border-slate-300 py-3 text-slate-900 focus:border-accent focus:outline-none transition-colors"
-                      />
-                      <label className="absolute left-0 top-3 text-slate-400 text-sm peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs transition-all pointer-events-none">
-                        {formCopyData.fields.phone}
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="relative group">
-                    <select
-                      name="region"
-                      required
-                      value={homeFormData.region}
-                      onChange={handleHomeChange}
-                      className="peer w-full bg-transparent border-b border-slate-300 py-3 text-slate-900 focus:border-accent focus:outline-none appearance-none cursor-pointer"
-                    >
-                      <option value="" disabled className="hidden"></option>
-                      {consultationRegions.map((region) => (
-                        <option key={region.value} value={region.value}>
-                          {region.label}
-                        </option>
-                      ))}
-                    </select>
-                    <label
-                      className={`absolute left-0 text-sm pointer-events-none transition-all ${
-                        homeFormData.region
-                          ? "-top-4 text-xs text-accent"
-                          : "top-3 text-slate-400 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent"
-                      }`}
-                    >
-                      {formCopyData.fields.region}
-                    </label>
-                    <ChevronDown className="absolute right-0 top-4 w-3 h-3 text-slate-400 pointer-events-none" />
-                  </div>
-                </div>
-
-                {/* Company Details */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="relative group">
-                    <input
-                      name="companyName"
-                      type="text"
-                      required
-                      placeholder=" "
-                      value={homeFormData.companyName}
-                      onChange={handleHomeChange}
-                      className="peer w-full bg-transparent border-b border-slate-300 py-3 text-slate-900 focus:border-accent focus:outline-none transition-colors"
-                    />
-                    <label className="absolute left-0 top-3 text-slate-400 text-sm peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs transition-all pointer-events-none">
-                      {formCopyData.fields.companyName}
-                    </label>
-                  </div>
-
-                  <div className="relative group">
-                    <input
-                      name="website"
-                      type="url"
-                      placeholder=" "
-                      value={homeFormData.website}
-                      onChange={handleHomeChange}
-                      className="peer w-full bg-transparent border-b border-slate-300 py-3 text-slate-900 focus:border-accent focus:outline-none transition-colors"
-                    />
-                    <label className="absolute left-0 top-3 text-slate-400 text-sm peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs transition-all pointer-events-none">
-                      {formCopyData.fields.website}
-                    </label>
-                  </div>
-                </div>
-
-                {/* Services */}
-                <div className="relative group">
-                  <select
-                    name="service"
-                    required
-                    value={homeFormData.service}
-                    onChange={handleHomeChange}
-                    className="peer w-full bg-transparent border-b border-slate-300 py-3 text-slate-900 focus:border-accent focus:outline-none appearance-none cursor-pointer"
-                  >
-                    <option value="" disabled className="hidden"></option>
-                    {consultationServices.map((svc) => (
-                      <option key={svc.value} value={svc.value}>
-                        {svc.label}
-                      </option>
-                    ))}
-                  </select>
-                  <label
-                    className={`absolute left-0 text-sm pointer-events-none transition-all ${
-                      homeFormData.service
-                        ? "-top-4 text-xs text-accent"
-                        : "top-3 text-slate-400 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent"
-                    }`}
-                  >
-                    {formCopyData.fields.service}
-                  </label>
-                  <ChevronDown className="absolute right-0 top-4 w-3 h-3 text-slate-400 pointer-events-none" />
-                </div>
-
-                {/* Briefing */}
-                <div className="relative group">
-                  <textarea
-                    name="briefing"
-                    required
-                    rows={4}
-                    placeholder=" "
-                    value={homeFormData.briefing}
-                    onChange={handleHomeChange}
-                    className="peer w-full bg-transparent border-b border-slate-300 py-3 text-slate-900 focus:border-accent focus:outline-none resize-none"
+              {/* Immediate Executive Desk (Exact match to Figma media_1790771448687.png) */}
+              <div className="mt-8 sm:mt-9 flex items-center gap-3.5 select-none self-start">
+                {/* Gold (#B08D57) Rounded Square Icon Box */}
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-[8px] bg-accent flex items-center justify-center shrink-0 shadow-sm">
+                  <PhoneCall
+                    className="w-5 h-5 sm:w-5.5 sm:h-5.5 text-brand-primary-dark stroke-[2.2]"
+                    aria-hidden="true"
                   />
-                  <label className="absolute left-0 top-3 text-slate-400 text-sm peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs transition-all pointer-events-none">
-                    {formCopyData.fields.briefing}
-                  </label>
                 </div>
 
-                {/* Submit Action Button */}
-                <div className="pt-4">
-                  <button
-                    type="submit"
-                    disabled={homeFormState === "submitting"}
-                    className="group w-full md:w-auto px-10 py-5 rounded-none flex items-center justify-center gap-4 transition-all duration-300 shadow-lg disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer bg-brand-primary-dark text-white hover:bg-accent font-button text-sm font-bold uppercase tracking-wider active:scale-95"
+                {/* Typography on Maroon Canvas */}
+                <div className="flex flex-col text-left">
+                  <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-[0.14em] text-accent block leading-tight">
+                    {consultationSectionData.executiveDesk.label}
+                  </span>
+                  <a
+                    href={consultationSectionData.executiveDesk.phoneHref}
+                    className="text-[14px] sm:text-[15px] font-bold text-white hover:text-accent transition-colors block leading-tight mt-1 tracking-tight"
                   >
-                    {homeFormState === "submitting" ? formCopyData.actions.submitting : formCopyData.actions.submit}
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    {consultationSectionData.executiveDesk.phone}
+                  </a>
+                </div>
+              </div>
+            </MotionReveal>
+
+            {/* Right Column: Confidential Engagement Request Form (Expanded to fill remaining width) */}
+            <MotionReveal delay={0.2} className="w-full lg:flex-1 min-w-0">
+              {homeFormState === "success" ? (
+                <div className="rounded-lg bg-white/10 backdrop-blur-xs border border-white/15 p-8 sm:p-12 text-center text-white animate-in fade-in duration-300">
+                  <div className="w-14 h-14 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-5 border border-accent/40">
+                    <CheckCircle2 className="w-7 h-7 text-accent" />
+                  </div>
+                  <h3 className="text-2xl font-bold font-heading text-white">
+                    Consultation Request Received
+                  </h3>
+                  <p className="mt-3 text-sm text-white/80 max-w-md mx-auto leading-relaxed">
+                    Our senior partner dispatch desk has received your mandate details
+                    and will initiate conflict checks within 4 business hours.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setHomeFormData({
+                        executiveName: "",
+                        entityName: "",
+                        workEmail: "",
+                        phone: "",
+                        practiceArea: "Statutory Audit & IFRS Assurance Mandate",
+                        scope: "",
+                        preferredDate: "",
+                        meetingMode: "Executive Office (Bahria Town HQ, Lahore)",
+                      });
+                      setHomeFormState("idle");
+                    }}
+                    className="mt-6 inline-flex items-center justify-center px-6 py-2.5 rounded-[4px] border border-accent text-xs font-bold uppercase tracking-wider text-accent hover:bg-accent hover:text-white transition-colors cursor-pointer"
+                  >
+                    Submit Another Request
                   </button>
                 </div>
-              </form>
-            </div>
-          )}
+              ) : (
+                <div>
+                  {/* Centered Form Header matching Figma */}
+                  <div className="text-center mb-6 sm:mb-7">
+                    <h3 className="text-2xl sm:text-[26px] lg:text-[28px] font-bold text-white tracking-tight font-heading">
+                      Confidential Engagement Request
+                    </h3>
+                    <p className="text-xs sm:text-[13px] text-white/75 mt-1.5 font-normal max-w-lg mx-auto">
+                      Please provide statutory entity details to accelerate conflicts clearance.
+                    </p>
+                  </div>
+
+                  <form onSubmit={handleHomeSubmit} noValidate={false} className="space-y-3.5 sm:space-y-4">
+                    {/* Row 1: Executive Name & Corporate Entity Name */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                      <div>
+                        <label htmlFor="home-executiveName" className={homeLabelClass}>
+                          EXECUTIVE FULL NAME *
+                        </label>
+                        <input
+                          id="home-executiveName"
+                          name="executiveName"
+                          type="text"
+                          required
+                          placeholder="e.g. Asad Qureshi"
+                          value={homeFormData.executiveName}
+                          onChange={handleHomeChange}
+                          className={homeInputClass}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="home-entityName" className={homeLabelClass}>
+                          CORPORATE ENTITY NAME *
+                        </label>
+                        <input
+                          id="home-entityName"
+                          name="entityName"
+                          type="text"
+                          required
+                          placeholder="e.g. Apex Industrial Holdings Ltd"
+                          value={homeFormData.entityName}
+                          onChange={handleHomeChange}
+                          className={homeInputClass}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Row 2: Official Work Email & Contact Telephone */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                      <div>
+                        <label htmlFor="home-workEmail" className={homeLabelClass}>
+                          OFFICIAL WORK EMAIL *
+                        </label>
+                        <input
+                          id="home-workEmail"
+                          name="workEmail"
+                          type="email"
+                          required
+                          placeholder="cfo@corporate.com.pk"
+                          value={homeFormData.workEmail}
+                          onChange={handleHomeChange}
+                          className={homeInputClass}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="home-phone" className={homeLabelClass}>
+                          CONTACT TELEPHONE *
+                        </label>
+                        <input
+                          id="home-phone"
+                          name="phone"
+                          type="tel"
+                          required
+                          placeholder="+92 300 0000000"
+                          value={homeFormData.phone}
+                          onChange={handleHomeChange}
+                          className={homeInputClass}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Row 3: Primary Practice Area */}
+                    <div>
+                      <label htmlFor="home-practiceArea" className={homeLabelClass}>
+                        PRIMARY PRACTICE AREA *
+                      </label>
+                      <div className="relative">
+                        <select
+                          id="home-practiceArea"
+                          name="practiceArea"
+                          required
+                          value={homeFormData.practiceArea}
+                          onChange={handleHomeChange}
+                          className={homeSelectClass}
+                        >
+                          <option value="Statutory Audit & IFRS Assurance Mandate">
+                            Statutory Audit & IFRS Assurance Mandate
+                          </option>
+                          <option value="Corporate Tax Strategy & International Compliance">
+                            Corporate Tax Strategy & International Compliance
+                          </option>
+                          <option value="Cross-Border Advisory & Transaction Support">
+                            Cross-Border Advisory & Transaction Support
+                          </option>
+                          <option value="Enterprise Bookkeeping & Fractional CFO">
+                            Enterprise Bookkeeping & Fractional CFO
+                          </option>
+                          <option value="Corporate Secretarial & Regulatory Filings">
+                            Corporate Secretarial & Regulatory Filings
+                          </option>
+                        </select>
+                        <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-body/60 pointer-events-none" />
+                      </div>
+                    </div>
+
+                    {/* Row 4: Scope of Corporate Mandate */}
+                    <div>
+                      <label htmlFor="home-scope" className={homeLabelClass}>
+                        SCOPE OF CORPORATE MANDATE
+                      </label>
+                      <textarea
+                        id="home-scope"
+                        name="scope"
+                        rows={3}
+                        placeholder="Brief outline of enterprise structure, audit requirements, or fiscal advisory deadlines..."
+                        value={homeFormData.scope}
+                        onChange={handleHomeChange}
+                        className={`${homeInputClass} resize-none`}
+                      />
+                    </div>
+
+                    {/* Row 5: Preferred Date & Preferred Meeting Mode */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                      <div>
+                        <label htmlFor="home-preferredDate" className={homeLabelClass}>
+                          PREFERRED PARTNER DATE
+                        </label>
+                        <input
+                          id="home-preferredDate"
+                          name="preferredDate"
+                          type="text"
+                          onFocus={(e) => {
+                            e.target.type = "date";
+                          }}
+                          onBlur={(e) => {
+                            if (!e.target.value) e.target.type = "text";
+                          }}
+                          placeholder="mm/dd/yyyy"
+                          value={homeFormData.preferredDate}
+                          onChange={handleHomeChange}
+                          className={homeInputClass}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="home-meetingMode" className={homeLabelClass}>
+                          PREFERRED MEETING MODE
+                        </label>
+                        <div className="relative">
+                          <select
+                            id="home-meetingMode"
+                            name="meetingMode"
+                            value={homeFormData.meetingMode}
+                            onChange={handleHomeChange}
+                            className={homeSelectClass}
+                          >
+                            <option value="Executive Office (Bahria Town HQ, Lahore)">
+                              Executive Office (Bahria Town HQ, Lahore)
+                            </option>
+                            <option value="Virtual Video Conference (Zoom / Teams)">
+                              Virtual Video Conference (Zoom / Teams)
+                            </option>
+                            <option value="Client Corporate Headquarters">
+                              Client Corporate Headquarters
+                            </option>
+                          </select>
+                          <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-body/60 pointer-events-none" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Row 6: Submit Button (#B08D57 matching Figma) */}
+                    <div className="pt-2">
+                      <button
+                        type="submit"
+                        disabled={homeFormState === "submitting"}
+                        className="w-full bg-accent hover:bg-gold-light active:bg-gold-light/95 text-white font-bold py-3.5 sm:py-4 px-6 rounded-[4px] shadow-sm transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 text-xs sm:text-sm tracking-wide group disabled:opacity-75 active:scale-[0.995]"
+                      >
+                        <span>
+                          {homeFormState === "submitting"
+                            ? "Submitting Confidential Request..."
+                            : "Submit Confidential Consultation Request"}
+                        </span>
+                        <span
+                          className="text-sm leading-none group-hover:translate-x-0.5 transition-transform"
+                          aria-hidden="true"
+                        >
+                          ▷
+                        </span>
+                      </button>
+                    </div>
+
+                    {/* Row 7: ICAP Disclaimer */}
+                    <p className="text-[10.5px] sm:text-[11px] text-white/50 text-center tracking-normal pt-1 font-normal">
+                      Under strict professional ethics of the Institute of Chartered Accountants of Pakistan (ICAP)
+                    </p>
+                  </form>
+                </div>
+              )}
+            </MotionReveal>
+          </div>
         </div>
       </div>
     </section>

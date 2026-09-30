@@ -12,5 +12,5 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 # Project Instructions
 
 * **App Router:** Every `page.tsx` must have an `export default` React component.
-* **TypeScript & Linting:** Fix unused variables (prefix with `_`) and ensure `pnpm run lint` and `pnpm run build` pass without errors.
+* **TypeScript & Linting:** Fix unused variables (prefix with `_`) and ensure `npm run lint` and `npm run build` pass without errors.
 * **Next.js Config:** Keep `output: 'standalone'` in `next.config.ts`.

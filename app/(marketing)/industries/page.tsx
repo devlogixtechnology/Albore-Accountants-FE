@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import IndustriesMiddleSections from "@/components/marketing/Industries/Industries";
 import TestimonialsSection from "@/components/marketing/TestimonialsSection";
 import CtaBanner from "@/components/ui/CtaBanner";
+import { MotionReveal } from "@/components/ui/motion";
 
 export const metadata: Metadata = {
   title: "Industries We Serve | Albore Chartered Accountants",
@@ -22,11 +23,15 @@ export const metadata: Metadata = {
 export default function IndustriesPage() {
   return (
     <div>
-      <IndustriesMiddleSections />
+      <MotionReveal>
+        <IndustriesMiddleSections />
+      </MotionReveal>
       <div className="h-6 bg-white sm:h-8" aria-hidden="true" />
       <TestimonialsSection />
       <div className="h-6 bg-white sm:h-8" aria-hidden="true" />
-      <CtaBanner />
+      <MotionReveal>
+        <CtaBanner />
+      </MotionReveal>
       <div className="h-6 bg-white sm:h-8" aria-hidden="true" />
     </div>
   );

@@ -1,164 +1,154 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import IndustryCard from "../ui/IndustryCard";
-import { industriesData as industries } from "@/data/contactData";
+import {
+  type IndustryItem,
+  defaultIndustryItems as DEFAULT_INDUSTRY_ITEMS,
+  industrySectionData,
+} from "@/data/home/industrySectionData";
+import { MotionReveal } from "@/components/ui/motion";
+
+export type { IndustryItem };
+export { DEFAULT_INDUSTRY_ITEMS };
+
+export interface IndustrySectionProps {
+  eyebrow?: string;
+  heading?: ReactNode;
+  descriptionLine1?: string;
+  descriptionLine2?: string;
+  industries?: IndustryItem[];
+}
 
 /**
- * "Explore All Industries" Carousel Section
- * Fully responsive across mobile, tablet, desktop, and ultra-wide screens.
+ * Industry-Focused Advisory Section matching Figma:
+ * - Reduced top spacing so it sits seamlessly directly under Services
+ * - Domain-specific excellence eyebrow in brand maroon
+ * - High-contrast editorial heading and 2-line sector description
+ * - 5 curated industry showcase cards with signature red hue and animated reveals
+ * - Responsive 5-column grid on desktop, smooth scroll track with arrow controls on mobile/tablet
  */
-export default function IndustrySection() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "start",
-    containScroll: "trimSnaps",
-    loop: false,
-    duration: 35, // Smooth gradual ease-out curve
-    skipSnaps: false,
-  });
+export default function IndustrySection({
+  eyebrow = industrySectionData.eyebrow,
+  heading = (
+    <>
+      {industrySectionData.headingPart1} <span className="text-accent">{industrySectionData.headingPart2}</span>
+    </>
+  ),
+  descriptionLine1 = industrySectionData.descriptionLine1,
+  descriptionLine2 = industrySectionData.descriptionLine2,
+  industries = DEFAULT_INDUSTRY_ITEMS,
+}: IndustrySectionProps) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(true);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-    setCanScrollPrev(emblaApi.canScrollPrev());
-    setCanScrollNext(emblaApi.canScrollNext());
-  }, [emblaApi]);
+  const sync = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    setAtStart(track.scrollLeft <= 2);
+    setAtEnd(track.scrollLeft >= track.scrollWidth - track.clientWidth - 2);
+  }, []);
 
   useEffect(() => {
-    if (!emblaApi) return;
-
-    // React 19 safe initial state sync deferred to a microtask
-    queueMicrotask(onSelect);
-
-    emblaApi.on("select", onSelect);
-    emblaApi.on("reInit", onSelect);
-
+    const track = trackRef.current;
+    if (!track) return;
+    sync();
+    track.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
     return () => {
-      emblaApi.off("select", onSelect);
-      emblaApi.off("reInit", onSelect);
+      track.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
     };
-  }, [emblaApi, onSelect]);
+  }, [sync]);
 
-  // Keyboard accessibility (ArrowLeft / ArrowRight navigation)
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (!emblaApi) return;
-      if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        emblaApi.scrollPrev();
-      } else if (e.key === "ArrowRight") {
-        e.preventDefault();
-        emblaApi.scrollNext();
-      }
-    },
-    [emblaApi]
-  );
-
-  const paddedIndex = String(selectedIndex + 1).padStart(2, "0");
-  const paddedCount = String(industries.length).padStart(2, "0");
+  const scrollByCards = (dir: 1 | -1) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const card = track.firstElementChild as HTMLElement | null;
+    const step = card ? card.getBoundingClientRect().width + 16 : 280;
+    track.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
 
   return (
     <section
       aria-labelledby="industries-heading"
-      className="w-full overflow-hidden py-6 sm:py-8 lg:py-10"
+      className="w-full bg-white pt-6 pb-6 sm:pt-8 sm:pb-8 lg:pt-10 lg:pb-10"
     >
-      {/* Constrained Header Container */}
       <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
-        {/* HEADER & CONTROLS */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-10 md:mb-12 gap-5 sm:gap-6">
-          <div>
-            {/* Eyebrow */}
-            <span className="block font-body text-xs font-bold text-text-accent uppercase tracking-[0.3em] mb-2 sm:mb-3">
-              Verticalized Expertise
-            </span>
-
-            {/* Heading */}
-            <h2
-              id="industries-heading"
-              className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-text-heading tracking-tight leading-tight"
-            >
-              Excellence Across Sectors
-              <span className="sr-only">
-                {" "}
-                - Industry-Specific Accounting, Tax, and Advisory
+        {/* Header Container */}
+        <MotionReveal>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="max-w-3xl text-left">
+              <span className="block text-[11px] sm:text-[12px] font-bold uppercase tracking-[0.08em] text-maroon-hover">
+                {eyebrow}
               </span>
-            </h2>
-          </div>
 
-          {/* Controls: Counter + Arrows + Drag hint */}
-          <div className="flex items-center gap-2.5 sm:gap-4 self-start md:self-end">
-            {/* Dynamic Counter */}
-            <span className="font-heading text-xs sm:text-sm md:text-base font-bold text-brand-primary tracking-wider select-none min-w-[40px] sm:min-w-[50px]">
-              {paddedIndex}/{paddedCount}
-            </span>
+              <h2
+                id="industries-heading"
+                className="mt-2 font-heading text-3xl sm:text-4xl lg:text-[42px] font-bold tracking-tight text-text-heading leading-tight"
+              >
+                {heading}
+              </h2>
 
-            {/* Navigation Buttons Matching Brand Color Theme */}
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <button
-                type="button"
-                onClick={() => emblaApi?.scrollPrev()}
-                disabled={!canScrollPrev}
-                aria-label="Scroll industries left"
-                className={`flex h-8 w-8 sm:h-9 sm:w-9 md:h-11 md:w-11 items-center justify-center rounded-none border transition-all duration-300 ${
-                  canScrollPrev
-                    ? "border-accent/60 bg-cream text-gold hover:bg-cream-hover hover:border-accent cursor-pointer active:scale-95 shadow-xs"
-                    : "border-border/50 bg-surface-muted text-text-body/30 cursor-not-allowed"
-                }`}
-              >
-                <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
-              </button>
-              <button
-                type="button"
-                onClick={() => emblaApi?.scrollNext()}
-                disabled={!canScrollNext}
-                aria-label="Scroll industries right"
-                className={`flex h-8 w-8 sm:h-9 sm:w-9 md:h-11 md:w-11 items-center justify-center rounded-none border transition-all duration-300 ${
-                  canScrollNext
-                    ? "border-brand-primary bg-brand-primary text-text-inverse hover:bg-brand-primary-dark hover:border-brand-primary-dark cursor-pointer active:scale-95 shadow-sm"
-                    : "border-border/50 bg-surface-muted text-text-body/30 cursor-not-allowed"
-                }`}
-              >
-                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
-              </button>
+              <p className="mt-3 text-sm sm:text-[15px] leading-relaxed text-text-body">
+                <span className="block">{descriptionLine1}</span>
+                <span className="block sm:mt-0.5">{descriptionLine2}</span>
+              </p>
             </div>
 
-            <p
-              aria-hidden="true"
-              className="hidden sm:inline-block text-[11px] uppercase tracking-widest text-text-body/50 ml-2 select-none"
-            >
-              Drag to Explore
-            </p>
+            {/* Carousel Arrows on smaller screens */}
+            <div className="flex items-center gap-2.5 lg:hidden self-start shrink-0">
+              <button
+                type="button"
+                onClick={() => scrollByCards(-1)}
+                disabled={atStart}
+                aria-label="Previous industries"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-300 bg-white text-text-heading transition-colors hover:bg-neutral-100 disabled:opacity-35 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                  <path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollByCards(1)}
+                disabled={atEnd}
+                aria-label="Next industries"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-primary-dark text-white transition-colors hover:bg-brand-primary disabled:opacity-35 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                  <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
           </div>
-        </div>
-      </div>
+        </MotionReveal>
 
-      {/* Embla Carousel Track bounded by max-w-9xl */}
-      <div
-        className="w-full max-w-9xl mx-auto cursor-grab active:cursor-grabbing select-none overflow-hidden px-6 sm:px-10 lg:px-14 xl:px-16 focus-visible:outline-none"
-        ref={emblaRef}
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
-        aria-label="Industries carousel"
-      >
-        <div className="flex gap-6 will-change-transform">
-          {industries.map((industry, index) => (
+        {/* 5-Card Layout: smooth swipeable track on mobile/tablet, exact 5-column grid on desktop */}
+        <MotionReveal delay={0.15}>
+          <div className="mt-8 sm:mt-10 lg:mt-12">
             <div
-              key={industry.title}
-              className="flex-shrink-0"
-              role="group"
-              aria-roledescription="slide"
-              aria-label={`${index + 1} of ${industries.length}`}
+              ref={trackRef}
+              className="albore-no-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pt-2 pb-6 sm:-mx-10 sm:px-10 lg:mx-0 lg:grid lg:grid-cols-5 lg:gap-4 lg:overflow-visible lg:p-0 xl:gap-5"
             >
-              <IndustryCard {...industry} />
+              {industries.map((industry) => (
+                <div
+                  key={industry.id}
+                  className="w-[78vw] shrink-0 snap-start sm:w-[calc(50%-10px)] md:w-[calc(33.333%-12px)] lg:w-full"
+                >
+                  <IndustryCard
+                    title={industry.title}
+                    category={industry.category}
+                    solution={industry.solution}
+                    image={industry.image}
+                    href={industry.href}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        </MotionReveal>
       </div>
     </section>
   );

@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { services } from "@/data/services";
-import SectionDivider from "@/components/ui/SectionDivider";
 import CtaBanner from "@/components/ui/CtaBanner";
 import {
   ServiceHero,
   ComprehensiveSolutions,
   ServiceWorkflow,
-  ServiceCapabilities,
   ServiceWhatWeDo,
 } from "@/components/services";
+import { MotionReveal } from "@/components/ui/motion";
 
 function getServiceBySlug(slug: string) {
   const normalized = slug.toLowerCase().trim();
@@ -60,7 +59,7 @@ export async function generateMetadata({
       title,
       description,
       url: canonicalUrl,
-      type: "article",
+      type: "website",
       images: service.heroImage
         ? [
             {
@@ -91,6 +90,11 @@ export default async function ServiceDetailPage({
 
   if (!service) notFound();
 
+  // Redirect alias slugs to canonical slug
+  if (slug !== service.slug) {
+    redirect(`/services/${service.slug}`);
+  }
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -116,6 +120,20 @@ export default async function ServiceDetailPage({
     ],
   };
 
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    description: service.summary || service.heroDescription,
+    provider: {
+      "@type": "AccountingService",
+      name: "Albore Chartered Accountants",
+      url: "https://www.alboreaccountants.com",
+    },
+    url: `https://www.alboreaccountants.com/services/${service.slug}`,
+    ...(service.heroImage ? { image: service.heroImage } : {}),
+  };
+
   return (
     <div className="w-full flex flex-col items-center font-body">
       <script
@@ -124,19 +142,26 @@ export default async function ServiceDetailPage({
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(serviceSchema),
+        }}
+      />
       {/* 1. Hero Section (Full Width on Both Sides) */}
-      <ServiceHero service={service} />
-
-      {/* Geometric Ornament Divider */}
-      <SectionDivider variant="services" className="py-4 sm:py-6" />
+      <MotionReveal className="w-full">
+        <ServiceHero service={service} />
+      </MotionReveal>
 
       {/* 2. Comprehensive 6-Card Solutions Grid (Full Width on Both Sides) */}
       {service.solutions && service.solutions.length > 0 && (
-        <ComprehensiveSolutions
-          heading={service.solutionsHeading}
-          subtitle={service.solutionsSubtitle}
-          solutions={service.solutions}
-        />
+        <MotionReveal className="w-full">
+          <ComprehensiveSolutions
+            heading={service.solutionsHeading}
+            subtitle={service.solutionsSubtitle}
+            solutions={service.solutions}
+          />
+        </MotionReveal>
       )}
 
       {/* 3. 5-Step Workflow Stepper (Full Width on Both Sides) */}
@@ -147,33 +172,17 @@ export default async function ServiceDetailPage({
         />
       )}
 
-      {/* 4. Capabilities, What We Do, and Dividers (Constrained Container) */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex flex-col gap-8 sm:gap-12">
-        <ServiceCapabilities
-          cardTitle={service.capabilitiesCardTitle}
-          cardDescription={service.capabilitiesCardDescription}
-          heading={service.capabilitiesHeading}
-          capabilities={service.capabilities}
-          bottomText={service.capabilitiesBottomText}
-          image={service.capabilitiesImage}
+      {/* 4. What We Do (2-Column Cards matching Figma) */}
+      {service.whatWeDo && service.whatWeDo.length > 0 && (
+        <ServiceWhatWeDo
+          heading={service.whatWeDoHeading}
+          subtitle={service.whatWeDoSubtitle}
+          intro={service.whatWeDoIntro}
+          items={service.whatWeDo}
         />
+      )}
 
-        <SectionDivider variant="services" className="py-2" />
-
-        {/* 5. What We Do (Staggered Connected Timeline) */}
-        {service.whatWeDo && service.whatWeDo.length > 0 && (
-          <ServiceWhatWeDo
-            heading={service.whatWeDoHeading}
-            subtitle={service.whatWeDoSubtitle}
-            intro={service.whatWeDoIntro}
-            items={service.whatWeDo}
-          />
-        )}
-
-        <SectionDivider variant="services" className="py-2" />
-      </div>
-
-      {/* 6. Ready to Talk Gold CTA Banner (Full Width on Both Sides) */}
+      {/* 5. Ready to Talk Gold CTA Banner (Full Width on Both Sides) */}
       <CtaBanner />
     </div>
   );

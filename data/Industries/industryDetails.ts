@@ -36,7 +36,10 @@ export interface IndustryDetailData {
     label: string;
     href: string;
   };
+  focusEyebrow?: string;
   focusHeading: string;
+  focusSubtitle?: string;
+  focusDescription?: string;
   focusItems: FocusItem[];
   solutionsHeading: string;
   solutions: SolutionItem[];
@@ -779,7 +782,7 @@ export function getIndustryDetails(rawSlug: string): IndustryDetailData | null {
   // 2. Direct lookup in curated map
   if (industryDetailsMap[mappedSlug]) {
     const data = industryDetailsMap[mappedSlug];
-    return { ...data, slug: normalized };
+    return { ...data, slug: data.slug || mappedSlug };
   }
 
   // 3. Normalized variations
@@ -792,7 +795,7 @@ export function getIndustryDetails(rawSlug: string): IndustryDetailData | null {
 
   for (const v of variations) {
     if (industryDetailsMap[v]) {
-      return { ...industryDetailsMap[v], slug: normalized };
+      return { ...industryDetailsMap[v], slug: industryDetailsMap[v].slug || v };
     }
   }
 
@@ -811,8 +814,11 @@ export function getIndustryDetails(rawSlug: string): IndustryDetailData | null {
   });
 
   if (matchedItem) {
+    const canonicalSlug = matchedItem.readMoreHref
+      .replace(/^\/industries\//, "")
+      .replace(/^\/+|\/+$/g, "");
     return {
-      slug: normalized,
+      slug: canonicalSlug,
       title: matchedItem.title,
       subtitle: `Expert financial solutions for the ${matchedItem.title} sector.`,
       heroDescription: matchedItem.description,

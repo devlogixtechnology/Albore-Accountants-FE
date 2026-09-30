@@ -47,27 +47,27 @@ export default function ComprehensiveSolutions({
   if (!solutions || solutions.length === 0) return null;
 
   return (
-    <section aria-labelledby="solutions-heading" className="w-full my-6 sm:my-10">
-      {/* Heading & Subtitle */}
-      <div className="text-center max-w-4xl mx-auto px-4 mb-8 sm:mb-12">
+    <section aria-labelledby="solutions-heading" className="w-full">
+      {/* 1. Header on Clean White Background (Left-Aligned matching Hero width) */}
+      <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 pt-10 sm:pt-12 lg:pt-14 pb-6 sm:pb-8 text-left">
         <h2
           id="solutions-heading"
-          className="font-heading text-2xl sm:text-3xl lg:text-[38px] font-bold text-slate-900 tracking-tight leading-tight"
+          className="font-heading text-2xl sm:text-3xl lg:text-[36px] font-bold text-text-heading tracking-tight leading-snug"
         >
           {heading}
         </h2>
 
         {subtitle && (
-          <p className="font-body text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed mt-3 max-w-3xl mx-auto">
+          <p className="font-body text-text-body text-xs sm:text-sm md:text-[15px] leading-relaxed mt-2.5 sm:mt-3 max-w-3xl font-normal">
             {subtitle}
           </p>
         )}
       </div>
 
-      {/* 6-Card Maroon Container (Full Width on Both Sides) */}
-      <div className="w-full bg-brand-primary-dark py-12 sm:py-16 shadow-2xl">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+      {/* 2. Full-Bleed Deep Maroon Container with 6 White Cards matching Hero width */}
+      <div className="w-full bg-brand-primary-dark py-10 sm:py-12 lg:py-16 shadow-xl">
+        <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             {solutions.map((item, idx) => {
               const isImagePath =
                 item.icon && (item.icon.startsWith("/") || item.icon.startsWith("http"));
@@ -77,34 +77,34 @@ export default function ComprehensiveSolutions({
               return (
                 <div
                   key={item.title || idx}
-                  className="bg-[#f7f4ee] rounded-md p-6 sm:p-7 flex flex-col justify-start shadow-sm hover:shadow-md transition-all duration-300 group"
+                  className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-7 flex flex-col justify-start shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 group"
                 >
                   {/* Top Icon */}
-                  <div className="h-10 w-10 mb-4 flex items-center justify-start">
+                  <div className="h-10 w-10 mb-3.5 flex items-center justify-start">
                     {isImagePath ? (
                       <Image
                         src={item.icon!}
                         alt={item.title}
-                        width={36}
-                        height={36}
-                        className="h-9 w-9 object-contain"
+                        width={40}
+                        height={40}
+                        className="h-8 w-8 sm:h-9 sm:w-9 object-contain object-left"
                       />
                     ) : isAI ? (
-                      <div className="w-9 h-9 rounded border-2 border-brand-primary flex items-center justify-center text-xs font-bold text-brand-primary select-none">
+                      <div className="w-9 h-9 rounded-md border-2 border-brand-primary flex items-center justify-center text-xs font-bold text-brand-primary select-none">
                         AI
                       </div>
                     ) : (
-                      <IconComponent className="w-8 h-8 text-brand-primary stroke-[1.75]" />
+                      <IconComponent className="w-8 h-8 text-brand-primary stroke-[1.6]" />
                     )}
                   </div>
 
                   {/* Title */}
-                  <h3 className="font-heading text-base sm:text-lg font-bold text-slate-900 leading-snug">
+                  <h3 className="font-heading text-base sm:text-[17px] font-bold text-text-heading leading-snug mb-2">
                     {item.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="font-body text-xs sm:text-[13.5px] text-slate-700 leading-relaxed mt-2.5">
+                  <p className="font-body text-xs sm:text-[13px] text-text-body leading-relaxed font-normal">
                     {item.description}
                   </p>
                 </div>
@@ -118,4 +118,3 @@ export default function ComprehensiveSolutions({
 }
 
 export { ComprehensiveSolutions };
-

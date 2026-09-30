@@ -1,4 +1,9 @@
+export * from "./heroSectionData";
 export * from "./servicesSectionData";
+export * from "./industrySectionData";
+export * from "./consultationSectionData";
+export * from "./whoWeServeSectionData";
+export * from "./testimonialsSectionData";
+export * from "./leadershipSectionData";
+export * from "./whyChooseUsSectionData";
 export * from "./insightsSectionData";
-export { default } from "./servicesSectionData";
-

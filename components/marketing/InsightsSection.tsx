@@ -1,66 +1,60 @@
-import InsightCard, { type Insight } from "@/components/ui/InsightCard";
+import InsightCard from "@/components/ui/InsightCard";
+import {
+  homeInsightsData as insights,
+  insightsSectionData,
+} from "@/data/home/insightsSectionData";
+import {
+  MotionReveal,
+  MotionStaggerGroup,
+  MotionStaggerItem,
+} from "@/components/ui/motion";
 
-const insights: Insight[] = [
-  {
-    title: "Retail Governance",
-    description:
-      "How commercial retail operations can streamline multi-tenant lease accounting and eliminate operational revenue leakage.",
-    image: "/images/InsightSection/ImagePlaceholder (1).png",
-    href: "/insights/retail-governance",
-  },
-  {
-    title: "Corporate Tax",
-    description:
-      "Strategic tax frameworks to navigate changes, optimize structures, and ensure FBR and SECP compliance for enterprises.",
-    image: "/images/InsightSection/ImagePlaceholder.png",
-    href: "/insights/corporate-tax",
-  },
-  {
-    title: "Audit Pulse",
-    description:
-      "Quarterly analysis on financial reporting standards, internal risk controls, and statutory audit readiness for mid-market leaders.",
-    image: "/images/InsightSection/ImagePlaceholder (2).png",
-    href: "/insights/audit-pulse",
-  },
-  {
-    title: "Growth Advisory",
-    description:
-      "Key financial due diligence metrics and corporate valuation insights shaping cross-border transactions and market expansion.",
-    image: "/images/InsightSection/ImagePlaceholder (3).png",
-    href: "/insights/growth-advisory",
-  },
-];
+export { insights };
 
 /**
- * "Explore the Latest Insights" section.
- * Fully responsive 1-col (mobile) -> 2-col (tablet) -> 4-col (desktop) layout.
+ * "Thought Leadership & Publications" section matching Figma prototype.
+ * Left-aligned executive header with two-tone title and 4-column white cards.
  */
 export default function InsightsSection() {
   return (
     <section
-      aria-labelledby="explore-insights-heading"
-      className="w-full py-12 sm:py-16 lg:py-20"
+      aria-labelledby="thought-leadership-heading"
+      className="w-full pt-6 pb-12 sm:pt-8 sm:pb-16 lg:pt-10 lg:pb-20"
     >
       <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
-        {/* Centered Heading */}
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 md:mb-14">
-          <span className="block font-body text-xs font-bold text-text-accent uppercase tracking-[0.3em] mb-2 sm:mb-3">
-            Market Intelligence
-          </span>
-          <h2
-            id="explore-insights-heading"
-            className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-text-heading tracking-tight"
-          >
-            Explore the Latest Insights
-          </h2>
-        </div>
+        {/* Left-Aligned Executive Header */}
+        <MotionReveal>
+          <div className="max-w-3xl mb-10 sm:mb-12 md:mb-14">
+            <p className="font-heading text-xs sm:text-[13px] font-bold uppercase tracking-[0.16em] text-maroon-hover">
+              {insightsSectionData.eyebrow}
+            </p>
+            <h2
+              id="thought-leadership-heading"
+              className="mt-3 font-heading text-3xl sm:text-4xl md:text-5xl lg:text-[44px] xl:text-[46px] font-bold tracking-tight text-ink leading-[1.15]"
+            >
+              {insightsSectionData.headingPart1}
+              <span className="block mt-1">
+                <span className="text-accent">{insightsSectionData.headingPart2}</span> &amp;{" "}
+                <span className="text-accent">{insightsSectionData.headingPart3}</span>
+              </span>
+            </h2>
+            <p className="mt-4 font-body text-sm sm:text-base lg:text-[16px] text-body/80 leading-relaxed max-w-3xl">
+              {insightsSectionData.description}
+            </p>
+          </div>
+        </MotionReveal>
 
         {/* Responsive Grid: 1 col on mobile, 2 cols on tablet, 4 cols on desktop */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-7 xl:gap-8">
+        <MotionStaggerGroup
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7 lg:gap-8"
+          staggerDelay={0.09}
+        >
           {insights.map((insight) => (
-            <InsightCard key={insight.title} {...insight} />
+            <MotionStaggerItem key={insight.title} className="h-full">
+              <InsightCard {...insight} />
+            </MotionStaggerItem>
           ))}
-        </div>
+        </MotionStaggerGroup>
       </div>
     </section>
   );

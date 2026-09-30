@@ -22,15 +22,19 @@ export const DEFAULT_STATS: Stat[] = [
   { sequence: [10, 15, 18, 20], label: "Countries Served" },
 ];
 
+export type StatsBarProps = {
+  stats?: Stat[];
+  className?: string;
+  variant?: "solid" | "blur";
+};
+
 const STEP_MS = 120;
 
 export function StatsBar({
   stats = DEFAULT_STATS,
   className = "",
-}: {
-  stats?: Stat[];
-  className?: string;
-}) {
+  variant = "solid",
+}: StatsBarProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [started, setStarted] = useState(false);
 
@@ -69,7 +73,6 @@ export function StatsBar({
     function maybeStart() {
       if (inView && scrolled && !cancelled) {
         setStarted(true);
-        cleanup();
       }
     }
 
@@ -83,13 +86,46 @@ export function StatsBar({
         inView = entries.some((e) => e.isIntersecting);
         maybeStart();
       },
-      { threshold: 0.5 },
+      { threshold: 0.2 },
     );
 
     observer.observe(el);
     window.addEventListener("scroll", onScroll, { passive: true });
     return cleanup;
   }, []);
+
+  if (variant === "blur") {
+    return (
+      <div
+        ref={ref}
+        className={`w-full bg-black/20 backdrop-blur-xs sm:backdrop-blur-sm border-t border-white/15 ${className}`}
+      >
+        <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 py-3 sm:py-3.5 md:py-4">
+          <dl className="grid grid-cols-4 gap-x-2 sm:gap-x-6 lg:gap-x-8">
+            {stats.map((stat, i) => (
+              <div
+                key={stat.label}
+                className="relative flex flex-col items-center justify-center px-1 text-center sm:px-2"
+              >
+                {i > 0 && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute left-0 top-1/2 h-6 sm:h-7 md:h-8 w-px -translate-y-1/2 bg-white/20"
+                  />
+                )}
+                <dt className="order-2 text-[8px] sm:text-[10px] md:text-[11px] lg:text-[12px] font-semibold uppercase leading-tight tracking-[0.04em] sm:tracking-[0.06em] text-white/90 mt-1 sm:mt-1.5 max-w-[150px]">
+                  {stat.label}
+                </dt>
+                <dd className="order-1 font-heading text-[20px] sm:text-[26px] md:text-[30px] lg:text-[36px] font-bold leading-none text-white tabular-nums tracking-tight">
+                  <StatValue stat={stat} run={started} durationMs={durationMs} />
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

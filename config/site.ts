@@ -36,7 +36,7 @@ export const siteConfig = {
     firm: [
       { label: "Services", href: "/services" },
       { label: "Insights", href: "/insights" },
-      { label: "Client Stories", href: "/about" },
+      { label: "Client Stories", href: "/client-testimonials" },
       { label: "Industries", href: "/industries" },
     ],
   },

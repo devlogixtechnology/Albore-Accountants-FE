@@ -13,7 +13,7 @@
   /* Added for the homepage hero + services section */
   --color-maroon-800: #422d28;
   --color-maroon-600: #7d2433;
-  --color-gold-400: #b49969;
+  --color-gold-400: #b08d57;
   --color-cream-200: #efe6d2;
   --albore-overlay: rgba(28, 13, 4, 0.5);
 
@@ -25,9 +25,27 @@
   --color-cream-badge: #faf4f0;
   --color-tan-200: #d8c7b5;
   --color-border-subtle: #ebe5de;
+
+  /* Added for Leadership & Statutory Badges */
+  --color-reg-badge-bg: rgba(24, 18, 15, 0.85);
+  --color-reg-badge-text: #d6be96;
+  --color-reg-badge-border: rgba(214, 190, 150, 0.25);
+
+  /* Service Stage & Standalone Tokens */
+  --color-maroon-stage-adjacent: #8e5c67;
+  --color-maroon-stage-outer: #baa0a7;
+  --color-service-hero: #3a0d15;
+  --color-border-champagne: #dcc5ad;
+  --color-border-champagne-dark: #cbb396;
+  --color-cream-card: #fdfbf7;
+  --color-banner-gold: #c5a880;
 }
 
 @theme {
+  --color-reg-badge: var(--color-reg-badge-bg);
+  --color-reg-badge-text: var(--color-reg-badge-text);
+  --color-reg-badge-border: var(--color-reg-badge-border);
+
   /* Semantic tokens — reference these in components */
   --color-brand-primary: var(--color-maroon-700);
   --color-brand-primary-dark: var(--color-maroon-900);
@@ -56,7 +74,8 @@
   --color-cream: var(--color-cream-100);
   --color-cream-hover: var(--color-cream-200);
   --color-gold: var(--color-gold-500);
-  --color-gold-light: var(--color-gold-400);
+  --color-gold-light: var(--color-gold-500);
+  --color-gold-champagne: var(--color-reg-badge-text);
   --color-ink: var(--color-neutral-950);
   --color-body: var(--color-neutral-800);
 
@@ -68,6 +87,15 @@
   --color-industry-pillar-badge: var(--color-tan-200);
   --color-industry-border: var(--color-border-subtle);
   --color-border: var(--color-border-subtle);
+
+  /* Service & Standalone Tokens */
+  --color-maroon-stage-adjacent: var(--color-maroon-stage-adjacent);
+  --color-maroon-stage-outer: var(--color-maroon-stage-outer);
+  --color-service-hero: var(--color-service-hero);
+  --color-border-champagne: var(--color-border-champagne);
+  --color-border-champagne-dark: var(--color-border-champagne-dark);
+  --color-cream-card: var(--color-cream-card);
+  --color-banner-gold: var(--color-banner-gold);
 
   --container-content: 1120px;
   --container-wide: 1360px;

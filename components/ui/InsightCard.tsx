@@ -22,35 +22,36 @@ export default function InsightCard({
   return (
     <Link
       href={href}
-      className="group flex flex-col justify-between overflow-hidden bg-surface-muted transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+      className="group flex flex-col justify-between rounded-[20px] sm:rounded-[24px] overflow-hidden bg-surface shadow-md hover:shadow-xl border border-border/40 transition-all duration-300 hover:-translate-y-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
     >
       {/* Card Thumbnail Image */}
-      <div className="relative w-full aspect-[302/200] overflow-hidden">
+      <div className="relative w-full aspect-[16/10] overflow-hidden bg-cream-100">
         <Image
           src={image}
           alt={title}
           fill
-          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+          quality={95}
+          sizes="(min-width: 1280px) 380px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
       </div>
 
       {/* Card Text Content */}
-      <div className="flex flex-col flex-1 justify-between p-5 sm:p-6 md:p-7">
+      <div className="flex flex-col flex-1 justify-between p-6 sm:p-7">
         <div>
-          <h3 className="font-heading text-lg sm:text-xl md:text-[22px] font-bold text-brand-primary tracking-tight mb-2.5 sm:mb-3 transition-colors duration-200 group-hover:text-brand-primary-dark">
+          <h3 className="font-heading text-lg sm:text-[19px] lg:text-[20px] font-bold text-ink tracking-tight transition-colors duration-200 group-hover:text-maroon">
             {title}
           </h3>
-          <p className="font-body text-sm sm:text-[15px] leading-relaxed text-text-body">
+          <p className="mt-2.5 sm:mt-3 font-body text-xs sm:text-[13.5px] lg:text-[14px] leading-[1.65] text-neutral-600">
             {description}
           </p>
         </div>
 
-        {/* Gold "Read more →" Link */}
+        {/* Maroon "Read more →" Link */}
         <div className="mt-5 sm:mt-6 pt-1">
-          <span className="inline-flex items-center gap-1.5 font-button text-sm sm:text-[15px] font-semibold text-text-accent transition-colors duration-200 group-hover:text-text-accent/80">
+          <span className="inline-flex items-center gap-1.5 font-body text-xs sm:text-[13.5px] font-bold text-maroon transition-colors duration-200 group-hover:text-maroon-hover">
             Read more
-            <span className="transition-transform duration-200 group-hover:translate-x-1.5">
+            <span className="transition-transform duration-200 group-hover:translate-x-1">
               →
             </span>
           </span>

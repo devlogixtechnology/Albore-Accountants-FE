@@ -8,9 +8,18 @@ const nextConfig: NextConfig = {
   // while keeping standalone output active when running inside Docker.
   output: process.env.VERCEL ? undefined : 'standalone',
   reactStrictMode: true,
+  compiler: {
+    styledComponents: true,
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
-    qualities: [75, 100],
+    qualities: [75, 85, 90, 95, 100],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+      },
+    ],
   },
   async headers() {
     return [
@@ -36,7 +45,7 @@ const nextConfig: NextConfig = {
           {
             key: 'Content-Security-Policy',
             value:
-              "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https: data:;",
+              "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https: blob:; font-src 'self' https: data:; connect-src 'self' https: wss:; frame-src 'self' https:;",
           },
         ],
       },

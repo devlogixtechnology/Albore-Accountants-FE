@@ -21,10 +21,12 @@
     "next-sanity": "^13.3.4",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "sanity": "^6.15.0"
+    "react-icons": "^5.7.0",
+    "sanity": "^6.15.0",
+    "styled-components": "^6.1.14"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "latest",
+    "@chromatic-com/storybook": "^5.3.1",
     "@storybook/addon-a11y": "^10.6.0",
     "@storybook/addon-docs": "^10.6.0",
     "@storybook/addon-onboarding": "^10.6.0",
@@ -34,16 +36,16 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@vitest/browser-playwright": "latest",
-    "@vitest/coverage-v8": "latest",
+    "@vitest/browser-playwright": "^5.0.2",
+    "@vitest/coverage-v8": "^5.0.2",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
     "eslint-plugin-storybook": "^10.6.0",
-    "playwright": "latest",
+    "playwright": "^1.63.0",
     "storybook": "^10.6.0",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vite": "latest",
-    "vitest": "latest"
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
   }
 }

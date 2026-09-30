@@ -18,6 +18,5 @@ export default defineConfig({
   plugins: [
     structureTool({ structure }),
     visionTool({ defaultApiVersion: apiVersion }),
-    // visionTool({ defaultApiVersion: apiVersion }),
   ],
 });

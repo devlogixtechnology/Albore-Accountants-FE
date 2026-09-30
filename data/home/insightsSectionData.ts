@@ -9,31 +9,42 @@ export const homeInsightsData: Insight[] = [
     title: "Retail Governance",
     description:
       "How commercial retail operations can streamline multi-tenant lease accounting and eliminate operational revenue leakage.",
-    image: "/images/InsightSection/ImagePlaceholder (1).png",
+    image: "/images/InsightSection/ImagePlaceholder (3).png",
     href: "/insights/retail-governance",
   },
   {
     title: "Corporate Tax",
     description:
       "Strategic tax frameworks to navigate changes, optimize structures, and ensure FBR and SECP compliance for enterprises.",
-    image: "/images/InsightSection/ImagePlaceholder.png",
+    image: "/images/InsightSection/ImagePlaceholder (2).png",
     href: "/insights/corporate-tax",
   },
   {
     title: "Audit Pulse",
     description:
       "Quarterly analysis on financial reporting standards, internal risk controls, and statutory audit readiness for mid-market leaders.",
-    image: "/images/InsightSection/ImagePlaceholder (2).png",
+    image: "/images/InsightSection/ImagePlaceholder (1).png",
     href: "/insights/audit-pulse",
   },
   {
     title: "Growth Advisory",
     description:
       "Key financial due diligence metrics and corporate valuation insights shaping cross-border transactions and market expansion.",
-    image: "/images/InsightSection/ImagePlaceholder (3).png",
+    image: "/images/InsightSection/ImagePlaceholder.png",
     href: "/insights/growth-advisory",
   },
 ];
 
-export default homeInsightsData;
+export const insightsSectionData = {
+  eyebrow: "STATUTORY BRIEFINGS & ANALYSIS",
+  headingPart1: "Thought",
+  headingPart2: "Leadership",
+  headingPart3: "Publications",
+  description:
+    "In-depth whitepapers and executive alerts published by our research council for Chief Financial Officers, Audit Committees, and Legal Counsels.",
+  insights: homeInsightsData,
+};
 
+export const defaultInsights = homeInsightsData;
+
+export default insightsSectionData;

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { industryItems } from "@/data/Industries/industries";
 import { industriesData } from "@/data/contactData";
 import {
@@ -14,6 +14,7 @@ import {
   IndustrySolutions,
   IndustryWhyPartner,
 } from "@/components/industryStandalone";
+import { MotionReveal } from "@/components/ui/motion";
 
 export const dynamicParams = false;
 
@@ -63,7 +64,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title,
       description,
       url: canonicalUrl,
-      type: "article",
+      type: "website",
       images: industry.heroImage
         ? [
             {
@@ -90,6 +91,11 @@ export default async function IndustryStandalonePage({ params }: PageProps) {
 
   if (!industry) {
     notFound();
+  }
+
+  // Canonical 308 redirect if accessed via an alias or unnormalized slug
+  if (slug !== industry.slug) {
+    redirect(`/industries/${industry.slug}`);
   }
 
   const breadcrumbSchema = {
@@ -125,29 +131,37 @@ export default async function IndustryStandalonePage({ params }: PageProps) {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      {/* 1. Hero Section */}
+      {/* 1. Hero Section (manages its own motion) */}
       <IndustryHero data={industry} />
 
-      {/* 2. Industry Focus 4-Card Grid */}
-      <IndustryFocus
-        heading={industry.focusHeading}
-        items={industry.focusItems}
-      />
+      {/* 2. Industry Focus 4-Card Grid (typed with optional eyebrow/subtitle) */}
+      <MotionReveal className="w-full">
+        <IndustryFocus
+          eyebrow={industry.focusEyebrow}
+          heading={industry.focusHeading}
+          subtitle={industry.focusSubtitle || industry.focusDescription}
+          items={industry.focusItems}
+        />
+      </MotionReveal>
 
       {/* 3. Solutions Horizontal Track */}
-      <IndustrySolutions
-        heading={industry.solutionsHeading}
-        solutions={industry.solutions}
-      />
+      <MotionReveal className="w-full">
+        <IndustrySolutions
+          heading={industry.solutionsHeading}
+          solutions={industry.solutions}
+        />
+      </MotionReveal>
 
       {/* 4. Why Partner With Us 2x2 Grid */}
-      <IndustryWhyPartner
-        heading={industry.whyPartnerHeading}
-        subtitle={industry.whyPartnerSubtitle}
-        pillars={industry.partnerPillars}
-      />
+      <MotionReveal className="w-full">
+        <IndustryWhyPartner
+          heading={industry.whyPartnerHeading}
+          subtitle={industry.whyPartnerSubtitle}
+          pillars={industry.partnerPillars}
+        />
+      </MotionReveal>
 
-      {/* 5. Ready to Talk Banner */}
+      {/* 5. Ready to Talk Banner (manages its own motion) */}
       <CtaBanner />
     </div>
   );

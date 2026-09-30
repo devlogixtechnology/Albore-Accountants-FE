@@ -4,15 +4,16 @@
 export interface TestimonialsHeroData {
     eyebrow: string;
     headingLine1: string;
-    subheadingAccent: string;
-    subheadingInverse: string;
+    imageSrc: string;
+    imageAlt: string;
 }
 
 export const testimonialsHeroData: TestimonialsHeroData = {
     eyebrow: 'Clients testimonials',
     headingLine1: 'Our Result Are Our Proof , We Build Trust',
-    subheadingAccent: 'See the Success Stories from',
-    subheadingInverse: "those We've Partner With",
+    imageSrc: '/images/testimonials/hero-handshake.png',
+    imageAlt: 'Two people shaking hands, symbolizing trust and partnership.',
+
 };
 
 // ------------------------------------------------------------------------------
@@ -29,14 +30,12 @@ export interface Testimonial {
 export interface TestimonialsSectionData {
     eyebrow: string;
     heading: string;
-    subheading: string;
     description: string;
 }
 
 export const testimonialsSectionData: TestimonialsSectionData = {
     eyebrow: 'Our Clients',
     heading: 'What Our Client Says',
-    subheading: 'Real Results, Real Relationships',
     description:
         'Every engagement is built on measurable outcomes and long-term trust — see who we work with and what they say.',
 };
@@ -96,26 +95,29 @@ export const testimonials: Testimonial[] = [
 // 3. FOUNDER DESK
 // ------------------------------------------------------------------------------
 export interface FounderDeskData {
-    sectionHeading: string;
     imageSrc: string;
     imageAlt: string;
     avatarInitials: string;
     name: string;
     role: string;
     quoteHeading: string;
+    quoteHeading2: string;
     quoteBody: string;
+    quoteBody2: string;
 }
 
 export const founderDeskData: FounderDeskData = {
-    sectionHeading: 'From The Founder Desk',
     imageSrc: '/images/testimonials/founder.png',
     imageAlt: 'Ahmed Khan, Chief Financial Officer',
     avatarInitials: 'SJ',
     name: 'Ahmed Khan',
     role: 'Chief Financial Officer',
-    quoteHeading: 'A Firm Built to Be Trusted With What Matters Most',
+    quoteHeading: 'A Firm Built to Be',
+    quoteHeading2: 'Trusted With What Matters Most',
     quoteBody:
-        "We don't just manage numbers. We protect your future. Alboré partners with businesses who expect more than accuracy — they expect a firm that understands what's at stake. For over a decade, Alboré has been the quiet strength behind ambitious businesses. We bring institutional-grade expertise to every relationship, without losing the personal touch.",
+        "We don't just manage numbers. We protect your future. Alboré partners with businesses who expect more than accuracy — they expect a firm that understands what's at stake.",
+    quoteBody2:
+        'For over a decade, Alboré has been the quiet strength behind ambitious businesses. We bring institutional-grade expertise to every relationship, without losing the personal touch.',
 };
 
 // ------------------------------------------------------------------------------
@@ -125,8 +127,6 @@ export interface PromiseSectionData {
     heading: string;
     subheading: string;
     description: string;
-    imageSrc: string;
-    imageAlt: string;
 }
 
 export const promiseSectionData: PromiseSectionData = {
@@ -134,8 +134,6 @@ export const promiseSectionData: PromiseSectionData = {
     subheading: 'Build lasting partnerships with complete transparency.',
     description:
         'Every client partnership is a long-term commitment. We build it on rigorous standards, transparent practices, and a culture of mutual respect. Our results speak for themselves.',
-    imageSrc: '/images/testimonials/handshake.png',
-    imageAlt: 'Business handshake',
 };
 
 export const promises: string[] = [

@@ -6,6 +6,7 @@ export interface IndustriesHeroData {
     description: string;
     imageSrc: string;
     imageAlt: string;
+    imageSizes: string;
     cta: { label: string; href: string };
 }
 
@@ -13,8 +14,9 @@ export const industriesHeroData: IndustriesHeroData = {
     heading: 'Industries',
     description:
         'At Albore, we simplify complex regulations with expert accounting advice to help your business grow. Explore our tailored industry solutions.',
-    imageSrc: '/images/Industriespage/industry-hero.png',
+    imageSrc: '/images/Industriespage/industries-hero.png',
     imageAlt: '',
+    imageSizes: '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
     cta: { label: 'Talk to Partner', href: '/contact' },
 };
 
@@ -86,6 +88,7 @@ export interface StrategicFrameworkData {
     description: string;
     imageSrc: string;
     imageAlt: string;
+    imageSizes: string;
     focusAreasHeading: string;
     focusAreas: string[];
     summary: string;
@@ -97,8 +100,9 @@ export const strategicFrameworkData: StrategicFrameworkData = {
     heading: 'Flexible Banking and Payment Solutions',
     description:
         'Our end-to-end advisory framework helps mid-market businesses and growing enterprises navigate complex regulatory shifts, modernize accounting workflows, and position themselves for long-term capital growth.',
-    imageSrc: '/images/Industriespage/strategic-framework.png',
+    imageSrc: '/images/Industriespage/industry-strategic-framework.png',
     imageAlt: '',
+    imageSizes: '(max-width: 1023px) 100vw, 50vw',
     focusAreasHeading: 'Key framework focus areas include:',
     focusAreas: [
         'Strategic regulatory compliance & risk navigation',

@@ -115,6 +115,9 @@ export const consultationServices: ServiceOption[] = [
 // ------------------------------------------------------------------------------
 export interface FormCopyData {
   sectionHeading: string;
+  /** Heading of the "Book your consultation" card on the Contact page */
+  pageHeading: string;
+  /** Home-variant labels */
   fields: {
     fullName: string;
     email: string;
@@ -129,10 +132,22 @@ export interface FormCopyData {
     date?: string;
     time?: string;
   };
+  /** Contact-page (page variant) labels — kept separate so the home form isn't affected */
+  pageFields: {
+    fullName: string;
+    email: string;
+    phone: string;
+    phonePlaceholder: string;
+    company: string;
+    service: string;
+    message: string;
+  };
   actions: {
     submit: string;
     submitting: string;
     reset: string;
+    pageSubmit: string;
+    backHome: string;
   };
   successState: {
     title: string;
@@ -142,6 +157,7 @@ export interface FormCopyData {
 
 export const formCopyData: FormCopyData = {
   sectionHeading: "Initiate Consultation",
+  pageHeading: "Book your consultation",
   fields: {
     fullName: "Full Name",
     email: "Email Address",
@@ -156,10 +172,21 @@ export const formCopyData: FormCopyData = {
     date: "Select Date",
     time: "Select Time Slot",
   },
+  pageFields: {
+    fullName: "Full Name",
+    email: "Working Email",
+    phone: "Contact No",
+    phonePlaceholder: "+92***********",
+    company: "Business/Company Name",
+    service: "Services of Interest",
+    message: "Describe your project",
+  },
   actions: {
     submit: "Submit Inquiry",
     submitting: "Transmitting...",
     reset: "Reset Form",
+    pageSubmit: "Confirmed", // matches the design; "Book consultation" says what the button does
+    backHome: "Back To Home",
   },
   successState: {
     title: "Consultation Request Logged.",
@@ -196,12 +223,26 @@ export const homeConsultationData: HomeConsultationData = {
 export interface ContactPageIntroData {
   titlePrefix: string;
   description: string;
+  /** Small label above the contact-details heading */
+  badge: string;
+  /** Contact-details heading ("Talk to Partner") */
+  heading: string;
+  /** First intro paragraph */
+  intro: string;
+  /** Second intro paragraph */
+  followUp: string;
 }
 
 export const contactPageIntroData: ContactPageIntroData = {
   titlePrefix: "Let's Talk About How We Can Help",
   description:
     "Share your requirements and our experts will get in touch with you to explore the best solutions for your business.",
+  badge: "Contact Details",
+  heading: "Talk to Partner",
+  intro:
+    "Reach us directly, or send a message. Connect with our senior partners and advisory principals to explore bespoke financial solutions.",
+  followUp:
+    "Prefer to talk first? Call or email us, or fill out the form and we'll get back to you shortly.",
 };
 
 // ------------------------------------------------------------------------------
@@ -212,6 +253,14 @@ export interface ContactHeroData {
   titleAccent: string;
   seoSubtitle: string;
   description: string;
+  /** Contact page banner (photo + text) */
+  title: string;
+  subheading: string;
+  image: {
+    src: string;
+    sizes: string;
+    alt: string;
+  };
 }
 
 export const contactHeroData: ContactHeroData = {
@@ -220,11 +269,33 @@ export const contactHeroData: ContactHeroData = {
   seoSubtitle: " - Chartered Accountants, Tax Advisory, and Statutory Audit Services",
   description:
     "Connect with our chartered accountants and senior advisory partners to streamline your tax compliance, audit readiness, and institutional financial growth.",
+  title: "Contact Us",
+  subheading: "Let's Talk About How We Can Help.",
+  image: {
+    src: "/images/ContactPage/contact-hero.png",
+    sizes: '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
+    alt: "Alboré support advisor wearing a headset, ready to take your call",
+  },
 };
 
 // ------------------------------------------------------------------------------
 // 9. FREQUENTLY ASKED QUESTIONS (FAQ)
 // ------------------------------------------------------------------------------
+// In "@/data/contact", replace section 9 (FAQ) with this:
+
+export interface FaqSectionData {
+  badge: string;
+  heading: string;
+  description: string;
+}
+
+export const faqSectionData: FaqSectionData = {
+  badge: "Clarity & Engagement",
+  heading: "Frequently Asked Questions",
+  description:
+    "Direct insight into our partnership frameworks, regulatory compliance thresholds, and engagement procedures.",
+};
+
 export interface FaqItem {
   question: string;
   answer: string;
@@ -232,22 +303,21 @@ export interface FaqItem {
 
 export const contactFaqItems: FaqItem[] = [
   {
-    question: "What services does Albore Accountant offer?",
+    question: "What services does Alborè Accountant offer to growing and established entities?",
     answer:
       "We provide bookkeeping, audits & assurance, financial advisory, and tax services tailored to your business.",
   },
   {
-    question: "How can Albore help my business grow?",
+    question: "How can Alborè help my business scale securely across jurisdictions?",
     answer:
       "Our partners work alongside your team to streamline your finances, stay compliant, and surface the insights that support better growth decisions.",
   },
   {
-    question: "How do I get started with Albore?",
+    question: "How do I begin an engagement with Alborè and what is the onboarding timeline?",
     answer:
       "Fill out the form above or call our direct office line, and a partner will follow up within 4 business hours.",
   },
 ];
-
 // ------------------------------------------------------------------------------
 // 10. INDUSTRY SECTORS
 // ------------------------------------------------------------------------------
@@ -339,7 +409,7 @@ export const industriesData: IndustrySector[] = [
 ];
 
 // ------------------------------------------------------------------------------
-// 11. CONTACT FORM TIME SLOTS
+// 11. CONTACT FORM TIME SLOTS (no longer used by the Contact page form)
 // ------------------------------------------------------------------------------
 export const TIME_SLOTS: string[] = [
   "10:00 am",
@@ -384,4 +454,3 @@ export const formValidationCopy = {
     requiredMark: "*",
   },
 };
-

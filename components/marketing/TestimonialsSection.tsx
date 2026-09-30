@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import TestimonialCard from "@/components/ui/TestimonialCard";
 import {
   defaultTestimonials as testimonials,
@@ -33,9 +35,9 @@ export default function TestimonialsSection({
       className="w-full bg-brand-primary-dark py-12 sm:py-16 lg:py-20 text-white"
     >
       <div className="w-full max-w-9xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16">
-        {/* Header Bar (Centered) */}
+        {/* Header Bar */}
         <MotionReveal>
-          <div className="flex flex-col items-center justify-center text-center">
+          <div className="relative flex flex-col items-center justify-center text-center">
             {/* Eyebrow */}
             <span className="font-body text-2xl sm:text-2xl font-bold uppercase tracking-[0.2em] text-white">
               {testimonialsSectionData.eyebrow}
@@ -48,6 +50,17 @@ export default function TestimonialsSection({
             >
               {testimonialsSectionData.heading}
             </h2>
+
+            {/* Explore All Reviews Link */}
+            <div className="mt-4 sm:mt-0 sm:absolute sm:right-0 sm:bottom-0">
+              <Link
+                href="/client-testimonials"
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-accent hover:text-gold-light transition-colors group"
+              >
+                <span>Read All Client Reviews</span>
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
           </div>
         </MotionReveal>
 

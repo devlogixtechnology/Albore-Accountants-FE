@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const fontHeading = Open_Sans({
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-open-sans",
   display: "swap",
 });

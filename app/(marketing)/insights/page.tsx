@@ -1,15 +1,25 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronRight } from "lucide-react";
+
 import CtaBanner from "@/components/ui/CtaBanner";
-import SectionDivider from "@/components/ui/SectionDivider";
 import { AVATARS, latest, blogs, topics } from "@/data/insights";
-import {
-  MotionReveal,
-  MotionStaggerGroup,
-  MotionStaggerItem,
-} from "@/components/ui/motion";
+
+const description =
+  "Perspectives, updates, and practical guidance from Alboré accounting, tax, and advisory specialists.";
+
+export const metadata: Metadata = {
+  title: "Insights | Albore Chartered Accountants",
+  description,
+  alternates: { canonical: "/insights" },
+  openGraph: {
+    title: "Insights | Albore Chartered Accountants",
+    description,
+    url: "/insights",
+    type: "website",
+  },
+};
 
 function initials(name: string) {
   return name
@@ -23,131 +33,190 @@ function Avatar({ author }: { author: string }) {
   const src = AVATARS[author];
   if (src) {
     return (
-      <span className="relative inline-block h-6 w-6 shrink-0 overflow-hidden rounded-full">
-        <Image src={src} alt={author} fill className="object-cover" />
+      <span className="relative inline-block h-8 w-8 shrink-0 overflow-hidden rounded-full">
+        <Image src={src} alt="" fill sizes="32px" className="object-cover" />
       </span>
     );
   }
-  // No headshot asset provided for this author yet — fall back to an
-  // initials badge (same pattern used by TestimonialCard/TeamMemberCard)
-  // instead of leaving a placeholder glyph.
+  // No headshot asset for this author yet — initials badge as a fallback.
   return (
-    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#6b1e2b] font-heading text-[7px] font-bold text-white">
+    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-primary font-heading text-[13px] font-bold text-white">
       {initials(author)}
     </span>
   );
 }
 
-export const metadata: Metadata = {
-  title: "Insights | Albore Chartered Accountants",
-  description:
-    "Perspectives, updates, and practical guidance from Alboré accounting, tax, and advisory specialists.",
-  alternates: {
-    canonical: "/insights",
-  },
-  openGraph: {
-    title: "Insights | Albore Chartered Accountants",
-    description:
-      "Perspectives, updates, and practical guidance from Alboré accounting, tax, and advisory specialists.",
-    url: "/insights",
-    type: "website",
-  },
-};
+function CategoryChip({ children }: { children: string }) {
+  return (
+    <span className="inline-block rounded-[4px] bg-accent px-[9px] py-[3px] font-heading text-[12px] font-bold uppercase leading-none tracking-[0.02em] text-white">
+      {children}
+    </span>
+  );
+}
 
 export default function InsightsPage() {
   return (
-    <div className="insights-page w-full overflow-hidden bg-white text-[#151515]">
-      <MotionReveal as="section" className="relative min-h-[310px] md:min-h-[360px] overflow-hidden">
-        <Image src="/images/InsightSection/ImagePlaceholder.png" alt="" fill priority className="object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#8c0c17]/90 via-[#5c1724]/75 to-[#142c4d]/35" />
-        <div className="relative z-10 mx-auto flex min-h-[310px] max-w-[1160px] items-center px-7 py-14 md:min-h-[360px] md:px-10 lg:px-12">
-          <div className="max-w-[580px]">
-            <p className="font-heading text-xl font-bold text-[#c5a15e] md:text-2xl">Insights</p>
-            <h1 className="mt-2 font-heading text-3xl font-bold leading-[1.18] text-white md:text-4xl lg:text-[43px]">Insights That Keep You<br className="hidden md:block" /> Ahead</h1>
-            <p className="mt-3 max-w-[560px] font-body text-[14px] leading-6 text-white/95 md:text-base">Perspectives, updates, and practical guidance from our audit, tax, and advisory specialists, helping you stay ahead of financial and regulatory change.</p>
-          </div>
+    <div className="insights-page w-full overflow-hidden bg-white">
+      {/* Hero — 1440 x 612 */}
+      <section className="relative flex min-h-[380px] items-center md:min-h-[612px]">
+        <Image
+          src="/images/InsightSection/Insights.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div aria-hidden="true" className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10 w-full px-6 md:pb-[70px] md:pl-[113px] md:pr-10">
+          <h1 className="font-heading text-[34px] font-bold leading-tight text-white md:text-[52px]">
+            Insights That Keep You Ahead
+          </h1>
+          <p className="mt-8 max-w-[600px] font-heading text-[22px] font-medium leading-[1.4] text-white md:text-[28px]">
+            Practical perspectives from our audit, tax and advisory team, so change never catches
+            you off guard.
+          </p>
         </div>
-      </MotionReveal>
-
-      <section className="mx-auto max-w-[1120px] px-6 py-8 md:px-10 md:py-10">
-        <MotionReveal className="text-center">
-          <h2 className="font-heading text-2xl font-bold md:text-[28px]">Research Insights &amp; Discoveries</h2>
-          <p className="mx-auto mt-2 max-w-[500px] font-body text-[10px] leading-4 text-gray-700 md:text-[11px]">Perspectives, updates, and practical guidance from our audit, tax, and advisory specialists — helping you stay ahead of financial and regulatory change.</p>
-        </MotionReveal>
-        <SectionDivider className="py-4" />
-
-        <MotionReveal className="flex items-stretch gap-3 pl-4">
-          <span aria-hidden="true" className="w-1 shrink-0 rounded-full bg-gradient-to-b from-[#6b1e2b] to-[#b08d57]" />
-          <h3 className="font-heading text-lg font-bold md:text-xl">Latest Insights</h3>
-        </MotionReveal>
-        <p className="mt-4 ml-4 font-body text-[10px]">Browse Insights by Topic</p>
-        <div className="ml-4 mt-3 flex flex-wrap gap-3">
-          {topics.map((topic, index) => (
-            <button key={topic} className={`rounded-full border px-5 py-1 font-body text-[10px] ${index === 0 ? "border-[#6b1e2b] bg-[#6b1e2b] text-white" : "border-[#b08d57] bg-[#f7f1e3] text-[#8b6a37]"}`}>{topic}</button>
-          ))}
-        </div>
-
-        <MotionStaggerGroup className="mt-4 grid gap-4 md:grid-cols-3" staggerDelay={0.08}>
-          {latest.map(([category, date, title, text, image, author]) => (
-            <MotionStaggerItem key={title} className="h-full">
-              <article className="h-full overflow-hidden rounded-[8px] border border-gray-200 bg-white shadow-sm flex flex-col justify-between">
-                <div className="relative h-[150px]"><Image src={image} alt="" fill className="object-cover" /></div>
-                <div className="p-4 flex flex-col flex-1 justify-between">
-                  <div>
-                    <div className="flex items-center justify-between font-body text-[6px] text-gray-400"><span className="rounded bg-[#d5c39f] px-2 py-0.5 text-[#5c4a28]">{category}</span><span>{date}</span></div>
-                    <h4 className="mt-3 font-heading text-[11px] font-bold leading-4">{title}</h4>
-                    <p className="mt-2 font-body text-[8px] leading-3.5 text-gray-600">{text}</p>
-                  </div>
-                  <div>
-                    <div className="mt-5 flex items-center gap-2 border-t border-gray-100 pt-3 font-body text-[7px] text-gray-600">
-                      <Avatar author={author} />
-                      {author}
-                    </div>
-                    <Link href="#" className="mt-3 inline-block font-body text-[7px] font-medium text-[#9b7a42]">Read Transmission&nbsp; →</Link>
-                  </div>
-                </div>
-              </article>
-            </MotionStaggerItem>
-          ))}
-        </MotionStaggerGroup>
-
-        <SectionDivider className="py-4" />
-        <MotionReveal className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-stretch gap-3 pl-4">
-            <span aria-hidden="true" className="w-1 shrink-0 rounded-full bg-gradient-to-b from-[#6b1e2b] to-[#b08d57]" />
-            <div>
-              <h3 className="font-heading text-lg font-bold md:text-xl">Thoughts &amp; Blogs</h3>
-              <p className="mt-2 max-w-[580px] font-body text-[10px] leading-4">Thoughts, industry observations, and practical guides written to share learning with the design community.</p>
-            </div>
-          </div>
-          <Link href="#" className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-full bg-[#f7f1e3] px-4 py-2 font-body text-[9px] font-semibold text-[#6b1e2b] md:self-center">
-            More Blogs <ArrowRight className="h-3 w-3" />
-          </Link>
-        </MotionReveal>
-
-        <MotionStaggerGroup className="mt-6 grid gap-4 md:grid-cols-3" staggerDelay={0.08}>
-          {blogs.map(([category, date, title, text, image]) => (
-            <MotionStaggerItem key={title} className="h-full">
-              <article className="h-full overflow-hidden border border-gray-200 bg-white flex flex-col justify-between">
-                <div className="relative h-[135px]"><Image src={image} alt="" fill className="object-cover" /></div>
-                <div className="p-4 flex flex-col flex-1 justify-between">
-                  <div>
-                    <div className="font-body text-[6px] text-gray-400"><span className="rounded bg-[#d5c39f] px-2 py-0.5 text-[#5c4a28]">{category}</span> &nbsp; {date}</div>
-                    <h4 className="mt-3 font-heading text-[10px] font-bold leading-4">{title}</h4>
-                    <p className="mt-2 font-body text-[8px] leading-3.5 text-gray-500">{text}</p>
-                  </div>
-                  <Link href="#" className="mt-4 inline-flex items-center font-body text-[7px] font-bold">READ MORE&nbsp; →</Link>
-                </div>
-              </article>
-            </MotionStaggerItem>
-          ))}
-        </MotionStaggerGroup>
-        <SectionDivider className="py-4" />
       </section>
 
-      <MotionReveal>
-        <CtaBanner />
-      </MotionReveal>
+      {/* Latest insights heading */}
+      <section className="px-6 pb-[60px] pt-[80px] md:px-[37px]">
+        <p className="font-heading text-[16px] font-bold uppercase tracking-[0.06em] text-brand-primary">
+          From our desk
+        </p>
+        <h2 className="font-heading text-[32px] font-bold leading-tight text-black md:text-[40px]">
+          Latest Insights
+        </h2>
+        <p className="mt-2 max-w-[520px] font-heading text-[18px] font-medium leading-[1.35] text-black md:text-[20px]">
+          Fresh perspectives, market updates and practical guidance from our advisory team.
+        </p>
+      </section>
+
+      {/* Topic filter band */}
+      <section className="bg-brand-primary-dark">
+        <div className="mx-auto flex max-w-[1200px] flex-wrap items-center gap-x-[48px] gap-y-3 px-6 py-[54px] md:h-[154px] md:py-0 xl:px-0">
+          {topics.map((topic, i) => (
+            <button
+              key={`${topic}-${i}`}
+              type="button"
+              aria-pressed={i === 0}
+              className={`h-[46px] min-w-[128px] rounded-full px-6 font-heading text-[22px] font-semibold ${
+                i === 0 ? "bg-accent text-white" : "bg-white text-black"
+              }`}
+            >
+              {topic}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* Latest cards */}
+      <section className="mx-auto max-w-[1200px] px-6 pb-[87px] pt-[68px] xl:px-0">
+        <div className="grid items-stretch gap-[26px] md:grid-cols-3">
+          {latest.map(([category, date, title, text, image, author]) => (
+            <article
+              key={title}
+              className="flex flex-col overflow-hidden rounded-[10px] border border-black/10 bg-white shadow-[0_3px_12px_rgba(0,0,0,0.12)]"
+            >
+              <div className="relative h-[218px] w-full">
+                <Image
+                  src={image}
+                  alt=""
+                  fill
+                  sizes="(min-width: 768px) 383px, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex flex-1 flex-col px-[28px] pb-6 pt-5">
+                <div className="flex items-center justify-between">
+                  <CategoryChip>{category}</CategoryChip>
+                  <span className="font-heading text-[14px] text-[#555]">{date}</span>
+                </div>
+                <h3 className="mt-5 font-heading text-[20px] font-bold leading-[1.3] text-black md:text-[22px]">
+                  {title}
+                </h3>
+                <p className="mt-3 font-heading text-[15.5px] leading-[1.45] text-[#777]">{text}</p>
+                <div className="mt-auto pt-6">
+                  <div className="flex items-center gap-2 border-t border-black/15 pt-5 font-heading text-[15px] font-semibold text-black">
+                    <Avatar author={author} />
+                    {author}
+                  </div>
+                  <Link
+                    href="#"
+                    className="mt-4 inline-flex items-center gap-1 font-heading text-[15.5px] font-semibold text-accent"
+                  >
+                    Read Transmission
+                    <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  </Link>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* Thoughts & Blogs */}
+      <section className="mx-auto max-w-[1280px] px-6 pb-[100px] xl:px-0">
+        <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div className="xl:pl-[44px]">
+            <p className="font-heading text-[16px] font-bold uppercase tracking-[0.06em] text-brand-primary">
+              Ideas worth sharing
+            </p>
+            <h2 className="font-heading text-[30px] font-bold leading-tight text-black md:text-[34px]">
+              Thoughts &amp; Blogs
+            </h2>
+            <p className="mt-3 max-w-[480px] font-heading text-[18px] font-medium leading-[1.4] text-black md:text-[20px]">
+              Thoughts, industry observations, and practical guides written to share learning with
+              the design community.
+            </p>
+          </div>
+          <Link
+            href="#"
+            className="inline-flex h-[49px] shrink-0 items-center gap-2 self-start rounded-[12px] bg-brand-primary-dark px-5 font-heading text-[20px] font-semibold text-white transition-colors hover:bg-brand-primary md:self-auto"
+          >
+            More Blogs
+            <ArrowRight className="h-6 w-6" strokeWidth={1.75} aria-hidden="true" />
+          </Link>
+        </div>
+
+        <div className="mt-6 grid gap-[24px] md:grid-cols-3 md:gap-x-[24px] md:gap-y-[32px]">
+          {blogs.map(([category, date, title, text, image]) => (
+            <article
+              key={title}
+              className="flex flex-col overflow-hidden border border-black/10 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.1)]"
+            >
+              <div className="relative h-[198px] w-full">
+                <Image
+                  src={image}
+                  alt=""
+                  fill
+                  sizes="(min-width: 768px) 411px, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex flex-1 flex-col px-5 pb-5 pt-4">
+                <div className="flex items-center gap-2">
+                  <CategoryChip>{category}</CategoryChip>
+                  <span className="font-heading text-[13px] text-[#555]">{date}</span>
+                </div>
+                <h3 className="mt-3 font-heading text-[19px] font-bold leading-[1.3] text-black md:text-[20px]">
+                  {title}
+                </h3>
+                <p className="mt-2 font-heading text-[15px] leading-[1.4] text-[#777]">{text}</p>
+                <Link
+                  href="#"
+                  className="mt-auto inline-flex items-center gap-1 pt-4 font-heading text-[13px] font-bold uppercase text-brand-primary-dark"
+                >
+                  Read more
+                  <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <CtaBanner />
     </div>
   );
 }

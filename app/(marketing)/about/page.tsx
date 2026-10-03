@@ -1,150 +1,211 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 
-import SectionDivider from "@/components/ui/SectionDivider";
 import CtaBanner from "@/components/ui/CtaBanner";
 import { StatsBar } from "@/components/marketing/StatsBar";
-import { values, principles, strengths, storyImages } from "@/data/about";
+import { values, differences } from "@/data/about";
+
+const description =
+  "Meet the people behind every number: our values, mission, story and the partnership approach behind Alboré.";
 
 export const metadata: Metadata = {
   title: "About Us | Albore Chartered Accountants",
-  description:
-    "Discover Albore Chartered Accountants — dedicated financial advisors, certified auditors, and tax specialists with over a decade of excellence.",
-  alternates: {
-    canonical: "/about",
-  },
+  description,
+  alternates: { canonical: "/about" },
   openGraph: {
     title: "About Us | Albore Chartered Accountants",
-    description:
-      "Discover Albore Chartered Accountants — dedicated financial advisors, certified auditors, and tax specialists with over a decade of excellence.",
+    description,
     url: "/about",
     type: "website",
   },
 };
 
+function SectionHeading({
+  eyebrow,
+  title,
+  description,
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div>
+      <p className="font-heading text-[18px] font-semibold uppercase tracking-[0.06em] text-brand-primary">
+        {eyebrow}
+      </p>
+      <h2 className="font-heading text-[34px] font-bold leading-tight text-black md:text-[44px]">
+        {title}
+      </h2>
+      <p className="mt-3 max-w-[720px] font-heading text-[18px] font-semibold leading-[1.5] text-black md:text-[20px]">
+        {description}
+      </p>
+    </div>
+  );
+}
+
 export default function AboutPage() {
   return (
-    <div className="about-page w-full overflow-hidden bg-white text-[#1a1a1a]">
-      <section className="about-hero relative min-h-[300px] md:min-h-[360px] flex items-center overflow-hidden">
-        <Image src="/images/AboutPage/About1.png" alt="" fill priority className="object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/25" />
-        <div className="relative z-10 mx-auto w-full max-w-[1160px] px-7 py-16 md:px-10 lg:px-12">
-          <div className="max-w-[460px] border-l border-white/25 pl-5 md:pl-6">
-            <p className="font-heading text-sm md:text-base font-bold text-white">Who We Are</p>
-            <h1 className="mt-3 font-heading text-3xl md:text-4xl lg:text-[42px] font-bold leading-[1.12] text-white">
-              People Behind Every <span className="text-[#c52a3d]">Number</span><br />
-              <span className="text-[#c52a3d]">You Trust</span>
-            </h1>
-            <p className="mt-6 max-w-[400px] font-body text-sm md:text-[15px] leading-6 text-white/95 font-medium">
-              A decade of partnering with businesses who expect more than just accurate books — they expect a partner who understands their goals.
-            </p>
-          </div>
+    <div className="about-page w-full overflow-hidden bg-white">
+      {/* Hero — 1440 x 657 in the design */}
+      <section className="relative flex min-h-[420px] items-center md:min-h-[657px]">
+        <Image
+          src="/images/AboutPage/AboutUs.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="relative z-10 w-full px-6 md:pl-[127px] md:pr-10">
+          <h1 className="font-heading text-[40px] font-bold uppercase leading-none text-white md:text-[52px]">
+            About Us
+          </h1>
+          <p className="mt-9 max-w-[520px] font-heading text-[26px] font-semibold leading-[1.35] text-white md:ml-[2px] md:text-[36px]">
+            People Behind Every Number You Trust
+          </p>
         </div>
       </section>
 
-      <section className="px-6 pt-8 md:pt-10">
-        <div className="mx-auto max-w-[980px] text-center">
-          <div className="text-[#b08d57] text-xl">◈</div>
-          <h2 className="mt-2 font-heading text-2xl md:text-[27px] font-bold text-[#422d28]">Our Values</h2>
-          <p className="font-body text-[11px] text-gray-500">The principles that guide every engagement</p>
-        </div>
-        <div className="mx-auto mt-5 max-w-[1440px] bg-[#5d101e] px-6 py-7 md:px-14">
-          <div className="mx-auto grid max-w-[1000px] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {values.map(([title, text, icon]) => (
-              <article key={title} className="min-h-[125px] rounded-[3px] bg-[#fbfaf7] p-4 shadow-sm">
-                <Image src={icon} alt="" width={40} height={40} className="h-10 w-10" />
-                <h3 className="mt-3 font-heading text-[11px] font-bold text-[#222]">{title}</h3>
-                <p className="mt-1 font-body text-[9px] leading-4 text-gray-500">{text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-[1040px] px-7 py-8 md:px-10 md:py-10">
-        <SectionDivider className="py-1" />
-        <div className="grid items-center gap-10 md:grid-cols-[1fr_360px]">
-          <div>
-            <h2 className="font-heading text-2xl md:text-[27px] font-bold">Our mission</h2>
-            <p className="mt-5 max-w-[560px] font-body text-[12px] leading-[1.55] text-gray-800">
-              We empower businesses with clear, accurate financial insight and strategic guidance, helping them make confident decisions, manage complexity, and build a stronger financial foundation. Through precision, integrity, and long-term partnership, we aim to create lasting business success.
-            </p>
-          </div>
-          <div className="grid grid-cols-2 gap-5 justify-self-center">
-            {principles.map(([label, icon]) => (
-              <div
-                key={label}
-                className="flex h-[76px] w-[105px] flex-col items-center justify-center gap-1 rounded-[16px] bg-gradient-to-br from-[#6b1e2b] to-[#4a3a32] text-white shadow-sm transition-all duration-300 ease-out will-change-transform hover:scale-110 hover:shadow-xl hover:z-10"
-              >
-                <Image src={icon} alt="" width={28} height={28} className="h-7 w-7" />
-                <span className="mt-1 text-[9px] font-medium">{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <SectionDivider className="py-5" />
-        <div className="grid items-center gap-10 md:grid-cols-[1fr_1fr]">
-          <div className="relative mx-auto h-[270px] w-full max-w-[420px]">
-            <div className="absolute left-0 top-0 h-[125px] w-[150px] overflow-hidden rounded-[14px] border-2 border-white shadow-lg md:h-[140px] md:w-[170px]">
-              <Image src={storyImages[0]} alt="Business meeting" fill className="object-cover" />
-            </div>
-            <div className="absolute left-[95px] top-[70px] h-[125px] w-[175px] overflow-hidden rounded-[14px] border-2 border-white shadow-lg md:left-[110px] md:h-[145px] md:w-[190px]">
-              <Image src={storyImages[1]} alt="Accounting workspace" fill className="object-cover" />
-            </div>
-            <div className="absolute bottom-0 left-[7px] h-[100px] w-[115px] overflow-hidden rounded-[14px] border-2 border-white shadow-lg md:h-[110px] md:w-[125px]">
-              <Image src={storyImages[2]} alt="Team collaboration" fill className="object-cover" />
-            </div>
-          </div>
-          <div className="text-center md:text-left">
-            <h2 className="font-heading text-2xl md:text-[27px] font-bold">Our Story</h2>
-            <p className="mt-5 font-body text-[12px] leading-[1.55] text-gray-800">
-              Alboré was founded around one belief: that financial expertise should give business owners confidence, not confusion. What began as a boutique advisory has grown into a full-service practice, without losing the partnership approach every client deserves.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-[1080px] px-7 pb-10 md:px-10">
-        <SectionDivider className="py-3" />
-        <div className="text-center">
-          <h2 className="font-heading text-2xl md:text-[27px] font-bold">Why Choose Us?</h2>
-          <p className="mt-1 font-body text-[11px] text-gray-500">A partnership built on precision, discretion, and results — not just numbers on a page.</p>
-        </div>
-        <div className="mt-8 grid gap-x-8 gap-y-7 sm:grid-cols-2 lg:grid-cols-3">
-          {strengths.map(([title, text, icon]) => (
-            <article key={title} className="flex gap-3">
-              <Image src={icon} alt="" width={28} height={28} className="mt-0.5 h-7 w-7 shrink-0" />
-              <div>
-                <h3 className="font-heading text-[11px] font-bold">{title}</h3>
-                <p className="mt-1 font-body text-[9px] leading-4 text-gray-600">{text}</p>
-              </div>
+      {/* Our Values */}
+      <section className="mx-auto max-w-[1242px] px-6 pb-[88px] pt-[88px] xl:px-0">
+        <SectionHeading
+          eyebrow="What we stand for"
+          title="Our Values"
+          description="Four principles shape how every Alboré engagement is run, from the first consultation to the final sign-off"
+        />
+        <div className="mt-[52px] grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {values.map(([title, text, icon]) => (
+            <article
+              key={title}
+              className="min-h-[250px] rounded-[10px] bg-white px-[30px] pb-6 pt-[26px] shadow-[0_4px_14px_rgba(0,0,0,0.18)]"
+            >
+              <Image src={icon} alt="" width={48} height={48} className="h-12 w-12" />
+              <h3 className="mt-6 font-heading text-[22px] font-bold leading-tight text-black">
+                {title}
+              </h3>
+              <p className="mt-2 font-body text-[17px] leading-[1.45] text-[#333]">{text}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="bg-[#5d101e] px-7 py-8 text-white md:px-12">
-        <div className="mx-auto max-w-[1100px]">
-          <p className="font-body text-[11px]">We are Custodians <span className="text-[#c09c63]">Of Your Financial Story.</span></p>
-          {/* Reuses the exact same animated stats component and count-up
-              behavior as the homepage (components/marketing/StatsBar),
-              unmodified — per explicit request — rather than the
-              page-specific 20+/01+/18+/10+ figures shown in the Figma
-              static export. */}
-          <div className="mt-5">
-            <StatsBar />
+      {/* Our Mission */}
+      <section className="bg-[#51121d]">
+        <div className="mx-auto grid max-w-[1242px] items-center gap-10 px-6 py-10 md:grid-cols-[548px_1fr] md:gap-[156px] md:py-[39px] xl:px-0">
+          <div className="relative mx-auto aspect-[548/419] w-full max-w-[548px] overflow-hidden rounded-[50px] shadow-[0_6px_18px_rgba(0,0,0,0.35)]">
+            <Image
+              src="/images/AboutPage/About_OurMission.png"
+              alt="Team joining hands over a table"
+              fill
+              sizes="(min-width: 768px) 548px, 100vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="text-white">
+            <p className="flex items-center gap-3 font-heading text-[16px] font-bold uppercase tracking-[0.08em] text-[#b49969]">
+              <span aria-hidden="true" className="h-[22px] w-[3px] bg-white" />
+              Why we exist
+            </p>
+            <h2 className="mt-1 font-heading text-[34px] font-bold leading-tight text-white md:text-[44px]">
+              Our Mission
+            </h2>
+            <p className="mt-5 max-w-[470px] font-heading text-[18px] font-semibold leading-[1.5] md:text-[20px]">
+              To give mid-sized and enterprise clients the depth of a Big Four practice with the
+              responsiveness of a boutique firm — so financial decisions are made on evidence, not
+              guesswork.
+            </p>
+            <p className="mt-9 max-w-[470px] font-heading text-[18px] font-semibold leading-[1.5] md:text-[20px]">
+              We measure success the same way our clients do: audits that close on schedule, filings
+              with zero surprises, and advisory calls that end in a clear next step.
+            </p>
           </div>
         </div>
       </section>
 
-      <section className="relative mx-auto my-5 h-[250px] w-[calc(100%-2rem)] max-w-[1440px] overflow-hidden rounded-[7px] border shadow-sm md:h-[300px]">
-        <Image src="/images/AboutPage/About2.png" alt="Client consultation" fill className="object-cover" />
-        <div className="absolute inset-0 bg-white/50" />
-        <div className="relative z-10 flex h-full items-center justify-center px-6 text-center">
-          <h2 className="max-w-[700px] font-heading text-2xl md:text-[29px] font-bold leading-[1.25]">
-            Every engagement starts with a conversation — where your goals become our roadmap. Real relationships, not just transactions — that&apos;s how we work.
-          </h2>
+      {/* Our Story */}
+      <section className="mx-auto grid max-w-[1290px] items-center gap-10 px-6 py-12 md:grid-cols-[1fr_600px] md:gap-16 md:py-[76px] xl:px-0">
+        <div className="md:pl-[6px] xl:pl-[0px]">
+          <div className="mx-auto max-w-[480px] xl:ml-[111px] xl:mr-0">
+            <p className="font-heading text-[16px] font-bold uppercase tracking-[0.08em] text-brand-primary md:ml-[6px]">
+              Since our founding
+            </p>
+            <h2 className="font-heading text-[34px] font-bold leading-tight text-black md:text-[44px]">
+              Our Story
+            </h2>
+            <p className="mt-2 max-w-[470px] font-heading text-[18px] font-semibold leading-[1.5] text-black md:ml-[4px] md:text-[20px]">
+              Alboré began as a two-partner tax practice serving family-owned manufacturers. As
+              those clients scaled into multi-entity structures, our advisory work scaled with them
+              — into audit, payroll, cross-border compliance and CFO-level advisory.
+            </p>
+          </div>
+        </div>
+        <div className="relative mx-auto aspect-[600/505] w-full max-w-[600px] overflow-hidden rounded-[50px] shadow-[0_6px_18px_rgba(0,0,0,0.25)]">
+          <Image
+            src="/images/AboutPage/About_OurStory.png"
+            alt="Colleagues celebrating with a high five"
+            fill
+            sizes="(min-width: 768px) 600px, 100vw"
+            className="object-cover"
+          />
+        </div>
+      </section>
+
+      {/* Stats band — same animated count-up component as the homepage */}
+      <section className="bg-[#51121d] px-6 py-6">
+        <StatsBar />
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="mx-auto max-w-[1242px] px-6 pb-[88px] pt-[72px] xl:px-0">
+        <div className="xl:pl-[8px]">
+          <SectionHeading
+            eyebrow="The Alboré difference"
+            title="Why Choose Us"
+            description="A comparison our clients make once, before their first engagement — and rarely again after."
+          />
+        </div>
+        <div className="mt-[52px] grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {differences.map(([title, text, icon]) => (
+            <article
+              key={title}
+              className="min-h-[222px] rounded-[10px] bg-white px-[24px] pb-6 pt-[26px] shadow-[0_4px_14px_rgba(0,0,0,0.18)]"
+            >
+              <Image src={icon} alt="" width={22} height={22} className="h-[22px] w-[22px]" />
+              <h3 className="mt-3 font-heading text-[18px] font-bold leading-tight text-black">
+                {title}
+              </h3>
+              <p className="mt-2 font-body text-[15px] leading-[1.45] text-[#333]">{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* Partnership */}
+      <section className="bg-[#51121d]">
+        <div className="mx-auto grid max-w-[1290px] items-center gap-10 px-6 py-10 md:grid-cols-[1fr_572px] md:gap-14 md:py-[40px] xl:px-0">
+          <div className="text-white xl:pl-[120px]">
+            <h2 className="max-w-[420px] font-heading text-[34px] font-bold leading-[1.15] text-white md:text-[44px]">
+              Partnership Built on Trust
+            </h2>
+            <p className="mt-4 max-w-[400px] font-heading text-[17px] font-semibold leading-[1.4] md:text-[18px]">
+              Today the firm serves corporate, institutional and private clients across a dozen
+              industries, while keeping the same partner-led model it started with.
+            </p>
+            <p className="mt-4 max-w-[400px] font-heading text-[17px] font-semibold leading-[1.4] md:text-[18px]">
+              Our managing partners sit in on every onboarding, so the people who sign off on your
+              engagement are the same people you&apos;ll speak with a year from now.
+            </p>
+          </div>
+          <div className="relative mx-auto aspect-[572/365] w-full max-w-[572px] overflow-hidden rounded-[20px] shadow-[0_6px_18px_rgba(0,0,0,0.35)]">
+            <Image
+              src="/images/AboutPage/About_Partnership.png"
+              alt="Partners shaking hands during a client meeting"
+              fill
+              sizes="(min-width: 768px) 572px, 100vw"
+              className="object-cover"
+            />
+          </div>
         </div>
       </section>
 

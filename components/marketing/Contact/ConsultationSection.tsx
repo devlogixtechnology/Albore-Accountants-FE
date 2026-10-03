@@ -1,12 +1,10 @@
 "use client";
 
 import {
-  Mail,
   MapPin,
   Phone,
   PhoneCall,
   Send,
-  ArrowRight,
   CheckCircle2,
   ChevronDown,
   ShieldCheck,

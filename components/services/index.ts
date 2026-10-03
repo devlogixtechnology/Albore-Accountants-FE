@@ -5,3 +5,5 @@ export { default as ServiceCapabilities } from "./ServiceCapabilities";
 export { default as ServiceWhatWeDo } from "./ServiceWhatWeDo";
 export { default as CtaBanner } from "@/components/ui/CtaBanner";
 export { default as ServiceCtaBanner } from "@/components/ui/CtaBanner";
+export { default as ExploreMoreLink } from "./ExploreMoreLink";
+export { default as CaseStudyShowcase } from "./CaseStudyShowcase";
